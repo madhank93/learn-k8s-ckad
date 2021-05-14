@@ -10,7 +10,7 @@ Trends of micro services has increased the usage of containers and to handle the
 orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers, 
 elf healing, high availability and Automated rollouts and rollbacks.
 
-![kubernetes_scaling](/img/kube-kube-scale.png)
+![kubernetes_scaling](/img/kube-scale.png)
 ## Kubernetes architecture and basic terminologies
 
 ![kubernetes_architecture](/img/kube-arch.png)
