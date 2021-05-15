@@ -44,9 +44,18 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
 * **container runtime** - It is the software responsible for running containers. It can be Docker, Containerd and CRI-O.
 
+## Resources:
 
-Resources:
+### Video series
 
-* [Kubernetes Tutorial for Beginners](https://www.youtube.com/watch?v=X48VuDVv0do&t=2s)
+* [Kubernetes Tutorial for Beginners - Tech with Nana](https://www.youtube.com/watch?v=X48VuDVv0do&t=2s)
+
 * [Udemy - Docker tutorial with Kubernetes - Bret Fisher](https://www.udemy.com/course/docker-mastery/)
-* [CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
+
+* [Udemy - CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
+
+### Articles
+
+* [Kubernetes handbook](https://www.freecodecamp.org/news/the-kubernetes-handbook/)
+
+* [Kubernetes official doc](https://kubernetes.io/docs/home/)
