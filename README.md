@@ -44,6 +44,24 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
 * **container runtime** - It is the software responsible for running containers. It can be Docker, Containerd and CRI-O.
 
+## Q&A
+
+<details>
+
+  <summary> 1. What are the main components of kubernetes ? </summary>
+
+  <p>
+
+    **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run time 
+    containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. 
+
+  </p>
+
+</details>
+
+---
+
+
 ## Resources:
 
 ### Video series
