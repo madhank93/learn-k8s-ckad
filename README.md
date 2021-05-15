@@ -54,6 +54,26 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
     **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run time 
     containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. 
+    Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
+
+    **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It creates a 
+    permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service IP remains 
+    same.
+
+    **Ingress** - it manages external access to the services in a cluster, typically HTTP. It provides load balancing, ssl 
+    termination and name based hosting.
+
+    **ConfigMap** - it is used to store non-confidential (external config) data in key-value pairs.
+
+    **Secret** - it is used to store and manage sensitive information (eg: passwords, tokens, and keys), stores in base64 encoded 
+    format.
+
+    **Deployment** - describes the desired state of a pod or a replica set, then gradually updates the environment (for example, 
+    creating or deleting replicas) until the current state matches the desired state specified in the deployment file. In general we 
+    don't work directly with pods, we will create deployments. It is mainly for stateless apps.
+
+    **StatefulSet** - it is used to manage stateful applications with persistent storage (useful for db like mysql, MongoDb ...). It makes sure all the request to db are synchronized so that we can avoid data inconsistency problem. Pod names are persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are deleted
+
 
   </p>
 
@@ -77,3 +97,5 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 * [Kubernetes handbook](https://www.freecodecamp.org/news/the-kubernetes-handbook/)
 
 * [Kubernetes official doc](https://kubernetes.io/docs/home/)
+
+* [Collection of Kubernetes tutorial](https://www.aquasec.com/cloud-native-academy/kubernetes-101/kubernetes-tutorials/)
