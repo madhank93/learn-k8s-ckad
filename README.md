@@ -50,12 +50,12 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   <summary> 1. What are the main components of kubernetes ? </summary>
 
+  ![kubernetes_objects](/img/kube-kube-obj.jpeg) ![kubernetes_objects](/img/kube-kube-objects.png)
+
+  Image source of [Kubernetes object](https://tsuyoshiushio.medium.com/kubernetes-in-three-diagrams-6aba8432541c)
+
   <p>
-
-    ![kubernetes_objects](/img/kube-kube-obj.jpeg) ![kubernetes_objects](/img/kube-kube-objects.png)
-
-    Image source of [Kubernetes object](https://tsuyoshiushio.medium.com/kubernetes-in-three-diagrams-6aba8432541c)
-
+  
     **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run time 
     containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. 
     Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
