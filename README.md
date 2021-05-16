@@ -52,8 +52,6 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   &nbsp;
 
-  ![kubernetes_objects](/img/kube-obj.jpeg) ![kubernetes_objects](/img/kube-objects.png)
-
   <p align="center">
     <img alt="Kubernetes Object" src="/img/kube-obj.jpeg" width="45%">
       &nbsp; &nbsp; &nbsp; &nbsp;
@@ -92,6 +90,27 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
 ---
 
+<details>
+
+  <summary> 2. How to deploy an nginx ? </summary>
+
+  <p>
+
+```console
+kubectl create deployment my-nginx --image nginx
+```
+
+```
+Layers of abstraction -> Deployment > Replica set > Pod > Container
+```
+
+Result:
+
+![k8s_deployment_result](/img/kube-res.png)
+
+  </p>
+
+</details>
 
 ## Resources:
 
