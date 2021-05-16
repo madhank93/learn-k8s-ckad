@@ -52,6 +52,10 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   <p>
 
+    ![kubernetes_objects](/img/kube-kube-obj.jpeg) ![kubernetes_objects](/img/kube-kube-objects.png)
+
+    Image source of [Kubernetes object](https://tsuyoshiushio.medium.com/kubernetes-in-three-diagrams-6aba8432541c)
+
     **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run time 
     containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. 
     Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
@@ -73,7 +77,6 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
     don't work directly with pods, we will create deployments. It is mainly for stateless apps.
 
     **StatefulSet** - it is used to manage stateful applications with persistent storage (useful for db like mysql, MongoDb ...). It makes sure all the request to db are synchronized so that we can avoid data inconsistency problem. Pod names are persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are deleted
-
 
   </p>
 
