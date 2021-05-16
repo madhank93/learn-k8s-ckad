@@ -50,7 +50,15 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   <summary> 1. What are the main components of kubernetes ? </summary>
 
+  &nbsp;
+
   ![kubernetes_objects](/img/kube-obj.jpeg) ![kubernetes_objects](/img/kube-objects.png)
+
+  <p align="center">
+    <img alt="Kubernetes Object" src="/img/kube-obj.jpeg" width="45%">
+      &nbsp; &nbsp; &nbsp; &nbsp;
+    <img alt="Kubernetes Object" src="/img/kube-objects.png" width="45%">
+  </p>
 
   Image source of [Kubernetes object](https://tsuyoshiushio.medium.com/kubernetes-in-three-diagrams-6aba8432541c)
 
