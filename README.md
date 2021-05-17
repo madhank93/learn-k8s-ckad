@@ -96,8 +96,16 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   <p>
 
+Syntax:
+
 ```console
-kubectl create deployment my-nginx --image nginx
+kubectl create deployment <deployment-name> --image=<image-name>
+```
+
+Example:
+
+```console
+kubectl create deployment my-nginx --image=nginx
 ```
 
 ```
@@ -108,9 +116,161 @@ Result:
 
 ![k8s_deployment_result](/img/kube-res.png)
 
+Pod name is the combination of = deployment-name + replica set ID + its own ID
+
   </p>
 
 </details>
+
+---
+
+<details>
+
+  <summary> 3. How to edit the deployment ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl edit deployment <deployment-name>
+```
+
+The above command will open up the auto-generated config file.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 4. How to get logs for the pod ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl logs <pod-name>
+```
+
+Example:
+
+```console
+kubectl logs my-nginx-6b74b79f57-hmlqd
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 5. How to get an interactive shell inside the pod ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl exec -it <pod-name> -- <command>
+```
+
+Example:
+
+```console
+kubectl exec -it my-nginx-6b74b79f57-hmlqd -- bin/bash
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 6. How to scale replicaset using deployment name ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl scale <deployment-name> --replicas=<count>
+```
+Example:
+
+```console
+kubectl scale deploy/my-nginx --replicas=2
+```
+
+`deploy/my-nginx` is a short form of `deployment.apps/my-nginx`
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 7. How to delete an deployment ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl delete deployment <deployment-name>
+```
+
+Example:
+
+```console
+kubectl delete deployment deploy/my-nginx
+```
+
+`deploy/my-nginx` is a short form of `deployment.apps/my-nginx`
+
+Deleting deployment will remove deployment, replicaset, pod and container. `Layers of abstraction is -> Deployment > Replica set > 
+Pod > Container`
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
 
 ## Resources:
 
