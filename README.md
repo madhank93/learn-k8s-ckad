@@ -60,11 +60,13 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   Image source of [Kubernetes object](https://tsuyoshiushio.medium.com/kubernetes-in-three-diagrams-6aba8432541c)
 
-    #### Pod - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run 
+  <p>
+
+    **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run 
     time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod.
     Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
 
-    #### Service - it is an abstract way to expose an application running on a set of Pods as a network service. It 
+    **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It 
     creates a permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service 
     IP remains same.
 
@@ -85,6 +87,7 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
     persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are 
     deleted
 
+</p>
 
 </details>
 
@@ -126,7 +129,31 @@ Pod name is the combination of = deployment-name + replica set ID + its own ID
 
 <details>
 
-  <summary> 3. How to edit the deployment ? </summary>
+  <summary> 3. How to get all the resources in k8s ?  </summary>
+
+  <p>
+
+  Syntax:
+
+  ```console
+  kubectl get pods # List all pods
+  kubectl get deployments # List all deployments
+  kubectl get all # List all resources
+
+  kubectl get pods -o wide # List all pods with more information
+  ```
+
+Add `-o wide` to the command get more info.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 4. How to edit the deployment ? </summary>
 
   <p>
 
@@ -146,7 +173,7 @@ The above command will open up the auto-generated config file.
 
 <details>
 
-  <summary> 4. How to get logs for the pod ? </summary>
+  <summary> 5. How to get logs for the pod ? </summary>
 
   <p>
 
@@ -170,7 +197,7 @@ kubectl logs my-nginx-6b74b79f57-hmlqd
 
 <details>
 
-  <summary> 5. How to get an interactive shell inside the pod ? </summary>
+  <summary> 6. How to get an interactive shell inside the pod ? </summary>
 
   <p>
 
@@ -194,7 +221,7 @@ kubectl exec -it my-nginx-6b74b79f57-hmlqd -- bin/bash
 
 <details>
 
-  <summary> 6. How to scale replicaset using deployment name ? </summary>
+  <summary> 7. How to scale replicaset using deployment name ? </summary>
 
   <p>
 
@@ -219,7 +246,7 @@ kubectl scale deploy/my-nginx --replicas=2
 
 <details>
 
-  <summary> 7. How to delete an deployment ? </summary>
+  <summary> 8. How to delete an deployment ? </summary>
 
   <p>
 
