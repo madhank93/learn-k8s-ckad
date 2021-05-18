@@ -143,7 +143,7 @@ Pod name is the combination of = deployment-name + replica set ID + its own ID
   kubectl get pods -o wide # List all pods with more information
   ```
 
-Add `-o wide` to the command get more info.
+Add `-o wide` to the command to get more info.
 
   </p>
 
@@ -236,7 +236,7 @@ Example:
 kubectl scale deploy/my-nginx --replicas=2
 ```
 
-`deploy/my-nginx` is a short form of `deployment.apps/my-nginx`
+`deploy/my-nginx` is a short form of `deployment my-nginx`
 
   </p>
 
@@ -246,7 +246,31 @@ kubectl scale deploy/my-nginx --replicas=2
 
 <details>
 
-  <summary> 8. How to delete an deployment ? </summary>
+  <summary> 8. How to get the detailed description for a specific pod ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl describe <pod-name>
+```
+
+Example:
+
+```console
+kubectl describe pod/apache-deploy-7dfb754b6b-qllfq
+```
+
+The above commands print a detailed description of the selected resources, including related resources such as events or controllers.
+
+  </p>
+
+</details>
+
+<details>
+
+  <summary> 9. How to delete an deployment ? </summary>
 
   <p>
 
@@ -262,7 +286,7 @@ Example:
 kubectl delete deployment deploy/my-nginx
 ```
 
-`deploy/my-nginx` is a short form of `deployment.apps/my-nginx`
+`deploy/my-nginx` is a short form of `deployment my-nginx`
 
 Deleting deployment will remove deployment, replicaset, pod and container. `Layers of abstraction is -> Deployment > Replica set > 
 Pod > Container`
@@ -299,6 +323,18 @@ Pod > Container`
 
 ---
 
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
 ## Resources:
 
 ### Video series
