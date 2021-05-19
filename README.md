@@ -62,30 +62,30 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
 
   <p>
 
-    **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run 
-    time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod.
-    Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
+* **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run 
+time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod.
+Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
 
-    **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It 
-    creates a permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service 
-    IP remains same.
+* **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It 
+creates a permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service 
+IP remains same.
 
-    **Ingress** - it manages external access to the services in a cluster, typically HTTP. It provides load balancing, 
-    ssl termination and name based hosting.
+* **Ingress** - it manages external access to the services in a cluster, typically HTTP. It provides load balancing, 
+ssl termination and name based hosting.
 
-    **ConfigMap** - it is used to store non-confidential (external config) data in key-value pairs.
+* **ConfigMap** - it is used to store non-confidential (external config) data in key-value pairs.
 
-    **Secret** - it is used to store and manage sensitive information (eg: passwords, tokens, and keys), stores in 
-    base64 encoded format.
+* **Secret** - it is used to store and manage sensitive information (eg: passwords, tokens, and keys), stores in 
+base64 encoded format.
 
-    **Deployment** - describes the desired state of a pod or a replica set, then gradually updates the environment (for 
-    example, creating or deleting replicas) until the current state matches the desired state specified in the deployment file. In 
-    general we don't work directly with pods, we will create deployments. It is mainly for stateless apps.
+* **Deployment** - describes the desired state of a pod or a replica set, then gradually updates the environment (for 
+example, creating or deleting replicas) until the current state matches the desired state specified in the deployment file. In 
+general we don't work directly with pods, we will create deployments. It is mainly for stateless apps.
 
-    **StatefulSet** - it is used to manage stateful applications with persistent storage (useful for db like mysql, 
-    MongoDb ...). It makes sure all the request to db are synchronized so that we can avoid data inconsistency problem. Pod names are 
-    persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are 
-    deleted
+* **StatefulSet** - it is used to manage stateful applications with persistent storage (useful for db like mysql, 
+MongoDb ...). It makes sure all the request to db are synchronized so that we can avoid data inconsistency problem. Pod names are 
+persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are 
+deleted.
 
 </p>
 
@@ -268,6 +268,8 @@ The above commands print a detailed description of the selected resources, inclu
 
 </details>
 
+---
+
 <details>
 
   <summary> 9. How to delete an deployment ? </summary>
@@ -299,6 +301,85 @@ Pod > Container`
 
 <details>
 
+  <summary> 10. What are the different types of Services available ? </summary>
+
+  <p>
+
+**Service** - provides the stable address for a pod(s).
+
+* ClusterIP - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can 
+reach service on apps port number
+
+* NodePort -
+* LoadBalancer -
+* ExternalName -
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 11. How does the Cluster IP works ? </summary>
+
+  <p>
+
+  Let see how pods communicate between them in action
+
+  1. Create an deployment
+
+  ```console
+  kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+  ```
+
+  2. Scale it two.
+
+  ```console
+  kubectl scale deploy/hello-node --replicas=2
+  ```
+
+  3. Create a service
+   
+   ```console
+   kubectl expose deployment hello-node --port=8080
+   ```
+
+   4. Get the pods list
+   
+   ```console
+   kubectl get pods
+   ```
+
+   5. Get into one of the pod and curl the other pod
+
+  ```console
+  kubectl exec -it pod/hello-node-7567d9fdc9-qxtjt -- bin/bash
+  curl hello-node:8080
+  ```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>  </summary>
 
   <p>
@@ -335,6 +416,8 @@ Pod > Container`
 </details>
 
 ---
+
+
 ## Resources:
 
 ### Video series
