@@ -410,6 +410,36 @@ minikube service hello-node
 
 <details>
 
+  <summary> 13. What is Imperative vs Declarative style ? </summary>
+
+  <p>
+
+* **Imperative** - uses a sequence of statements to determine how to reach a certain goal. Like using kubectl CLI commands.
+
+* **Declarative** - describe their desired results without explicitly listing commands or steps that must be performed. Like by 
+writing specifications in the YAML files and using `apply` command to get the desired result.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>  </summary>
 
   <p>
@@ -447,6 +477,31 @@ minikube service hello-node
 
 ---
 
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
 
 ## Resources:
 
