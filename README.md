@@ -308,10 +308,14 @@ Pod > Container`
 **Service** - provides the stable address for a pod(s).
 
 * ClusterIP - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can 
-reach service on apps port number
+reach service on apps port number.
 
-* NodePort -
-* LoadBalancer -
+* NodePort - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able 
+to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
+
+* LoadBalancer - Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which the 
+external load balancer routes, are automatically created.
+  
 * ExternalName -
 
   </p>
@@ -322,11 +326,12 @@ reach service on apps port number
 
 <details>
 
-  <summary> 11. How does the Cluster IP works ? </summary>
+  <summary> 11. How does the ClusterIP works ? </summary>
 
   <p>
 
-  Let see how pods communicate between them in action
+  It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster (nodes and pods). Pods 
+  can reach service on apps port number.
 
   1. Create an deployment
 
@@ -352,10 +357,15 @@ reach service on apps port number
    kubectl get pods
    ```
 
-   5. Get into one of the pod and curl the other pod
+   5. Get into the shell for one of the pod
 
   ```console
   kubectl exec -it pod/hello-node-7567d9fdc9-qxtjt -- bin/bash
+  ```
+
+  6. Access the other pod
+
+  ```console
   curl hello-node:8080
   ```
 
@@ -367,10 +377,30 @@ reach service on apps port number
 
 <details>
 
-  <summary>  </summary>
+  <summary> 12. How does the NodePort service works ? </summary>
 
   <p>
 
+Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able 
+to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
+
+1. Create an deployment
+
+```console
+  kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+```
+
+2. Create a service
+
+```console
+kubectl expose deployment hello-node --port=8080 --type=NodePort
+```
+
+3. Open the exposed service in minikube
+
+```console
+minikube service hello-node
+```
 
   </p>
 
