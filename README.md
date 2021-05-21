@@ -427,10 +427,22 @@ writing specifications in the YAML files and using `apply` command to get the de
 
 <details>
 
-  <summary>  </summary>
+  <summary> 14. What are the main parts of k8s configurations in yaml file ? </summary>
 
   <p>
 
+  Each manifests file needs four parts. 
+  
+  1. `apiVersion` - Which version of the Kubernetes API you're using to create this object (`kubectl api-versions` to list all 
+  versions)
+  
+  2. `kind` - What kind of object you want to create (`kubectl api-resources` to get list of available objects)
+   
+  3. `metadata` - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+
+  4. `spec` - What state you desire for the object
+
+  And there is another part called `status` which will be automatically added by kubernetes.
 
   </p>
 
@@ -440,10 +452,23 @@ writing specifications in the YAML files and using `apply` command to get the de
 
 <details>
 
-  <summary>  </summary>
+  <summary> 15. What are the ways to get list of available keys for k8s object/kind ? </summary>
 
   <p>
 
+  To get all the keys for a specific object/kind.
+
+  ```console
+  kubectl explain services --recursive
+  ```
+
+  To get the keys for a specific resource, and also with what value type it supports.
+
+  ```console
+  kubectl explain services.spec
+
+  kubectl explain services.spec.type # specific to a single key.
+  ```
 
   </p>
 
