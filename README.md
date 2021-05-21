@@ -478,10 +478,21 @@ writing specifications in the YAML files and using `apply` command to get the de
 
 <details>
 
-  <summary>  </summary>
+  <summary> 16. How to dry run a kubernetes commands ? </summary>
 
   <p>
 
+The main usage of dry run is used to check syntactical errors and the preview of the object that would be sent to your cluster.
+
+Syntax: 
+
+```console
+kubectl create deployment nginx --image=nginx --dry-run=client
+kubectl create deployment nginx --image=nginx --dry-run=server
+kubectl create deployment nginx --image=nginx --dry-run=client -o yaml # to get the result template
+kubectl apply -f app.yml --dry-run
+kubectl apply -f app.yml --dry-run=server
+```
 
   </p>
 
@@ -491,10 +502,17 @@ writing specifications in the YAML files and using `apply` command to get the de
 
 <details>
 
-  <summary>  </summary>
+  <summary> 17. What is the use of a `diff` command ? </summary>
 
   <p>
 
+`kubectl diff` shows the differences (changes made) between the current "live" object and the new "dry-run" object.
+
+Syntax:
+
+```console
+kubectl diff -f some-resources.yaml
+```
 
   </p>
 
@@ -504,9 +522,16 @@ writing specifications in the YAML files and using `apply` command to get the de
 
 <details>
 
-  <summary>  </summary>
+  <summary> 18. What is labels & selectors ? How the connection is being established using it ? </summary>
 
   <p>
+
+In yaml file of k8s contains, 
+
+`Meta data` - contains labels, labels can be used to organize and to select subsets of objects.
+
+`spec` - contains selector, selectors depend on labels to select a group of resources such as pods.
+
 
 
   </p>
