@@ -585,9 +585,64 @@ kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deploy.yml
 
 <details>
 
-  <summary>  </summary>
+  <summary> 20. How does Port, TargetPort, ContainerPort, and NodePort works ? </summary>
 
   <p>
+
+  * **Port** - The port of this service. Other pods in the cluster that may need to access the service will just use port.
+  
+  * **TargetPort** - it forwards the traffic to `ContainerPort` (where its listening). Also, if targetPort is not set, it will 
+  default to the same value as port
+  
+  * **ContainerPort** - port on which the app can be reached out inside the container.
+
+  * **NodePort** - makes the service visible outside the Kubernetes cluster by the node’s IP address and the port number
+
+  Flow - Traffic comes in on `NodePort` , forwards to `Port` on the service which then routes to `TargetPort` on the pod(s) and in turn it routes to `ContainerPort`  (if TargetPort and ContainerPort matches).
+
+  1. Create deployment and service
+   
+   ```console
+   kubectl apply -f ./k8s-files/ex-2-ports/deployment.yml
+   kubectl apply -f ./k8s-files/ex-2-ports/service.yml
+   ```
+
+  2. To test usage of ports, create a ubuntu pod with interactive shell and install curl
+   
+   ```console
+   kubectl run -i --tty ubuntu --image=ubuntu --restart=Never -- sh
+   apt-get update; apt-get install curl # to install curl
+   ```
+
+  3. Access nginx using the Port from within the cluster
+
+    ```console
+    curl nginx-service:8080 # `hello-world` is the service name and `8080` is the port mentioned in the service.
+    ```
+  
+  4. Access nginx using the Port from outside the cluster
+
+    ```console
+    kubectl describe pod nginx-deploy # this will list the NodeIP (Node: minikube/192.168.64.2)
+    ```
+
+Result:
+
+The above command will fetch you the NodeIP and NodePort is have already mentioned in the `service.yml` file.
+
+```
+Name:         nginx-deploy-756d646fff-8848w
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.64.2 # <=== NodeIP
+Start Time:   Sat, 22 May 2021 22:13:20 +0530
+Labels:       app=hello-world
+pod-template-hash=756d646fff
+...
+...
+```
+
+  5. You can access it from the browser using `NodeIP:NodePort` in this case `192.168.64.2:31234`.
 
 
   </p>
