@@ -567,6 +567,63 @@ spec:
 
 <details>
 
+  <summary> 19. How to create nginx deployment and service using declarative approach ?  </summary>
+
+  <p>
+
+Use the `apply` command
+
+```console
+kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deploy.yml
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>  </summary>
+
+  <p>
+
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>  </summary>
 
   <p>
