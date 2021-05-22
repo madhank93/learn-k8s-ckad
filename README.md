@@ -528,11 +528,36 @@ kubectl diff -f some-resources.yaml
 
 In yaml file of k8s contains, 
 
-`Meta data` - contains labels, labels can be used to organize and to select subsets of objects.
+`Meta data` - contains labels, labels (labels do not provide uniqueness, expect many objects to carry the same label(s)) can be used 
+to organize and to select subsets of objects.
 
 `spec` - contains selector, selectors depend on labels to select a group of resources such as pods.
 
+`Example template`
 
+```YAML
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: label-demo
+  labels:
+    environment: production
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: App1
+   template:
+     metadata:
+       labels:
+         environment: production
+         app: nginx
+     spec:
+       containers:
+         - name: nginx
+           image: nginx:1.7.9
+```
 
   </p>
 
