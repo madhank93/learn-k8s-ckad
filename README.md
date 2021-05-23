@@ -307,16 +307,66 @@ Pod > Container`
 
 **Service** - provides the stable address for a pod(s).
 
-* ClusterIP - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can 
-reach service on apps port number.
+* **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods 
+can reach service on apps port number.
 
-* NodePort - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able 
-to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
+* **NodePort** - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be 
+able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
 
-* LoadBalancer - Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which the 
-external load balancer routes, are automatically created.
+```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  selector:
+    app: MyApp
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      nodePort: 30007
+```
+
+* **LoadBalancer** - Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which 
+the external load balancer routes, are automatically created.
+
+```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+  clusterIP: 10.0.171.239
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.0.2.127
+```
   
-* ExternalName -
+* **ExternalName** - Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME 
+record with its value. No proxying of any kind is set up.
+
+```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: prod
+spec:
+  type: ExternalName
+  externalName: my.database.example.com
+```
 
   </p>
 
