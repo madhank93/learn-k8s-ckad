@@ -616,15 +616,15 @@ kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deploy.yml
 
   3. Access nginx using the Port from within the cluster
 
-    ```console
-    curl nginx-service:8080 # `hello-world` is the service name and `8080` is the port mentioned in the service.
-    ```
+  ```console
+  curl nginx-service:8080 # `hello-world` is the service name and `8080` is the port mentioned in the service.
+  ```
   
   4. Access nginx using the Port from outside the cluster
 
-    ```console
-    kubectl describe pod nginx-deploy # this will list the NodeIP (Node: minikube/192.168.64.2)
-    ```
+  ```console
+  kubectl describe pod nginx-deploy # this will list the NodeIP (Node: minikube/192.168.64.2)
+  ```
 
 Result:
 
