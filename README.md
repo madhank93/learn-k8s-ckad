@@ -703,10 +703,28 @@ pod-template-hash=756d646fff
 
 <details>
 
-  <summary>  </summary>
+  <summary> 21. What is a namespace in k8s ? </summary>
 
   <p>
 
+  ![kubernetes_namespace](/img/k8s-namespace.png)
+
+  Here QA, UAT, and Prod are the namespaces.
+
+  **Namespaces** are Kubernetes objects which helps in organizing resources and partitions a single Kubernetes cluster into multiple 
+  virtual clusters.
+
+  By default when a cluster is created it will create 4 namespaces,
+
+  ```console
+  kubectl get namespaces
+  ```
+
+  1. default - by default all the resources created will be listed here.
+  2. kube-node-lease - namespace for the lease objects associated with each node which improves the performance of the node 
+  heartbeats as the cluster scales. It help determine the availability of a node.
+  3. kube-public - place for publicly accessible data.
+  4. kube-system - place for objects created by Kubernetes systems/control plane.
 
   </p>
 
@@ -716,10 +734,32 @@ pod-template-hash=756d646fff
 
 <details>
 
-  <summary>  </summary>
+  <summary> 22. How to create a namespace ? </summary>
 
   <p>
 
+  1. Creating namespace through CLI
+  
+  Syntax:
+
+  ```console
+  kubectl create namespace <namespace-name>
+  ```
+
+  Example:
+
+  ```console
+  kubectl create namespace my-namespace
+  ```
+
+  2. Creating namespace through YAML file
+  
+  ```YAML
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: test-namespace
+  ```
 
   </p>
 
@@ -729,9 +769,142 @@ pod-template-hash=756d646fff
 
 <details>
 
-  <summary>  </summary>
+  <summary> 23. What is the need for the namespace ? </summary>
 
   <p>
+
+  1. Allowing resources to be grouped and isolates.
+  2. Avoids naming conflicts.
+  3. Resource sharing. (some are off limits; eg: ConfigMap in a Cluster-A, can't be accessed from Cluster-B)
+  4. Enhancing role-based access controls by limiting users and resources (limit usage of CPU, RAM, and Storage) to certain 
+  namespaces.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 24. Is every objects in k8s can be put under an namespace ? </summary>
+
+  <p>
+
+  No. Namespace resources are not themselves in a namespace. And low-level resources, such as nodes and persistentVolumes, are not in 
+  any namespace.
+
+  To see which Kubernetes resources are and aren't in a namespace:
+
+  ```console
+  # In a namespace
+  kubectl api-resources --namespaced=true
+
+  # Not in a namespace
+  kubectl api-resources --namespaced=false
+  ```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 25. How to create a resource under a specified namespace ? </summary>
+
+  <p>
+
+  If a namespace is not specified by default all the resources will be created under default.
+
+```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: test-namespace # this namespace should be already created
+spec:
+  type: NodePort
+  selector:
+    app: hello-world
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 31234
+```
+
+If you try to list all the resource by `kubectl get all` it will not display the above created resource since it lives in another 
+namespace, to list it out, need to switch the default namespace to the newly created namespace.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 26. How to switch between namespace ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl config set-context --current --namespace=<namespace-name>
+```
+
+Example:
+
+```console
+kubectl config set-context --current --namespace=test-namespace
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 27. How does the pods communicate in k8s namespaces ? </summary>
+
+  <p>
+
+  Even though namespace separates each other, adding the namespace name to the service name provides access to services in any 
+  namespace on the cluster
+
+  ```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: dev-env
+spec:
+  type: NodePort
+  selector:
+    app: hello-world
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 31234
+```
+
+  Syntax:
+
+  ```console
+  <Service Name>.<Namespace Name>
+  ```
+
+  Example:
+
+  ```console
+  nginx-service.dev-env
+  ```
 
 
   </p>
