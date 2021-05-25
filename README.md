@@ -913,6 +913,106 @@ spec:
 
 ---
 
+<details>
+
+  <summary> 28. What is Ingress ? </summary>
+
+  <p>
+
+  ![kubernetes_ingress](img/k8s-ingress.png)
+
+  **Ingress** exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
 ## Resources:
 
 ### Video series
@@ -930,3 +1030,5 @@ spec:
 * [Kubernetes official doc](https://kubernetes.io/docs/home/)
 
 * [Collection of Kubernetes tutorial](https://www.aquasec.com/cloud-native-academy/kubernetes-101/kubernetes-tutorials/)
+
+* [Matthew Palmer articles on k8s](https://matthewpalmer.net/kubernetes-app-developer/articles/)
