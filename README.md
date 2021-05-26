@@ -921,7 +921,28 @@ spec:
 
   ![kubernetes_ingress](img/k8s-ingress.png)
 
-  **Ingress** exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+  **Ingress** exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource  (e.g. load balancing, SSL termination, path-based routing, protocol).
+
+  The advantage of an Ingress over a LoadBalancer is that an Ingress can consolidate routing rules in a single resource to expose 
+  multiple services.
+
+  Example:
+
+```YAML
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-ingress
+  namespace: kubernetes-dashboard
+spec:
+  rules:
+  - host: my-app.com # Valid domain address, map domain name to IP address of the entry node and any incoming request must be forwarded to internal service
+    http:
+      paths:  # Incoming urls matching the path are forwarded to the backend.
+      - backend:
+          serviceName: my-internal-service # service name and port should correspond to the name of internal service 
+          servicePort: 80
+```
   
   </p>
 
@@ -931,9 +952,16 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 29. What is ingress controller ? What is the use of it ? </summary>
 
   <p>
+
+  ![kubernetes_ingress_controller](img/k8s-ingress-controller.png)
+
+  An Ingress controller is responsible for fulfilling the Ingress, by evaluating all the rules, managing re-directions, acts as an 
+  entrypoint to the cluster.
+
+  There many Ingress controller are available, HAProxy Ingress, NGINX Ingress Controller, Traefik, and AKS (azure).
   
   </p>
 
@@ -943,10 +971,58 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary>  30. How does ingress works in practically ? </summary>
 
   <p>
-  
+
+  1. Enable ingress addons in minikube
+
+  ```console
+  minikube addons enable ingress
+  ```
+
+  Which automatically starts k8s nginx implementation of Ingress controller.
+
+  2. Now we are going to route incoming request to minikube k8s dashboard (right now it is not accessible to outside cluster)
+
+  ![kubernetes_namespace](img/k8s-ns.png)
+
+  If you don't see the kubernetes dashboard, execute `minikube dashboard`
+
+  ```console
+  kubectl apply -f ./k8s-files/ex-3-ingress/ingress.yml
+  ```
+
+  ```console
+  kubectl get ingress -n kubernetes-dashboard # get the address
+  ```
+
+  Result:
+
+  ```
+  NAME                CLASS    HOSTS           ADDRESS        PORTS   AGE
+  dashboard-ingress   <none>   dashboard.com   192.168.64.2   80      84s
+  ```
+
+  ```
+  # if Nginx Ingress: service “ingress-nginx-controller-admission” not found; execute the below command
+  # kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+  ```
+
+  3. Map the IP address to domain name (doing it locally)
+
+  ```console
+  sudo vi /etc/hosts
+  ```
+
+  And configure the IP address and domain name
+
+  ![domain_mapping](img/k8s-ingress-ex1.png)
+
+  4. Go to browser and type dashboard.com, it will re-direct to the kubernetes dashboard.
+
+  Note: After exercise don't forget to remove domain mapping from `/etc/hosts` otherwise it will always try to reach that IP address
+
   </p>
 
 </details>
