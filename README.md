@@ -1031,9 +1031,110 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 31. What happens if an incoming request not mapped to any of the backend service ? </summary>
 
   <p>
+
+  Kubernetes has the default backend running.
+
+  Syntax:
+
+  ```console
+  kubectl describe ingress <ingress-name> -n <namespace>
+  ```
+
+  Example:
+
+  ```console
+  kubectl describe ingress dashboard-ingress -n kubernetes-dashboard
+  ```
+  
+  w.r.t to previous example `dashboard.com/eat` will result in `404 page not found`
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 32. What are the different use cases of ingress ? </summary>
+
+  <p>
+
+  1. Multiple path for same host
+
+```YAML
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simple-example
+spec:
+  rules:
+  - host: foo.bar.com
+    http:
+      paths:
+      - path: /foo
+        pathType: Prefix
+        backend:
+          service:
+            name: service1
+            port:
+              number: 4200
+      - path: /bar
+        pathType: Prefix
+        backend:
+          service:
+            name: service2
+            port:
+              number: 8080
+```
+
+  2. Multiple sub-domains or domains
+
+```YAML
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: name-virtual-host-ingress
+spec:
+  rules:
+  - host: foo.app.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: service1
+            port:
+              number: 80
+  - host: bar.app.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: service2
+            port:
+              number: 80
+```
+
+  3. Configuring TLS (Transport Layer Security)
+  
+```YAML
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-secret-tls
+  namespace: default
+data:
+  tls.crt: base64 encoded cert
+  tls.key: base64 encoded key
+type: kubernetes.io/tls
+```
   
   </p>
 
@@ -1043,10 +1144,16 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 33. How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
 
   <p>
-  
+
+  A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment 
+  variables, command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific 
+  configuration from your container images, so that your applications are easily portable.
+
+  So it does not provide any secrecy or encryption, so its not suitable for storing passwords or keys.
+
   </p>
 
 </details>
@@ -1055,19 +1162,7 @@ spec:
 
 <details>
 
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary>   </summary>
+  <summary> 34. How to use ConfigMaps ? </summary>
 
   <p>
   
