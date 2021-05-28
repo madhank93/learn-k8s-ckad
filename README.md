@@ -1162,7 +1162,7 @@ type: kubernetes.io/tls
 
 <details>
 
-  <summary> 34. How to use ConfigMaps ? </summary>
+  <summary> 34. How to use ConfigMaps with example ? </summary>
 
   <p>
   
