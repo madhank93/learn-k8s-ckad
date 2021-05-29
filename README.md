@@ -362,7 +362,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: my-service
-  namespace: prod
 spec:
   type: ExternalName
   externalName: my.database.example.com
@@ -1162,10 +1161,84 @@ type: kubernetes.io/tls
 
 <details>
 
-  <summary> 34. How to use ConfigMaps with example ? </summary>
+  <summary> 34. How to utilize the ConfigMaps with an example ? </summary>
 
   <p>
+
+  `Configmap`
+
+  ```YAML
+  kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: test-configmap
+  data:
+    # Configuration Values are stored as key-value pairs
+    env.data.name: "test-app"
+    env.data.url: "https://test-app.com"
+    # File like Keys
+    log.properties: |
+      log_level=2
+      error.color=red
+      info.color2=green
+  ```
+
+   1. Configuring all key-value pairs in a ConfigMap as container environment variables 
+
+    ```YAML
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: configmap-pod
+    spec:
+      containers:
+        - name: configmap-busybox
+          image: k8s.gcr.io/busybox
+          command: [ "/bin/sh", "-c", "env" ]
+          envFrom:
+            # Loading the Complete ConfigMap
+            - configMapRef:
+                name: test-configmap # env variable will be set as 
+      restartPolicy: Never
+    ```
   
+   2. Using ConfigMaps in defined env variables and volumes
+
+    ```YAML
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: test-pod
+    spec:
+      containers:
+        - name: test-container
+          image: k8s.gcr.io/busybox
+          command: [ "/bin/sh", "-c", "env" ]
+          env:
+            - name: SPECIAL_LEVEL_KEY # env variable name
+              valueFrom:
+                configMapKeyRef:
+                  name: test-configmap # referring to the ConfigMap name
+                  key: special.how # referring to ConfigMap key where the key is associated with the value
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: test-configmap
+                  key: log_level
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: test-configmap
+            items:
+              - key : "log.properties"
+                path: "log.properties"
+      restartPolicy: Never
+    ```
+
   </p>
 
 </details>

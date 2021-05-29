@@ -1,15 +1,13 @@
-apiVersion: v1
 kind: ConfigMap
-metadata:
-  name: special-config
-  namespace: default
-data:
-  special.how: very
----
 apiVersion: v1
-kind: ConfigMap
 metadata:
-  name: env-config
-  namespace: default
+  name: test-configmap
 data:
-  log_level: INFO
+  # Configuration Values are stored as key-value pairs
+  env.data.name: "test-app"
+  env.data.url: "https://test-app.com"
+  # File like Keys
+  log.properties: |
+    log_level=2
+    error.color=red
+    info.color2=green
