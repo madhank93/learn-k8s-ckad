@@ -1247,6 +1247,143 @@ type: kubernetes.io/tls
 
 <details>
 
+  <summary> 35. How to easily manage secrets in k8s ? What is the use of Secrets ? </summary>
+
+  <p>
+  
+  **Secrets** let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.
+
+  It can be used in 3 ways,
+
+  * As files in a volume mounted on one or more of its containers.
+  * As container environment variable.
+  * By the kubelet when pulling images for the Pod.
+
+  </p>
+
+</details>
+  
+---
+
+<details>
+
+  <summary> 36. What are the ways we can store data in secrets ? </summary>
+
+  <p>
+  
+  There are two ways we can store data in secrets,
+  1. base64 encoded 
+  2. plain text - k8s will automatically encode
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 37. How to use secrets with an example ?   </summary>
+
+  <p>
+
+  1. Need to create secret objects
+     
+     1. base64 encoded format
+
+  ```YAML
+  apiVersion: v1
+  kind: Secret
+  metadata:
+      name: test-secret
+  type: Opaque
+  data:
+      username: dXNlcm5hbWU=
+      password: cGFzc3dvcmQ=
+  ``` 
+     2. Plain text
+
+  ```YAML
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: test-secret2
+  type: Opaque
+  stringData:
+    user: admin
+    password: admin
+  ```
+
+  2. Using the secrets
+     
+     1. Utilizing as file 
+
+  ```YAML
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: mysql-client
+  spec:
+    containers:
+    - name: mysql
+  	image: mysql
+  	command: ["/bin/sh"]
+  	args: ["-c","mysql -u `cat /mnt/db-creds/user)` -p`cat /mnt/db-creds/password)` -h `cat /mnt/db-creds/host)`"]
+  	volumeMounts:
+  	- name: creds
+    	  mountPath: "/mnt/db-creds"
+    	  readOnly: true
+    volumes:
+    - name: creds
+      secret:
+    	secretName: test-secret
+  ```
+
+     2. using it through env variables
+
+  ```YAML
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: mongodb-deployment
+    labels:
+      app: mongodb
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: mongodb
+    template:
+      metadata:
+        labels:
+          app: mongodb
+      spec:
+        containers:
+        - name: mongodb
+          image: mongo
+          ports:
+          - containerPort: 27017
+          env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: test-secret2
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: test-secret2
+                key: password
+  ```
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>   </summary>
 
   <p>
@@ -1257,6 +1394,65 @@ type: kubernetes.io/tls
 
 ---
 
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
 ## Resources:
 
 ### Video series
@@ -1276,3 +1472,5 @@ type: kubernetes.io/tls
 * [Collection of Kubernetes tutorial](https://www.aquasec.com/cloud-native-academy/kubernetes-101/kubernetes-tutorials/)
 
 * [Matthew Palmer articles on k8s](https://matthewpalmer.net/kubernetes-app-developer/articles/)
+
+* [Kubernetes articles](https://www.magalix.com/hs-search-results?term=kubernetes&type=SITE_PAGE&type=BLOG_POST&type=LISTING_PAGE)
