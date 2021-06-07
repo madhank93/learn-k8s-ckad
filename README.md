@@ -95,6 +95,61 @@ deleted.
 
 <details>
 
+  <summary> 2. What are pods ? </summary>
+
+  <p>
+
+![pods](/img/pods.png)
+
+  Pod is the smallest object in k8s. Kubernetes doesn't deploy containers directly into the worker node, containers are encapsulated into k8s object known as pods. 
+  
+  For additional instances of the application generally new pod should created altogether rather creating multiple instance of 
+  application in the same pod. Pod should contain a single instance of an application. Pod usually has one to one relation with 
+  containers.
+
+  But helper container are allowed to co-exist in the same pod.
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 3. How to deploy pods ? </summary>
+
+  <p>
+  
+```console
+kubectl run pod nginx --image=nginx
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 4. How to get the list of pods ? </summary>
+
+  <p>
+  
+  ```console
+  kubectl get pods
+   kubectl get pods -o wide # for additional information
+  ```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary> 2. How to deploy an nginx ? </summary>
 
   <p>
@@ -1477,3 +1532,7 @@ type: kubernetes.io/tls
 * [Matthew Palmer articles on k8s](https://matthewpalmer.net/kubernetes-app-developer/articles/)
 
 * [Kubernetes articles](https://www.magalix.com/hs-search-results?term=kubernetes&type=SITE_PAGE&type=BLOG_POST&type=LISTING_PAGE)
+
+* [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
+
+* [CKAD prep notes](https://github.com/twajr/ckad-prep-notes)
