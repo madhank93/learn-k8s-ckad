@@ -187,7 +187,7 @@ The above commands print a detailed description of the selected resources, inclu
 
 <details>
 
-  <summary> 6. How to get all the resources in k8s ?  </summary>
+  <summary> 6. How to get all the resources ? </summary>
 
   <p>
 
@@ -211,7 +211,7 @@ Add `-o wide` to the command to get more info.
 
 <details>
 
-  <summary> 7. How to get logs for the pod ? </summary>
+  <summary> 7. How to get logs for a pod ? </summary>
 
   <p>
 
@@ -322,9 +322,67 @@ spec:
 
 Similar yml file can be generated from a cmd line using the following cmd.
 
-```
+```console
 kubectl run nginx --image=nginx --dry-run=client -o yaml
 ```
+
+You can even generate a yml file using the above command
+
+```console
+kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 12. How to edit a pod configuration ? </summary>
+
+  <p>
+
+  Syntax:
+
+  ```console
+  kubectl edit pod <pod-name>
+  ```
+
+  Example:
+
+  ```console
+  kubectl edit pod nginx
+  ```
+
+  The above command will open up the pods configurations in vim editor.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 13. How to delete a pod ? </summary>
+
+  <p>
+
+  Syntax:
+
+  ```console
+  kubectl delete pod <pod-name>
+  kubectl delete pods --all # Delete all pods
+  kubectl delete pod <pod-name> --now # Delete a pod with minimal delay
+  ```
+
+  Example:
+
+  ```console
+  kubectl delete pod nginx
+  ```
 
   </p>
 
