@@ -95,7 +95,7 @@ deleted.
 
 <details>
 
-  <summary> 2. What are pods ? </summary>
+  <summary> 2. What is pod ? </summary>
 
   <p>
 
@@ -117,12 +117,20 @@ deleted.
 
 <details>
 
-  <summary> 3. How to deploy pods ? </summary>
+  <summary> 3. How to deploy a pod ? </summary>
 
   <p>
-  
+
+Syntax:
+
 ```console
-kubectl run pod nginx --image=nginx
+kubectl run <pod-name> --image=<image-name>
+```
+
+Example:
+
+```console
+kubectl run nginx --image=nginx
 ```
 
   </p>
@@ -139,7 +147,7 @@ kubectl run pod nginx --image=nginx
   
   ```console
   kubectl get pods
-   kubectl get pods -o wide # for additional information
+  kubectl get pods -o wide # for additional information
   ```
 
   </p>
@@ -150,7 +158,208 @@ kubectl run pod nginx --image=nginx
 
 <details>
 
-  <summary> 2. How to deploy an nginx ? </summary>
+  <summary> 5. How to get the detailed description for a pod ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl describe pod <pod-name>
+kubectl describe pods # Describe all pods
+kubectl describe pods/<pod-name>
+```
+
+Example:
+
+```console
+kubectl describe pod nginx
+kubectl describe pods/nginx
+```
+
+The above commands print a detailed description of the selected resources, including related resources such as events or controllers.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 6. How to get all the resources in k8s ?  </summary>
+
+  <p>
+
+  Syntax:
+
+  ```console
+  kubectl get pods # List all pods
+  kubectl get deployments # List all deployments
+  kubectl get all # List all resources
+
+  kubectl get pods -o wide # List all pods with more information
+  ```
+
+Add `-o wide` to the command to get more info.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 7. How to get logs for the pod ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl logs <pod-name>
+```
+
+Example:
+
+```console
+kubectl logs nginx
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 8. How to get an interactive shell inside the pod ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl exec -it <pod-name> -- <command>
+```
+
+Example:
+
+```console
+kubectl exec -it nginx -- bin/bash
+```
+
+  </p>
+
+</details>
+
+---
+
+
+<details>
+
+  <summary> 9. What is Imperative vs Declarative style ? </summary>
+
+  <p>
+
+* **Imperative** - uses a sequence of statements to determine how to reach a certain goal. Like using kubectl CLI commands.
+
+* **Declarative** - describe their desired results without explicitly listing commands or steps that must be performed. Like by
+writing specifications in the YAML files and using `apply` command to get the desired result.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 10. What are the main parts of k8s configurations in yaml file ? </summary>
+
+  <p>
+
+  Each manifests file needs four parts.
+  
+  1. `apiVersion` - Which version of the Kubernetes API you're using to create this object (`kubectl api-versions` to list all
+  versions)
+  
+  2. `kind` - What kind of object you want to create (`kubectl api-resources` to get list of available objects)
+   
+  3. `metadata` - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
+
+  4. `spec` - What state you desire for the object
+
+  And there is another part called `status` which will be automatically added by kubernetes.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 11. How does a yml file look like for a pod ? </summary>
+
+  <p>
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: my-nginx
+    type: server
+  name: nginx
+spec:
+  containers:
+  - image: nginx-container
+    name: nginx
+```
+
+Similar yml file can be generated from a cmd line using the following cmd.
+
+```
+kubectl run nginx --image=nginx --dry-run=client -o yaml
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 9. How to scale replicaset using deployment name ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl scale <deployment-name> --replicas=<count>
+```
+Example:
+
+```console
+kubectl scale deploy/my-nginx --replicas=2
+```
+
+`deploy/my-nginx` is a short form of `deployment my-nginx`
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 2. How to create a deployment ? </summary>
 
   <p>
 
@@ -184,30 +393,6 @@ Pod name is the combination of = deployment-name + replica set ID + its own ID
 
 <details>
 
-  <summary> 3. How to get all the resources in k8s ?  </summary>
-
-  <p>
-
-  Syntax:
-
-  ```console
-  kubectl get pods # List all pods
-  kubectl get deployments # List all deployments
-  kubectl get all # List all resources
-
-  kubectl get pods -o wide # List all pods with more information
-  ```
-
-Add `-o wide` to the command to get more info.
-
-  </p>
-
-</details>
-
----
-
-<details>
-
   <summary> 4. How to edit the deployment ? </summary>
 
   <p>
@@ -219,105 +404,6 @@ kubectl edit deployment <deployment-name>
 ```
 
 The above command will open up the auto-generated config file.
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 5. How to get logs for the pod ? </summary>
-
-  <p>
-
-Syntax:
-
-```console
-kubectl logs <pod-name>
-```
-
-Example:
-
-```console
-kubectl logs my-nginx-6b74b79f57-hmlqd
-```
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 6. How to get an interactive shell inside the pod ? </summary>
-
-  <p>
-
-Syntax:
-
-```console
-kubectl exec -it <pod-name> -- <command>
-```
-
-Example:
-
-```console
-kubectl exec -it my-nginx-6b74b79f57-hmlqd -- bin/bash
-```
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 7. How to scale replicaset using deployment name ? </summary>
-
-  <p>
-
-Syntax:
-
-```console
-kubectl scale <deployment-name> --replicas=<count>
-```
-Example:
-
-```console
-kubectl scale deploy/my-nginx --replicas=2
-```
-
-`deploy/my-nginx` is a short form of `deployment my-nginx`
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 8. How to get the detailed description for a specific pod ? </summary>
-
-  <p>
-
-Syntax:
-
-```console
-kubectl describe <pod-name>
-```
-
-Example:
-
-```console
-kubectl describe pod/apache-deploy-7dfb754b6b-qllfq
-```
-
-The above commands print a detailed description of the selected resources, including related resources such as events or controllers.
 
   </p>
 
@@ -505,48 +591,6 @@ kubectl expose deployment hello-node --port=8080 --type=NodePort
 ```console
 minikube service hello-node
 ```
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 13. What is Imperative vs Declarative style ? </summary>
-
-  <p>
-
-* **Imperative** - uses a sequence of statements to determine how to reach a certain goal. Like using kubectl CLI commands.
-
-* **Declarative** - describe their desired results without explicitly listing commands or steps that must be performed. Like by
-writing specifications in the YAML files and using `apply` command to get the desired result.
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 14. What are the main parts of k8s configurations in yaml file ? </summary>
-
-  <p>
-
-  Each manifests file needs four parts.
-  
-  1. `apiVersion` - Which version of the Kubernetes API you're using to create this object (`kubectl api-versions` to list all
-  versions)
-  
-  2. `kind` - What kind of object you want to create (`kubectl api-resources` to get list of available objects)
-   
-  3. `metadata` - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
-
-  4. `spec` - What state you desire for the object
-
-  And there is another part called `status` which will be automatically added by kubernetes.
 
   </p>
 
