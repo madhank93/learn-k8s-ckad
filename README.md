@@ -392,6 +392,36 @@ kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
 
 <details>
 
+  <summary> 14. What is Replicaset and the usage of it ? </summary>
+
+  <p>
+  
+  A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to 
+  guarantee the availability of a specified number of identical Pods.
+
+  It brings up a new instance of a Pod when the existing one crashes or fails, scales it up when the running instances are not 
+  matched to the specified number, and deletes the Pods if replicaset is scaled down.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+  
+  <summary> 15. How does a replicaset config file look like ? </summary>
+  
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary> 9. How to scale replicaset using deployment name ? </summary>
 
   <p>
