@@ -388,6 +388,123 @@ kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
   <summary> 15. How does a replicaset config file look like ? </summary>
   
   <p>
+
+```YAML
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-replicaset
+spec:
+  selector:
+    matchLabels:
+      type: server # <--- replicaset selector
+  replicas: 3
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        name: pod
+        type: server # <--- pod label
+    spec:
+      containers:
+        - name: my-container
+          image: nginx
+```
+
+`ReplicaSet` selector should match the `Pod` label.
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 16. How to get list of replicaset ? </summary>
+
+  <p>
+
+  Syntax:
+
+  ```console
+  kubectl get replicaset
+  ```
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 17. How to identify list of pods created using replicaset ? </summary>
+
+  <p>
+
+  ```console
+  kubectl get pods
+  ```
+
+![pods-created-using-replicaset](/img/pods-created-using-replicaset.png)  
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 18. How to scale a replicaset ? </summary>
+
+  <p>
+
+  Syntax:
+
+  ```console
+  kubectl scale --replicas=<count> -f <file-name.yml>
+  kubectl scale replicaset --replicas=<count> <replicaset-name>
+  ```
+
+  Example:
+
+  ```console
+  kubectl scale --replicas=6 -f k8s-files/replicaset/replicaset.yml
+  ```
+
+  **Note**: Scaling pods from cmd will increase the pods count to 6, but count change will take place in the yml file.
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 19. What is usage of Labels and Selectors ? </summary>
+
+  <p>
+
+  Labels - are key/value pairs that are attached to k8s objects, like pods, service, etc. that help to identify that object. Labels can be used to organize and to select subsets of objects.
+
+  Selectors - via a label selector, the user can identify a set of objects. 
+  
+  The label selector is the core grouping primitive in Kubernetes.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
   
   </p>
 
