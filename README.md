@@ -22,25 +22,19 @@ Image source - Red hat - [Introduction to Kubernetes architecture](https://www.r
 
 ### Control plane / Master node
 
-* **kube-apiserver** - It's an entry point to interact with Kubernetes API (acts as a gateway). It determines if a request is valid
-and, if it is, processes it. It can be accessed through the kubectl cmd or kubeadm.
+* **kube-apiserver** - It's an entry point to interact with Kubernetes API (acts as a gateway). It determines if a request is valid and, if it is, processes it. It can be accessed through the kubectl cmd or kubeadm.
 
 * **kube-scheduler** - It considers the resource needs of a pod, such as CPU or memory, along with the health of the cluster. Then it schedules the pod to an appropriate compute node. Then it passes on the requests to kubelet to execute it.
 
-* **kube-controller-manager** - Detects state changes in the cluster (eg: if pod crashes, detects it and recovers the cluster state).
-Checks with scheduler and makes sure the correct number of pods is running.
+* **kube-controller-manager** - Detects state changes in the cluster (eg: if pod crashes, detects it and recovers the cluster state). Checks with scheduler and makes sure the correct number of pods is running.
 
-* **etcd** - It is a key-value store database, stores the cluster state. All of the cluster information (eg: new pod created, pod
-crashed) is stored in the etcd.
+* **etcd** - It is a key-value store database, stores the cluster state. All of the cluster information (eg: new pod created, pod crashed) is stored in the etcd.
 
 ### Compute machine / Worker node
 
-* **kubelet** - Kubernetes agent running on nodes, a tiny application that communicates with the control plane & containers vice versa
-and when the control plane needs something to happen in a node, the kubelet executes the action. It ensures the containers are
-running in the pod.
+* **kubelet** - Kubernetes agent running on nodes, a tiny application that communicates with the control plane & containers vice versa and when the control plane needs something to happen in a node, the kubelet executes the action. It ensures the containers are running in the pod.
 
-* **kube-proxy** - The kube-proxy handles network communications inside or outside of your cluster. It uses operating system’s packet
-filtering layer if there is one, otherwise , kube-proxy forwards the traffic itself.
+* **kube-proxy** - The kube-proxy handles network communications inside or outside of your cluster. It uses operating system’s packet filtering layer if there is one, otherwise , kube-proxy forwards the traffic itself.
 
 * **container runtime** - It is the software responsible for running containers. It can be Docker, Containerd and CRI-O.
 
@@ -63,29 +57,19 @@ filtering layer if there is one, otherwise , kube-proxy forwards the traffic its
   <p>
 
 * **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run
-time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod.
-Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
+time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
 
-* **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It
-creates a permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service
-IP remains same.
+* **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It creates a permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service IP remains same.
 
-* **Ingress** - it manages external access to the services in a cluster, typically HTTP. It provides load balancing,
-ssl termination and name based hosting.
+* **Ingress** - it manages external access to the services in a cluster, typically HTTP. It provides load balancing, ssl termination and name based hosting.
 
 * **ConfigMap** - it is used to store non-confidential (external config) data in key-value pairs.
 
-* **Secret** - it is used to store and manage sensitive information (eg: passwords, tokens, and keys), stores in
-base64 encoded format.
+* **Secret** - it is used to store and manage sensitive information (eg: passwords, tokens, and keys), stores in base64 encoded format.
 
-* **Deployment** - describes the desired state of a pod or a replica set, then gradually updates the environment (for
-example, creating or deleting replicas) until the current state matches the desired state specified in the deployment file. In
-general we don't work directly with pods, we will create deployments. It is mainly for stateless apps.
+* **Deployment** - describes the desired state of a pod or a replica set, then gradually updates the environment (for example, creating or deleting replicas) until the current state matches the desired state specified in the deployment file. In general we don't work directly with pods, we will create deployments. It is mainly for stateless apps.
 
-* **StatefulSet** - it is used to manage stateful applications with persistent storage (useful for db like mysql,
-MongoDb ...). It makes sure all the request to db are synchronized so that we can avoid data inconsistency problem. Pod names are
-persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are
-deleted.
+* **StatefulSet** - it is used to manage stateful applications with persistent storage (useful for db like mysql, MongoDb ...). It makes sure all the request to db are synchronized so that we can avoid data inconsistency problem. Pod names are persistent and are retained when rescheduled. Storage stays associated with replacement pods. Volumes persist when pods are deleted.
 
 </p>
 
@@ -103,9 +87,7 @@ deleted.
 
   Pod is the smallest object in k8s. Kubernetes doesn't deploy containers directly into the worker node, containers are encapsulated into k8s object known as pods. 
   
-  For additional instances of the application generally new pod should created altogether rather creating multiple instance of 
-  application in the same pod. Pod should contain a single instance of an application. Pod usually has one to one relation with 
-  containers.
+  For additional instances of the application generally new pod should created altogether rather creating multiple instance of application in the same pod. Pod should contain a single instance of an application. Pod usually has one to one relation with containers.
 
   But helper container are allowed to co-exist in the same pod.
   
@@ -1664,6 +1646,8 @@ type: kubernetes.io/tls
 * [Matthew Palmer articles on k8s](https://matthewpalmer.net/kubernetes-app-developer/articles/)
 
 * [Kubernetes articles](https://www.magalix.com/hs-search-results?term=kubernetes&type=SITE_PAGE&type=BLOG_POST&type=LISTING_PAGE)
+
+* [100 days of K8s - Anais Urlichs](https://100daysofkubernetes.io/)
 
 * [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
 
