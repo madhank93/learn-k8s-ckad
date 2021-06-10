@@ -6,9 +6,7 @@ It is a popular container orchestrator tool.
 
 ## Why do you need K8s and what problem does it solves ?
 
-Trends of micro services has increased the usage of containers and to handle these containers efficiently, need an
-orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers,
-elf healing, high availability and Automated rollouts and rollbacks.
+Trends of micro services has increased the usage of containers and to handle these containers efficiently, need an orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers, elf healing, high availability and Automated rollouts and rollbacks.
 
 ![kubernetes_scaling](/img/kube-scale.png)
 
@@ -56,8 +54,7 @@ Image source - Red hat - [Introduction to Kubernetes architecture](https://www.r
 
   <p>
 
-* **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run
-time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
+* **Pod** - basic unit of work. It creates an abstraction over containers, so that it can be replaced with anytime run time containers (eg: docker, cri-o). Many containers can be deployed into the pod, but the best practice is one container per pod. Each pod gets it own IP address and new IP address on every re-creation. It also acts as a load balancer.
 
 * **Service** - it is an abstract way to expose an application running on a set of Pods as a network service. It creates a permanent IP address, lifecycle of pod and service are not connected. Even if the pods crashes and recreated, service IP remains same.
 
@@ -248,8 +245,7 @@ kubectl exec -it nginx -- bin/bash
 
 * **Imperative** - uses a sequence of statements to determine how to reach a certain goal. Like using kubectl CLI commands.
 
-* **Declarative** - describe their desired results without explicitly listing commands or steps that must be performed. Like by
-writing specifications in the YAML files and using `apply` command to get the desired result.
+* **Declarative** - describe their desired results without explicitly listing commands or steps that must be performed. Like by writing specifications in the YAML files and using `apply` command to get the desired result.
 
   </p>
 
@@ -265,8 +261,7 @@ writing specifications in the YAML files and using `apply` command to get the de
 
   Each manifests file needs four parts.
   
-  1. `apiVersion` - Which version of the Kubernetes API you're using to create this object (`kubectl api-versions` to list all
-  versions)
+  1. `apiVersion` - Which version of the Kubernetes API you're using to create this object (`kubectl api-versions` to list all versions)
   
   2. `kind` - What kind of object you want to create (`kubectl api-resources` to get list of available objects)
    
@@ -378,11 +373,9 @@ kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
 
   <p>
   
-  A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to 
-  guarantee the availability of a specified number of identical Pods.
+  A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
 
-  It brings up a new instance of a Pod when the existing one crashes or fails, scales it up when the running instances are not 
-  matched to the specified number, and deletes the Pods if replicaset is scaled down.
+  It brings up a new instance of a Pod when the existing one crashes or fails, scales it up when the running instances are not matched to the specified number, and deletes the Pods if replicaset is scaled down.
 
   </p>
 
@@ -501,8 +494,7 @@ kubectl delete deployment deploy/my-nginx
 
 `deploy/my-nginx` is a short form of `deployment my-nginx`
 
-Deleting deployment will remove deployment, replicaset, pod and container. `Layers of abstraction is -> Deployment > Replica set > 
-Pod > Container`
+Deleting deployment will remove deployment, replicaset, pod and container. `Layers of abstraction is -> Deployment > Replica set > Pod > Container`
 
   </p>
 
@@ -518,11 +510,9 @@ Pod > Container`
 
 **Service** - provides the stable address for a pod(s).
 
-* **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods
-can reach service on apps port number.
+* **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can reach service on apps port number.
 
-* **NodePort** - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be
-able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
+* **NodePort** - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
 
 ```YAML
 apiVersion: v1
@@ -542,8 +532,7 @@ spec:
       nodePort: 30007
 ```
 
-* **LoadBalancer** - Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which
-the external load balancer routes, are automatically created.
+* **LoadBalancer** - Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
 
 ```YAML
 apiVersion: v1
@@ -565,8 +554,7 @@ status:
     - ip: 192.0.2.127
 ```
   
-* **ExternalName** - Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME
-record with its value. No proxying of any kind is set up.
+* **ExternalName** - Maps the Service to the contents of the externalName field (e.g. foo.bar.example.com), by returning a CNAME record with its value. No proxying of any kind is set up.
 
 ```YAML
 apiVersion: v1
@@ -590,8 +578,7 @@ spec:
 
   <p>
 
-  It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster (nodes and pods). Pods
-  can reach service on apps port number.
+  It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster (nodes and pods). Pods can reach service on apps port number.
 
   1. Create an deployment
 
@@ -641,8 +628,7 @@ spec:
 
   <p>
 
-Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able
-to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
+Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
 
 1. Create an deployment
 
@@ -746,8 +732,7 @@ kubectl diff -f some-resources.yaml
 
 In yaml file of k8s contains,
 
-`Meta data` - contains labels, labels (labels do not provide uniqueness, expect many objects to carry the same label(s)) can be used
-to organize and to select subsets of objects.
+`Meta data` - contains labels, labels (labels do not provide uniqueness, expect many objects to carry the same label(s)) can be used to organize and to select subsets of objects.
 
 `spec` - contains selector, selectors depend on labels to select a group of resources such as pods.
 
@@ -809,8 +794,7 @@ kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deploy.yml
 
   * **Port** - The port of this service. Other pods in the cluster that may need to access the service will just use port.
   
-  * **TargetPort** - it forwards the traffic to `ContainerPort` (where its listening). Also, if targetPort is not set, it will
-  default to the same value as port
+  * **TargetPort** - it forwards the traffic to `ContainerPort` (where its listening). Also, if targetPort is not set, it will default to the same value as port
   
   * **ContainerPort** - port on which the app can be reached out inside the container.
 
@@ -879,8 +863,7 @@ pod-template-hash=756d646fff
 
   Here QA, UAT, and Prod are the namespaces.
 
-  **Namespaces** are Kubernetes objects which helps in organizing resources and partitions a single Kubernetes cluster into multiple
-  virtual clusters.
+  **Namespaces** are Kubernetes objects which helps in organizing resources and partitions a single Kubernetes cluster into multiple virtual clusters.
 
   By default when a cluster is created it will create 4 namespaces,
 
@@ -889,8 +872,7 @@ pod-template-hash=756d646fff
   ```
 
   1. default - by default all the resources created will be listed here.
-  2. kube-node-lease - namespace for the lease objects associated with each node which improves the performance of the node
-  heartbeats as the cluster scales. It help determine the availability of a node.
+  2. kube-node-lease - namespace for the lease objects associated with each node which improves the performance of the node heartbeats as the cluster scales. It help determine the availability of a node.
   3. kube-public - place for publicly accessible data.
   4. kube-system - place for objects created by Kubernetes systems/control plane.
 
@@ -944,8 +926,7 @@ pod-template-hash=756d646fff
   1. Allowing resources to be grouped and isolates.
   2. Avoids naming conflicts.
   3. Resource sharing. (some are off limits; eg: ConfigMap in a Cluster-A, can't be accessed from Cluster-B)
-  4. Enhancing role-based access controls by limiting users and resources (limit usage of CPU, RAM, and Storage) to certain
-  namespaces.
+  4. Enhancing role-based access controls by limiting users and resources (limit usage of CPU, RAM, and Storage) to certain namespaces.
 
   </p>
 
@@ -959,8 +940,7 @@ pod-template-hash=756d646fff
 
   <p>
 
-  No. Namespace resources are not themselves in a namespace. And low-level resources, such as nodes and persistentVolumes, are not in
-  any namespace.
+  No. Namespace resources are not themselves in a namespace. And low-level resources, such as nodes and persistentVolumes, are not in any namespace.
 
   To see which Kubernetes resources are and aren't in a namespace:
 
@@ -1003,8 +983,7 @@ spec:
       nodePort: 31234
 ```
 
-If you try to list all the resource by `kubectl get all` it will not display the above created resource since it lives in another
-namespace, to list it out, need to switch the default namespace to the newly created namespace.
+If you try to list all the resource by `kubectl get all` it will not display the above created resource since it lives in another namespace, to list it out, need to switch the default namespace to the newly created namespace.
 
   </p>
 
@@ -1042,8 +1021,7 @@ kubectl config set-context --current --namespace=test-namespace
 
   <p>
 
-  Even though namespace separates each other, adding the namespace name to the service name provides access to services in any
-  namespace on the cluster
+  Even though namespace separates each other, adding the namespace name to the service name provides access to services in any namespace on the cluster
 
   ```YAML
 apiVersion: v1
@@ -1089,10 +1067,9 @@ spec:
 
   ![kubernetes_ingress](img/k8s-ingress.png)
 
-  **Ingress** exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource  (e.g. load balancing, SSL termination, path-based routing, protocol).
+  **Ingress** exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource  (e.g. load balancing, SSL termination,path-based routing, protocol).
 
-  The advantage of an Ingress over a LoadBalancer is that an Ingress can consolidate routing rules in a single resource to expose
-  multiple services.
+  The advantage of an Ingress over a LoadBalancer is that an Ingress can consolidate routing rules in a single resource to expose multiple services.
 
   Example:
 
@@ -1126,8 +1103,7 @@ spec:
 
   ![kubernetes_ingress_controller](img/k8s-ingress-controller.png)
 
-  An Ingress controller is responsible for fulfilling the Ingress, by evaluating all the rules, managing re-directions, acts as an
-  entrypoint to the cluster.
+  An Ingress controller is responsible for fulfilling the Ingress, by evaluating all the rules, managing re-directions, acts as an entrypoint to the cluster.
 
   There many Ingress controller are available, HAProxy Ingress, NGINX Ingress Controller, Traefik, and AKS (azure).
   
@@ -1151,7 +1127,7 @@ spec:
 
   Which automatically starts k8s nginx implementation of Ingress controller.
 
-  2. Now we are going to route incoming request to minikube k8s dashboard (right now it is not accessible to outside cluster)
+  2. Now we are going to route incoming request to minikube k8s dashboard(right now it is not accessible to outside cluster)
 
   ![kubernetes_namespace](img/k8s-ns.png)
 
@@ -1316,9 +1292,7 @@ type: kubernetes.io/tls
 
   <p>
 
-  A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment
-  variables, command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific
-  configuration from your container images, so that your applications are easily portable.
+  A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables,command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
 
   So it does not provide any secrecy or encryption, so its not suitable for storing passwords or keys.
 
