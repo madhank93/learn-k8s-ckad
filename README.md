@@ -922,7 +922,7 @@ Syntax:
 
 ```console
 kubectl get pods --namespace=<namespace-name>
-kubectl get pods --all-namespace # to get all the pods irrespective of namespaces
+kubectl get pods --all-namespaces # to get all the pods irrespective of namespaces
 ```
 
 Example:
