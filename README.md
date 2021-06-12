@@ -729,7 +729,31 @@ kubectl scale deploy/my-nginx --replicas=2
 
 <details>
 
-  <summary> 27. What is a namespace in k8s ? </summary>
+  <summary> 27. How to dry run a kubernetes commands ? </summary>
+
+  <p>
+
+The main usage of dry run is used to check syntactical errors and the preview of the object that would be sent to your cluster.
+
+Syntax:
+
+```console
+kubectl create deployment nginx --image=nginx --dry-run=client
+kubectl create deployment nginx --image=nginx --dry-run=server
+kubectl create deployment nginx --image=nginx --dry-run=client -o yaml # to get the result template
+kubectl apply -f app.yml --dry-run
+kubectl apply -f app.yml --dry-run=server
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 28. What is a namespace in k8s ? </summary>
 
   <p>
 
@@ -758,7 +782,7 @@ kubectl get namespaces
 
 <details>
 
-  <summary> 28. How to create a namespace ? </summary>
+  <summary> 29. How to create a namespace ? </summary>
 
   <p>
 
@@ -793,7 +817,7 @@ metadata:
 
 <details>
 
-  <summary> 29. What is the need for the namespace ? </summary>
+  <summary> 30. What is the need for the namespace ? </summary>
 
   <p>
 
@@ -810,7 +834,7 @@ metadata:
 
 <details>
 
-  <summary> 30. Is every objects in k8s can be put under an namespace ? </summary>
+  <summary> 31. Is every objects in k8s can be put under an namespace ? </summary>
 
   <p>
 
@@ -834,7 +858,7 @@ kubectl api-resources --namespaced=false
 
 <details>
 
-  <summary> 31. How to create a resource under a specified namespace ? </summary>
+  <summary> 32. How to create a resource under a specified namespace ? </summary>
 
   <p>
 
@@ -890,7 +914,7 @@ If you try to list all the resource by `kubectl get all` it will not display the
 
 <details>
 
-  <summary> 32. How to switch between namespace ? </summary>
+  <summary> 33. How to switch between namespace ? </summary>
 
   <p>
 
@@ -914,7 +938,7 @@ kubectl config set-context --current --namespace=test-namespace
 
 <details>
 
-  <summary> 33. How to view resources created specific to a namespace and overall ? </summary>
+  <summary> 34. How to view resources created specific to a namespace and for overall ? </summary>
 
   <p>
 
@@ -937,28 +961,13 @@ kubectl get pods --namespace=prod
 
 <details>
 
-  <summary> 33. How does the pods communicate in k8s namespaces ? </summary>
+  <summary> 35. How to access the resources available in other namespaces ? </summary>
 
   <p>
 
-Even though namespace separates each other, adding the namespace name to the service name provides access to services in any namespace on the cluster
+Even though namespace separates each other, adding the namespace name to the service name provides access to services in any namespace on the cluster.
 
-```YAML
-apiVersion: v1
-kind: Service
-metadata:
-name: nginx-service
-namespace: dev-env
-spec:
-type: NodePort
-selector:
-  app: hello-world
-ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 80
-    nodePort: 31234
-```
+![accessing-resources-inside-namespace](img/namespace-resource-accessing.png)
 
 Syntax:
 
@@ -969,9 +978,414 @@ Syntax:
 Example:
 
 ```console
-nginx-service.dev-env
+db-service.finance
 ```
 
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 36. How to pass the arguments and commands in k8s ? </summary>
+
+  <p>
+
+The command and arguments that you define in the configuration file override the default command and arguments provided by the container image.
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: command-demo
+  labels:
+    purpose: demonstrate-command
+spec:
+  containers:
+  - name: command-demo-container
+    image: debian
+    command: ["printenv"]
+    args: ["HOSTNAME", "KUBERNETES_PORT"]
+  restartPolicy: OnFailure
+```
+
+Running the above config file
+
+```console
+kubectl apply -f k8s-files/args-and-commands/commands.yml
+```
+
+Result:
+
+```
+command-demo
+tcp://10.3.240.1:443
+```
+
+The command field corresponds to entrypoint in some container runtimes.
+
+| Description                         | Docker field name | Kubernetes field name |
+| ----------------------------------- | ----------------- | --------------------- |
+| The command run by the container    | Entrypoint        | command               |
+| The arguments passed to the command | Cmd               | args                  |
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 37. How to pass a env variable in k8s ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl run <pod-name> --image=<image-name> --env="key=value" --env="key=value"
+```
+
+Example:
+
+```console
+kubectl run nginx --image=nginx --env="DNS_DOMAIN=cluster" --env="POD_NAMESPACE=default"
+```
+
+YAML config file.
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - env:
+    - name: DNS_DOMAIN
+      value: cluster
+    - name: POD_NAMESPACE
+      value: default
+    image: nginx
+    name: nginx
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 38. How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
+
+  <p>
+
+A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
+
+So it does not provide any secrecy or encryption, so its not suitable for storing passwords or keys.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 39. How to create a configmap ? </summary>
+
+  <p>
+
+1. Declarative way of creating a configmap
+
+Syntax:
+
+```console
+kubectl create configmap \
+    <config-name> --from-literal=<key>=<value>
+```
+
+Example:
+
+```console
+kubectl create configmap \
+    app-config --from-literal=APP_COLOR=blue \
+               --from-literal=APP_LOG_LEVEL=verbose
+```
+
+2. Creating a config map from a file
+
+Syntax:
+
+```console
+kubectl create configmap \
+    <config-name> --from-file=<path-to-file>
+```
+
+Example:
+
+```console
+kubectl create configmap \
+    app-config --from-file=k8s-files/ex-4-configmaps/configfile.properties
+```
+
+3. Imperative way of creating a configmap
+
+```YAML
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_COLOR: blue
+  APP_LOG_LEVEL: verbose
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 40. How to utilize the ConfigMaps with an example ? </summary>
+
+  <p>
+
+`Configmap`
+
+```YAML
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: test-configmap
+data:
+  # Configuration Values are stored as key-value pairs
+  env.data.name: "test-app"
+  env.data.url: "https://test-app.com"
+  # File like Keys
+  log.properties: |
+    log_level=2
+    error.color=red
+    info.color2=green
+```
+
+1.  Configuring all key-value pairs in a ConfigMap as container environment variables
+
+    ```YAML
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: configmap-pod
+    spec:
+      containers:
+        - name: configmap-busybox
+          image: k8s.gcr.io/busybox
+          command: [ "/bin/sh", "-c", "env" ]
+          envFrom:
+            # Loading the Complete ConfigMap
+            - configMapRef:
+                name: test-configmap # env variable will be set as
+      restartPolicy: Never
+    ```
+
+2.  Using ConfigMaps in defined env variables and volumes
+
+    ```YAML
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: test-pod
+    spec:
+      containers:
+        - name: test-container
+          image: k8s.gcr.io/busybox
+          command: [ "/bin/sh", "-c", "env" ]
+          env:
+            - name: SPECIAL_LEVEL_KEY # env variable name
+              valueFrom:
+                configMapKeyRef:
+                  name: test-configmap # referring to the ConfigMap name
+                  key: special.how # referring to ConfigMap key where the key is associated with the value
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: test-configmap
+                  key: log_level
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: test-configmap
+            items:
+              - key : "log.properties"
+                path: "log.properties"
+      restartPolicy: Never
+    ```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 41. How to easily manage secrets in k8s ? What is the use of Secrets ? </summary>
+
+  <p>
+  
+  **Secrets** let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.
+
+It can be used in 3 ways,
+
+- As files in a volume mounted on one or more of its containers.
+- As container environment variable.
+- By the kubelet when pulling images for the Pod.
+
+  </p>
+
+</details>
+  
+---
+
+<details>
+
+  <summary> 42. What are the ways we can store data in secrets ? </summary>
+
+  <p>
+  
+  There are two ways we can store data in secrets,
+  1. base64 encoded 
+  2. plain text - k8s will automatically encode
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 43. How to use secrets with an example ?   </summary>
+
+  <p>
+
+1. Need to create secret objects
+
+   1. base64 encoded format
+
+```YAML
+apiVersion: v1
+kind: Secret
+metadata:
+    name: test-secret
+type: Opaque
+data:
+    username: dXNlcm5hbWU=
+    password: cGFzc3dvcmQ=
+```
+
+     2. Plain text
+
+```YAML
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-secret2
+type: Opaque
+stringData:
+  user: admin
+  password: admin
+```
+
+2. Using the secrets
+
+   1. Utilizing as file
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-client
+spec:
+  containers:
+  - name: mysql
+	image: mysql
+	command: ["/bin/sh"]
+	args: ["-c","mysql -u `cat /mnt/db-creds/user)` -p`cat /mnt/db-creds/password)` -h `cat /mnt/db-creds/host)`"]
+	volumeMounts:
+	- name: creds
+  	  mountPath: "/mnt/db-creds"
+  	  readOnly: true
+  volumes:
+  - name: creds
+    secret:
+  	secretName: test-secret
+```
+
+     2. using it through env variables
+
+```YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: test-secret2
+              key: username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: test-secret2
+              key: password
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
   </p>
 
 </details>
@@ -1160,30 +1574,6 @@ To get the keys for a specific resource, and also with what value type it suppor
 kubectl explain services.spec
 
 kubectl explain services.spec.type # specific to a single key.
-```
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 16. How to dry run a kubernetes commands ? </summary>
-
-  <p>
-
-The main usage of dry run is used to check syntactical errors and the preview of the object that would be sent to your cluster.
-
-Syntax:
-
-```console
-kubectl create deployment nginx --image=nginx --dry-run=client
-kubectl create deployment nginx --image=nginx --dry-run=server
-kubectl create deployment nginx --image=nginx --dry-run=client -o yaml # to get the result template
-kubectl apply -f app.yml --dry-run
-kubectl apply -f app.yml --dry-run=server
 ```
 
   </p>
@@ -1515,246 +1905,6 @@ data:
   tls.crt: base64 encoded cert
   tls.key: base64 encoded key
 type: kubernetes.io/tls
-```
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 33. How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
-
-  <p>
-
-A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables,command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
-
-So it does not provide any secrecy or encryption, so its not suitable for storing passwords or keys.
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 34. How to utilize the ConfigMaps with an example ? </summary>
-
-  <p>
-
-`Configmap`
-
-```YAML
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: test-configmap
-data:
-  # Configuration Values are stored as key-value pairs
-  env.data.name: "test-app"
-  env.data.url: "https://test-app.com"
-  # File like Keys
-  log.properties: |
-    log_level=2
-    error.color=red
-    info.color2=green
-```
-
-1.  Configuring all key-value pairs in a ConfigMap as container environment variables
-
-    ```YAML
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: configmap-pod
-    spec:
-      containers:
-        - name: configmap-busybox
-          image: k8s.gcr.io/busybox
-          command: [ "/bin/sh", "-c", "env" ]
-          envFrom:
-            # Loading the Complete ConfigMap
-            - configMapRef:
-                name: test-configmap # env variable will be set as
-      restartPolicy: Never
-    ```
-
-2.  Using ConfigMaps in defined env variables and volumes
-
-    ```YAML
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: test-pod
-    spec:
-      containers:
-        - name: test-container
-          image: k8s.gcr.io/busybox
-          command: [ "/bin/sh", "-c", "env" ]
-          env:
-            - name: SPECIAL_LEVEL_KEY # env variable name
-              valueFrom:
-                configMapKeyRef:
-                  name: test-configmap # referring to the ConfigMap name
-                  key: special.how # referring to ConfigMap key where the key is associated with the value
-            - name: LOG_LEVEL
-              valueFrom:
-                configMapKeyRef:
-                  name: test-configmap
-                  key: log_level
-          volumeMounts:
-            - name: config
-              mountPath: "/config"
-              readOnly: true
-      volumes:
-        - name: config
-          configMap:
-            name: test-configmap
-            items:
-              - key : "log.properties"
-                path: "log.properties"
-      restartPolicy: Never
-    ```
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 35. How to easily manage secrets in k8s ? What is the use of Secrets ? </summary>
-
-  <p>
-  
-  **Secrets** let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.
-
-It can be used in 3 ways,
-
-- As files in a volume mounted on one or more of its containers.
-- As container environment variable.
-- By the kubelet when pulling images for the Pod.
-
-  </p>
-
-</details>
-  
----
-
-<details>
-
-  <summary> 36. What are the ways we can store data in secrets ? </summary>
-
-  <p>
-  
-  There are two ways we can store data in secrets,
-  1. base64 encoded 
-  2. plain text - k8s will automatically encode
-
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 37. How to use secrets with an example ?   </summary>
-
-  <p>
-
-1. Need to create secret objects
-
-   1. base64 encoded format
-
-```YAML
-apiVersion: v1
-kind: Secret
-metadata:
-    name: test-secret
-type: Opaque
-data:
-    username: dXNlcm5hbWU=
-    password: cGFzc3dvcmQ=
-```
-
-     2. Plain text
-
-```YAML
-apiVersion: v1
-kind: Secret
-metadata:
-  name: test-secret2
-type: Opaque
-stringData:
-  user: admin
-  password: admin
-```
-
-2. Using the secrets
-
-   1. Utilizing as file
-
-```YAML
-apiVersion: v1
-kind: Pod
-metadata:
-  name: mysql-client
-spec:
-  containers:
-  - name: mysql
-	image: mysql
-	command: ["/bin/sh"]
-	args: ["-c","mysql -u `cat /mnt/db-creds/user)` -p`cat /mnt/db-creds/password)` -h `cat /mnt/db-creds/host)`"]
-	volumeMounts:
-	- name: creds
-  	  mountPath: "/mnt/db-creds"
-  	  readOnly: true
-  volumes:
-  - name: creds
-    secret:
-  	secretName: test-secret
-```
-
-     2. using it through env variables
-
-```YAML
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mongodb-deployment
-  labels:
-    app: mongodb
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mongodb
-  template:
-    metadata:
-      labels:
-        app: mongodb
-    spec:
-      containers:
-      - name: mongodb
-        image: mongo
-        ports:
-        - containerPort: 27017
-        env:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: test-secret2
-              key: username
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: test-secret2
-              key: password
 ```
 
   </p>
