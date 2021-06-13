@@ -1105,7 +1105,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
 
   <p>
 
-1. Declarative way of creating a configmap
+1. Imperative way of creating a configmap
 
 Syntax:
 
@@ -1138,7 +1138,7 @@ kubectl create configmap \
     app-config --from-file=k8s-files/ex-4-configmaps/configfile.properties
 ```
 
-3. Imperative way of creating a configmap
+3. Declarative way of creating a configmap
 
 ```YAML
 apiVersion: v1
@@ -1280,13 +1280,56 @@ It can be used in 3 ways,
 
 <details>
 
-  <summary> 43. How to use secrets with an example ?   </summary>
+  <summary> 43. How to create a secrets ? </summary>
 
   <p>
 
-1. Need to create secret objects
+1. Imperative way of creating a secret
 
-   1. base64 encoded format
+Syntax:
+
+```console
+kubectl create secret generic \
+    <secret-name> --from-literal=<key>=<value>
+```
+
+Example:
+
+```console
+kubectl create secret generic \
+    app-secret --from-literal=DB_USER=root \
+               --from-literal=DB_PASSWORD=admin
+```
+
+2. Creating a secret map from a file
+
+Syntax:
+
+```console
+kubectl create secret generic \
+    <secret-name> --from-file=<path-to-file>
+```
+
+Example:
+
+```console
+kubectl create secret generic \
+    app-secret --from-file=k8s-files/ex-4-configmaps/configfile.properties
+```
+
+3. Declarative way of creating a configmap
+
+Convert the plain text password into base64 encoded string
+
+```console
+echo -n "password" | base64
+```
+
+Convert the base64 encoded string to plain text
+
+```console
+echo `echo -n "cGFzc3dvcmQ=" | base64 --decode`
+```
 
 ```YAML
 apiVersion: v1
@@ -1299,7 +1342,7 @@ data:
     password: cGFzc3dvcmQ=
 ```
 
-     2. Plain text
+2.  Plain text
 
 ```YAML
 apiVersion: v1
@@ -1312,9 +1355,19 @@ stringData:
   password: admin
 ```
 
-2. Using the secrets
+  </p>
 
-   1. Utilizing as file
+</details>
+
+---
+
+<details>
+
+  <summary> 44. How to use secrets with an example ?   </summary>
+
+  <p>
+
+1.  Utilizing as file
 
 ```YAML
 apiVersion: v1
@@ -1337,7 +1390,7 @@ spec:
   	secretName: test-secret
 ```
 
-     2. using it through env variables
+2.  using it through env variables
 
 ```YAML
 apiVersion: apps/v1
@@ -1372,6 +1425,25 @@ spec:
             secretKeyRef:
               name: test-secret2
               key: password
+```
+
+3. Using it as a multiple env variables
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+    name: configmap-pod
+spec:
+    containers:
+    - name: configmap-busybox
+        image: k8s.gcr.io/busybox
+        command: [ "/bin/sh", "-c", "env" ]
+        envFrom:
+        # Loading the Complete secret
+        - secretRef:
+            name: test-configmap
+    restartPolicy: Never
 ```
 
   </p>
