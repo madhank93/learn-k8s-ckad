@@ -1454,6 +1454,75 @@ spec:
 
 <details>
 
+  <summary> 45. How to run PODS as a specific user and add capabilities ? </summary>
+
+  <p>
+  
+  1. Specific user at container level
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+spec:
+  containers:
+  - image: ubuntu
+    name: ubuntu
+    command: ["sleep", "3600"]
+    securityContext:
+        runAsUser: 1000
+        capabilities: ["MAC_ADMIN"]
+  restartPolicy: Never
+```
+
+  2. Specific user at pods level (if an is user specified at pod level, all the container in the pod will be run as that user)
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - image: ubuntu
+    name: ubuntu
+    command: ["sleep", "3600"]
+  - image: busybox
+    name: busybox
+    securityContext:
+        runAsUser: 2000 # overriding the pod level user
+        capabilities: ["MAC_ADMIN"]
+  restartPolicy: Never
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 46. What is Service Accounts in k8s ? </summary>
+
+  <p>
+
+  There 2 types of account in k8s,
+   
+   1. User account - is used by humans, authenticated by the apiserver, performing some administrative tasks (for example, using kubectl) or a developer accessing the cluster to deploy an applications
+   2. Service account - processes in containers inside pods can also contact the apiserver
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>   </summary>
 
   <p>
