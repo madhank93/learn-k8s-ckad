@@ -1476,7 +1476,7 @@ spec:
   restartPolicy: Never
 ```
 
-  2. Specific user at pods level (if an is user specified at pod level, all the container in the pod will be run as that user)
+2. Specific user at pods level (if an is user specified at pod level, all the container in the pod will be run as that user)
 
 ```YAML
 apiVersion: v1
@@ -1510,10 +1510,135 @@ spec:
 
   <p>
 
-  There 2 types of account in k8s,
-   
-   1. User account - is used by humans, authenticated by the apiserver, performing some administrative tasks (for example, using kubectl) or a developer accessing the cluster to deploy an applications
-   2. Service account - processes in containers inside pods can also contact the apiserver
+There 2 types of account in k8s,
+
+1.  User account - is used by humans, authenticated by the apiserver, performing some administrative tasks (for example, using kubectl) or a developer accessing the cluster to deploy an applications
+2.  Service account - processes in containers inside pods can also contact the apiserver
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 47. How to create a service account ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl create serviceaccount <service-account-name>
+```
+
+Example:
+
+```console
+kubectl create serviceaccount custom-dashboard
+```
+
+To get the list of service accounts
+
+```console
+kubectl get serviceaccount
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 48. What is resource ? And how does a resource allocation takes place in k8s ? </summary>
+
+  <p>
+
+When a pod is created, optionally each resources needed for a container can be specified. The most common resources are 1. CPU and 2. Memory (RAM).
+
+When a container is specified with the resource `request`, scheduler uses these information to decide on which node to place the pod. When a container is specified with the resource `limit`, kubelet enforces the container to use only the allowed limit.
+
+If the node has not sufficient resources to place a pod then scheduler avoids that node and instead places that pod in the node which has the resources available.
+
+If all the nodes available in the cluster does not have sufficient resources, k8s holds scheduling the pods and it will be in the pending state.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 49. What is the difference between `Resource` and `Limit` ? </summary>
+
+  <p>
+
+It's possible (and allowed) for a container to use more resource than its `request` for that resource specifies. However, a container is not allowed to use more than its resource `limit`.
+
+If a pod tries to exceed a resource beyond it's limit, incase of CPU k8s throttles it and incase of RAM it terminates the pod.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 50. How to specify the resource and limit ? </summary>
+
+  <p>
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+spec:
+  containers:
+  - name: app
+    image: images.my-company.example/app:v4
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  - name: log-aggregator
+    image: images.my-company.example/log-aggregator:v6
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+```
+
+1 G (Gigabyte) = 1,000,000,000 bytes
+1 M (Megabyte) = 1,000,000 bytes
+1 K (kilobyte) = 1,000 bytes
+
+1 Gi (Gibibyte) = 1,073,741,824 bytes
+1 Mi (Mebibyte) = 1,048,576 bytes
+1 Ki (kibibyte) = 1,024 bytes
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
   
   </p>
 
