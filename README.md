@@ -1,10 +1,10 @@
 # Learn Kubernetes
 
-## What is K8s ?
+## What is k8s ?
 
 It is a popular container orchestrator tool.
 
-## Why do you need K8s and what problem does it solves ?
+## Why do you need k8s and what problem does it solves ?
 
 Trends of micro services has increased the usage of containers and to handle these containers efficiently, need an orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers, elf healing, high availability and Automated rollouts and rollbacks.
 
@@ -1636,6 +1636,237 @@ spec:
 
 <details>
 
+  <summary> 51. What is mean by taints and toleration ? </summary>
+
+  <p>
+
+`Taints` and `Tolerations` allow the node to control which pods should or should not be places on it. A taint allows a node to refuse pod to be scheduled unless that pod has a matching toleration.
+
+You apply taints to a node through the node specification (NodeSpec) and apply tolerations to a pod through the pod specification (PodSpec). A taint on a node instructs the node to repel all pods that do not tolerate the taint.
+
+Taints and tolerations are only meant to restrict node from accepting certain pods but it does not guarantee that a pod with tolerations is always placed on a tainted node.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 52. How to add a taints and tolerations ? </summary>
+
+  <p>
+
+1. Adding taints to the node
+
+Syntax:
+
+```console
+kubectl taint nodes node1 key1=value1:NoSchedule
+```
+
+Example:
+
+```
+kubectl taint nodes node1 app=blue:NoSchedule
+```
+
+Note: If you are using minikube, follow this guide to setup multi node (https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
+
+2. Adding tolerations to the pod
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "app"
+    operator: "Equal"
+    value: "blue"
+    effect: "NoSchedule"
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 53. How to remove the taint from the node ? </summary>
+
+  <p>
+
+To remove the added taints from the node add `minus` symbol in the end
+
+Syntax:
+
+```console
+kubectl taint nodes node1 key1=value1:NoSchedule-
+```
+
+Example:
+
+```console
+kubectl taint nodes node1 app=blue:NoSchedule-
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 54. How to assign pods to a specific node ? </summary>
+
+  <p>
+
+We can add a constraints at a Pod level so that it will run only on a particular set of Node(s). The recommended approach is to add `label` to the node and `nodeSelectors` to the pod for facilitate the selection.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 55. How to add a label to the node ? </summary>
+
+  <p>
+
+Syntax:
+
+```console
+kubectl label nodes <node-name> <label-key>=<label-value>
+```
+
+Example:
+
+```console
+kubectl label nodes node01 size=large
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 56. How to select a specific node for placing a pod ? </summary>
+
+  <p>
+
+Select a specific node by using `nodeSelector`
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeSelector:
+    size: large
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 57. What is the limitations of using `nodeSelector` ? And how to overcome it ? </summary>
+
+  <p>
+
+Following logical expression type of selection cannot be achieved using `nodeSelector`, for this one has to go for `Node affinity`.
+
+- size: Large or Medium
+- size: Not Small
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 58. What is node affinity ? </summary>
+
+  <p>
+  
+It allows you to constrain which nodes your pod is eligible to be scheduled on, based on labels on the node. And it allows the constraint more expressive.
+
+Available types:
+
+- Hard type : requiredDuringSchedulingIgnoredDuringExecution (if node didn't match pod will not be placed)
+- Soft type : preferredDuringSchedulingIgnoredDuringExecution (even if node didn't match pod will be placed in anyone of the node)
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    env: staging
+spec:
+  containers:
+    - name: node-affinity
+      image: nginx
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: size
+                operator: In
+                values:
+                  - Large
+                  - Medium
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 59.   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>   </summary>
 
   <p>
@@ -2265,6 +2496,8 @@ Data/files in a container are ephemeral (lasts only for a short period of time),
 
 ### Articles
 
+- [100 days of k8s - Anais Urlichs](https://100daysofkubernetes.io/)
+
 - [Kubernetes handbook](https://www.freecodecamp.org/news/the-kubernetes-handbook/)
 
 - [Kubernetes official doc](https://kubernetes.io/docs/home/)
@@ -2275,7 +2508,7 @@ Data/files in a container are ephemeral (lasts only for a short period of time),
 
 - [Kubernetes articles](https://www.magalix.com/hs-search-results?term=kubernetes&type=SITE_PAGE&type=BLOG_POST&type=LISTING_PAGE)
 
-- [100 days of K8s - Anais Urlichs](https://100daysofkubernetes.io/)
+- [Collabnix k8s](https://collabnix.github.io/kubelabs/)
 
 - [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
 
