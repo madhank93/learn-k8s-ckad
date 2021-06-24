@@ -1855,10 +1855,11 @@ spec:
 
 <details>
 
-  <summary> 59.   </summary>
+  <summary> 59. What is the purpose of the multi container pods ? </summary>
 
   <p>
-  
+
+The main purpose of a multi-container Pod is to facilitate support co-located, co-managed helper processes for a primary application. For example, providing logging service to the web server.
   </p>
 
 </details>
@@ -1867,10 +1868,14 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 60. What are some of the design patterns of Multi container pods ? </summary>
 
   <p>
-  
+
+1. Sidecar pattern 
+2. Adapter design pattern
+3. Ambassador design pattern 
+
   </p>
 
 </details>
@@ -1879,7 +1884,7 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 61. How does multi container pod communication happens ? </summary>
 
   <p>
   
