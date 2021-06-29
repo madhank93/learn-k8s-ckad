@@ -1859,7 +1859,11 @@ spec:
 
   <p>
 
-The main purpose of a multi-container Pod is to facilitate support co-located, co-managed helper processes for a primary application. For example, providing logging service to the web server.
+- The main purpose of a multi-container Pod is to facilitate support co-located, co-managed helper processes for a primary application. For example, providing logging service to the web server.
+- Multi containers in a pod share same network namespace, shared volumes, and the same IPC namespace so it possible for these containers to efficiently communicate, ensuring data locality.
+- This allows to manage several tightly coupled application containers as a single unit.
+- All the containers in the pod share same lifecycle.
+
   </p>
 
 </details>
@@ -1868,13 +1872,59 @@ The main purpose of a multi-container Pod is to facilitate support co-located, c
 
 <details>
 
-  <summary> 60. What are some of the design patterns of Multi container pods ? </summary>
+  <summary> 60. What are some of the design patterns for Multi container pods ? </summary>
 
   <p>
 
-1. Sidecar pattern 
-2. Adapter design pattern
-3. Ambassador design pattern 
+//TODO: Need to add examples for below design pattern with diagrams and explanation
+
+1. **Sidecar pattern**
+
+![side-car](img/side-car.png)
+
+A Sidecar container is a second container added to the Pod definition. It is placed in the same Pod so that it can use the same resources being used by the main container.
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+spec:
+  volumes:
+    - name: shared-logs
+      emptyDir: {}
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /var/log/nginx
+    - name: sidecar-container
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          "while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done",
+        ]
+      volumeMounts:
+        - name: shared-logs
+          mountPath: /var/log/nginx
+```
+
+And access the log by executing the following command
+
+```console
+kubectl exec webserver -c sidecar-container -- bin/cat /var/log/nginx/error.log
+kubectl exec webserver -c sidecar-container -- bin/cat /var/log/nginx/access.log
+```
+
+For more information refer following article,
+
+[1] [Sidecar pattern](https://www.magalix.com/blog/the-sidecar-pattern)
+
+2. **Adapter design pattern**
+3. **Ambassador design pattern**
 
   </p>
 
@@ -1885,6 +1935,138 @@ The main purpose of a multi-container Pod is to facilitate support co-located, c
 <details>
 
   <summary> 61. How does multi container pod communication happens ? </summary>
+
+  <p>
+
+There are three ways that containers in the pod communicate with each other.
+
+1. Shared volumes,
+2. Inter-process communications (IPC), and
+3. Inter-container network communication.
+
+For more information refer following article,
+
+[1] [Multi-container pods and container communication](https://www.mirantis.com/blog/multi-container-pods-and-container-communication-in-kubernetes/)
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 62. How to maintain the order of container creation in terms of multi-container pods ?  </summary>
+
+  <p>
+
+Init containers can be use to maintain the order of the execution. Containers specified in the initContainers section will run before starting main container in the pod. Init container executes sequentially and each of the init containers must succeed before the next can run.
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: myapp-container
+      image: busybox:1.28
+      command: ["sh", "-c", "echo The app is running! && sleep 3600"]
+  initContainers:
+    - name: init-myservice
+      image: busybox:1.28
+      command:
+        [
+          "sh",
+          "-c",
+          "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done",
+        ]
+    - name: init-mydb
+      image: busybox:1.28
+      command:
+        [
+          "sh",
+          "-c",
+          "until nslookup mydb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done",
+        ]
+```
+
+This example defines a simple Pod that has two init containers. The first waits for myservice, and the second waits for mydb. Once both init containers complete, the Pod runs the app container from its spec section.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 63. What are the pod status ? </summary>
+
+  <p>
+
+| Value     | Description                                                                                                                                                                                                                                                        |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pending   | The Pod has been accepted by the Kubernetes cluster, but one or more of the containers has not been set up and made ready to run. This includes time a Pod spends waiting to be scheduled as well as the time spent downloading container images over the network. |
+| Running   | The Pod has been bound to a node, and all of the containers have been created. At least one container is still running, or is in the process of starting or restarting.                                                                                            |
+| Succeeded | All containers in the Pod have terminated in success, and will not be restarted.                                                                                                                                                                                   |
+| Failed    | All containers in the Pod have terminated, and at least one container has terminated in failure. That is, the container either exited with non-zero status or was terminated by the system.                                                                        |
+| Unknown   | For some reason the state of the Pod could not be obtained. This phase typically occurs due to an error in communicating with the node where the Pod should be running.                                                                                            |
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 64. What are the pod conditions ? </summary>
+
+  <p>
+  
+A Pod has a PodStatus, which has an array of PodConditions through which the Pod has or has not passed:
+
+`PodScheduled`: the Pod has been scheduled to a node.
+`ContainersReady`: all containers in the Pod are ready.
+`Initialized`: all init containers have started successfully.
+`Ready`: the Pod is able to serve requests and should be added to the load balancing pools of all matching Services.
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
 
   <p>
   
