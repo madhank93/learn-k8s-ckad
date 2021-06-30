@@ -2049,15 +2049,15 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
 
   <p>
 
-![liveness](img/liveness.gif)
+<img src="img/liveness.gif" alt="liveness" width="200"/>
 
 1. **Liveness probes** - allows to check if app is alive. The kubelet agent that runs on each node uses the liveness probes to ensure that the containers are running as expected. Many applications running for long periods of time eventually transition to broken states, and cannot recover except by being restarted. Kubernetes provides liveness probes to detect and remedy such situations.
 
-![liveness](img/readiness.gif)
+<img src="img/readiness.gif" alt="readiness" width="200"/>
 
-2. **Readiness probes** -  The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
+1. **Readiness probes** -  The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
 
-3. **Startup probes** - 
+2. **Startup probes** - 
 
   </p>
 
