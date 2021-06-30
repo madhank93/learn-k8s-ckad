@@ -2030,8 +2030,11 @@ This example defines a simple Pod that has two init containers. The first waits 
 A Pod has a PodStatus, which has an array of PodConditions through which the Pod has or has not passed:
 
 `PodScheduled`: the Pod has been scheduled to a node.
+
 `ContainersReady`: all containers in the Pod are ready.
+
 `Initialized`: all init containers have started successfully.
+
 `Ready`: the Pod is able to serve requests and should be added to the load balancing pools of all matching Services.
 
   </p>
@@ -2042,10 +2045,40 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
 
 <details>
 
-  <summary>   </summary>
+  <summary> 65. How to do health checks ? And types of health checks ? </summary>
 
   <p>
-  
+
+![liveness](img/liveness.gif)
+
+1. **Liveness probes** - allows to check if app is alive. The kubelet agent that runs on each node uses the liveness probes to ensure that the containers are running as expected. Many applications running for long periods of time eventually transition to broken states, and cannot recover except by being restarted. Kubernetes provides liveness probes to detect and remedy such situations.
+
+![liveness](img/readiness.gif)
+
+2. **Readiness probes** -  The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
+
+3. **Startup probes** - 
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 66. How do you know the readiness of the pod ? Or how do you do health checks ? </summary>
+
+  <p>
+
+At some point, an application may crash. Or an application might be still in the initialization stage and not yet ready to receive and process requests. Using probes (testing), we can determine whether the container is crashed or still running.
+
+There is 3 ways to do it.
+
+1. Sending an HTTP request
+2. Running a command
+3. Opening a TCP socket
+
   </p>
 
 </details>
