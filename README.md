@@ -8,11 +8,16 @@ It is a popular container orchestrator tool.
 
 Trends of micro services has increased the usage of containers and to handle these containers efficiently, need an orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers, elf healing, high availability and Automated rollouts and rollbacks.
 
-![kubernetes_scaling](/img/kube-scale.png)
+<div style="text-align: center;">
+    <img src="/img/kube-scale.png" alt="kubernetes_scaling" height="400" width="400"/>
+</div>
 
 ## Kubernetes architecture and basic terminologies
 
-![kubernetes_architecture](/img/kube-arch.png)
+
+<div style="text-align: center;">
+    <img src="/img/kube-arch.png" alt="kubernetes_architecture" height="400" width="400"/>
+</div>
 
 Image source - Red hat - [Introduction to Kubernetes architecture](https://www.redhat.com/en/topics/containers/kubernetes-architecture)
 
@@ -2048,16 +2053,19 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
   <summary> 65. How to do health checks ? And types of health checks ? </summary>
 
   <p>
-
-<img src="img/liveness.gif" alt="liveness" width="200"/>
+<div style="text-align: center;">
+    <img src="img/liveness.gif" alt="liveness" width="200" class="center"/>
+</div>
 
 1. **Liveness probes** - allows to check if app is alive. The kubelet agent that runs on each node uses the liveness probes to ensure that the containers are running as expected. Many applications running for long periods of time eventually transition to broken states, and cannot recover except by being restarted. Kubernetes provides liveness probes to detect and remedy such situations.
 
-<img src="img/readiness.gif" alt="readiness" width="200"/>
+<div style="text-align: center;">
+    <img src="img/readiness.gif" alt="readiness" width="200" class="center"/>
+</div>
 
-1. **Readiness probes** -  The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
+2. **Readiness probes** - The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
 
-2. **Startup probes** - 
+3. **Startup probes** -
 
   </p>
 
