@@ -2116,7 +2116,7 @@ spec:
       startupProbe:
         httpGet:
           path: /healthz
-          port: liveness-port
+          port: 8080
         failureThreshold: 30
         periodSeconds: 10
 ```
