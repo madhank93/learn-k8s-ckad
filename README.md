@@ -14,7 +14,6 @@ Trends of micro services has increased the usage of containers and to handle the
 
 ## Kubernetes architecture and basic terminologies
 
-
 <div style="text-align: center;">
     <img src="/img/kube-arch.png" alt="kubernetes_architecture" height="400" width="400"/>
 </div>
@@ -656,7 +655,7 @@ The above command will open up the auto-generated config file.
 
 <details>
 
-  <summary> 24. How to delete an deployment ? </summary>
+  <summary> 25. How to delete the deployment ? </summary>
 
   <p>
 
@@ -684,7 +683,7 @@ Deleting deployment will remove deployment, replicaset, pod and container. `Laye
 
 <details>
 
-  <summary> 25. How to create a deployment and scale it one command ? </summary>
+  <summary> 26. How to create a deployment and scale it one command ? </summary>
 
   <p>
 
@@ -708,7 +707,7 @@ kubectl create deployment my-nginx --image=nginx --replicas=3
 
 <details>
 
-  <summary> 26. How to scale using deployment name ? </summary>
+  <summary> 27. How to scale using deployment name ? </summary>
 
   <p>
 
@@ -734,7 +733,7 @@ kubectl scale deploy/my-nginx --replicas=2
 
 <details>
 
-  <summary> 27. How to dry run a kubernetes commands ? </summary>
+  <summary> 28. How to dry run a kubernetes commands ? </summary>
 
   <p>
 
@@ -758,7 +757,7 @@ kubectl apply -f app.yml --dry-run=server
 
 <details>
 
-  <summary> 28. What is a namespace in k8s ? </summary>
+  <summary> 29. What is a namespace in k8s ? </summary>
 
   <p>
 
@@ -787,7 +786,7 @@ kubectl get namespaces
 
 <details>
 
-  <summary> 29. How to create a namespace ? </summary>
+  <summary> 30. How to create a namespace ? </summary>
 
   <p>
 
@@ -822,7 +821,7 @@ metadata:
 
 <details>
 
-  <summary> 30. What is the need for the namespace ? </summary>
+  <summary> 31. What is the need for the namespace ? </summary>
 
   <p>
 
@@ -839,7 +838,7 @@ metadata:
 
 <details>
 
-  <summary> 31. Is every objects in k8s can be put under an namespace ? </summary>
+  <summary> 32. Is every objects in k8s can be put under an namespace ? </summary>
 
   <p>
 
@@ -863,7 +862,7 @@ kubectl api-resources --namespaced=false
 
 <details>
 
-  <summary> 32. How to create a resource under a specified namespace ? </summary>
+  <summary> 33. How to create a resource under a specified namespace ? </summary>
 
   <p>
 
@@ -919,7 +918,7 @@ If you try to list all the resource by `kubectl get all` it will not display the
 
 <details>
 
-  <summary> 33. How to switch between namespace ? </summary>
+  <summary> 34. How to switch between namespace ? </summary>
 
   <p>
 
@@ -943,7 +942,7 @@ kubectl config set-context --current --namespace=test-namespace
 
 <details>
 
-  <summary> 34. How to view resources created specific to a namespace and for overall ? </summary>
+  <summary> 35. How to view resources created specific to a namespace and for overall ? </summary>
 
   <p>
 
@@ -966,7 +965,7 @@ kubectl get pods --namespace=prod
 
 <details>
 
-  <summary> 35. How to access the resources available in other namespaces ? </summary>
+  <summary> 36. How to access the resources available in other namespaces ? </summary>
 
   <p>
 
@@ -994,7 +993,7 @@ db-service.finance
 
 <details>
 
-  <summary> 36. How to pass the arguments and commands in k8s ? </summary>
+  <summary> 37. How to pass the arguments and commands in k8s ? </summary>
 
   <p>
 
@@ -1044,7 +1043,7 @@ The command field corresponds to entrypoint in some container runtimes.
 
 <details>
 
-  <summary> 37. How to pass a env variable in k8s ? </summary>
+  <summary> 38. How to pass a env variable in k8s ? </summary>
 
   <p>
 
@@ -1090,7 +1089,7 @@ spec:
 
 <details>
 
-  <summary> 38. How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
+  <summary> 39. How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
 
   <p>
 
@@ -1106,7 +1105,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
 
 <details>
 
-  <summary> 39. How to create a configmap ? </summary>
+  <summary> 40. How to create a configmap ? </summary>
 
   <p>
 
@@ -1163,7 +1162,7 @@ data:
 
 <details>
 
-  <summary> 40. How to utilize the ConfigMaps with an example ? </summary>
+  <summary> 41. How to utilize the ConfigMaps with an example ? </summary>
 
   <p>
 
@@ -1249,7 +1248,7 @@ data:
 
 <details>
 
-  <summary> 41. How to easily manage secrets in k8s ? What is the use of Secrets ? </summary>
+  <summary> 42. How to easily manage secrets in k8s ? What is the use of Secrets ? </summary>
 
   <p>
   
@@ -1269,7 +1268,7 @@ It can be used in 3 ways,
 
 <details>
 
-  <summary> 42. What are the ways we can store data in secrets ? </summary>
+  <summary> 43. What are the ways we can store data in secrets ? </summary>
 
   <p>
   
@@ -1285,7 +1284,7 @@ It can be used in 3 ways,
 
 <details>
 
-  <summary> 43. How to create a secrets ? </summary>
+  <summary> 44. How to create a secrets ? </summary>
 
   <p>
 
@@ -1368,7 +1367,7 @@ stringData:
 
 <details>
 
-  <summary> 44. How to use secrets with an example ?   </summary>
+  <summary> 45. How to use secrets with an example ?   </summary>
 
   <p>
 
@@ -1459,7 +1458,7 @@ spec:
 
 <details>
 
-  <summary> 45. How to run PODS as a specific user and add capabilities ? </summary>
+  <summary> 46. How to run PODS as a specific user and add capabilities ? </summary>
 
   <p>
   
@@ -1511,7 +1510,7 @@ spec:
 
 <details>
 
-  <summary> 46. What is Service Accounts in k8s ? </summary>
+  <summary> 47. What is Service Accounts in k8s ? </summary>
 
   <p>
 
@@ -1528,7 +1527,7 @@ There 2 types of account in k8s,
 
 <details>
 
-  <summary> 47. How to create a service account ? </summary>
+  <summary> 48. How to create a service account ? </summary>
 
   <p>
 
@@ -1558,7 +1557,7 @@ kubectl get serviceaccount
 
 <details>
 
-  <summary> 48. What is resource ? And how does a resource allocation takes place in k8s ? </summary>
+  <summary> 49. What is resource ? And how does a resource allocation takes place in k8s ? </summary>
 
   <p>
 
@@ -1578,7 +1577,7 @@ If all the nodes available in the cluster does not have sufficient resources, k8
 
 <details>
 
-  <summary> 49. What is the difference between `Resource` and `Limit` ? </summary>
+  <summary> 50. What is the difference between `Resource` and `Limit` ? </summary>
 
   <p>
 
@@ -1594,7 +1593,7 @@ If a pod tries to exceed a resource beyond it's limit, incase of CPU k8s throttl
 
 <details>
 
-  <summary> 50. How to specify the resource and limit ? </summary>
+  <summary> 51. How to specify the resource and limit ? </summary>
 
   <p>
 
@@ -1641,7 +1640,7 @@ spec:
 
 <details>
 
-  <summary> 51. What is mean by taints and toleration ? </summary>
+  <summary> 52. What is mean by taints and toleration ? </summary>
 
   <p>
 
@@ -1659,7 +1658,7 @@ Taints and tolerations are only meant to restrict node from accepting certain po
 
 <details>
 
-  <summary> 52. How to add a taints and tolerations ? </summary>
+  <summary> 53. How to add a taints and tolerations ? </summary>
 
   <p>
 
@@ -1708,7 +1707,7 @@ spec:
 
 <details>
 
-  <summary> 53. How to remove the taint from the node ? </summary>
+  <summary> 54. How to remove the taint from the node ? </summary>
 
   <p>
 
@@ -1734,7 +1733,7 @@ kubectl taint nodes node1 app=blue:NoSchedule-
 
 <details>
 
-  <summary> 54. How to assign pods to a specific node ? </summary>
+  <summary> 55. How to assign pods to a specific node ? </summary>
 
   <p>
 
@@ -1748,7 +1747,7 @@ We can add a constraints at a Pod level so that it will run only on a particular
 
 <details>
 
-  <summary> 55. How to add a label to the node ? </summary>
+  <summary> 56. How to add a label to the node ? </summary>
 
   <p>
 
@@ -1772,7 +1771,7 @@ kubectl label nodes node01 size=large
 
 <details>
 
-  <summary> 56. How to select a specific node for placing a pod ? </summary>
+  <summary> 57. How to select a specific node for placing a pod ? </summary>
 
   <p>
 
@@ -1801,7 +1800,7 @@ spec:
 
 <details>
 
-  <summary> 57. What is the limitations of using `nodeSelector` ? And how to overcome it ? </summary>
+  <summary> 58. What is the limitations of using `nodeSelector` ? And how to overcome it ? </summary>
 
   <p>
 
@@ -1818,7 +1817,7 @@ Following logical expression type of selection cannot be achieved using `nodeSel
 
 <details>
 
-  <summary> 58. What is node affinity ? </summary>
+  <summary> 59. What is node affinity ? </summary>
 
   <p>
   
@@ -1860,7 +1859,7 @@ spec:
 
 <details>
 
-  <summary> 59. What is the purpose of the multi container pods ? </summary>
+  <summary> 60. What is the purpose of the multi container pods ? </summary>
 
   <p>
 
@@ -1877,7 +1876,7 @@ spec:
 
 <details>
 
-  <summary> 60. What are some of the design patterns for Multi container pods ? </summary>
+  <summary> 61. What are some of the design patterns for Multi container pods ? </summary>
 
   <p>
 
@@ -1939,7 +1938,7 @@ For more information refer following article,
 
 <details>
 
-  <summary> 61. How does multi container pod communication happens ? </summary>
+  <summary> 62. How does multi container pod communication happens ? </summary>
 
   <p>
 
@@ -1961,7 +1960,7 @@ For more information refer following article,
 
 <details>
 
-  <summary> 62. How to maintain the order of container creation in terms of multi-container pods ?  </summary>
+  <summary> 63. How to maintain the order of container creation in terms of multi-container pods ?  </summary>
 
   <p>
 
@@ -2008,7 +2007,7 @@ This example defines a simple Pod that has two init containers. The first waits 
 
 <details>
 
-  <summary> 63. What are the pod status ? </summary>
+  <summary> 64. What are the pod status ? </summary>
 
   <p>
 
@@ -2028,7 +2027,7 @@ This example defines a simple Pod that has two init containers. The first waits 
 
 <details>
 
-  <summary> 64. What are the pod conditions ? </summary>
+  <summary> 65. What are the pod conditions ? </summary>
 
   <p>
   
@@ -2050,12 +2049,14 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
 
 <details>
 
-  <summary> 65. How to do health checks ? And types of health checks ? </summary>
+  <summary> 66. What are the types of health checks available in k8s ? </summary>
 
   <p>
 <div style="text-align: center;">
     <img src="img/liveness.gif" alt="liveness" width="200" class="center"/>
 </div>
+
+Image source - [Google cloud blog](https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes)
 
 1. **Liveness probes** - allows to check if app is alive. The kubelet agent that runs on each node uses the liveness probes to ensure that the containers are running as expected. Many applications running for long periods of time eventually transition to broken states, and cannot recover except by being restarted. Kubernetes provides liveness probes to detect and remedy such situations.
 
@@ -2065,7 +2066,7 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
 
 2. **Readiness probes** - The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
 
-3. **Startup probes** -
+3. **Startup probes** - It is used to determine whether the container has started. If such a probe is configured, it disables liveness and readiness checks until it succeeds, making sure those probes don't interfere with the application startup. This can be used to adopt liveness checks on slow starting containers, avoiding them getting killed by the kubelet before they are up and running.
 
   </p>
 
@@ -2075,7 +2076,7 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
 
 <details>
 
-  <summary> 66. How do you know the readiness of the pod ? Or how do you do health checks ? </summary>
+  <summary> 67. How to perform different types of health checks ? </summary>
 
   <p>
 
@@ -2086,6 +2087,117 @@ There is 3 ways to do it.
 1. Sending an HTTP request
 2. Running a command
 3. Opening a TCP socket
+
+
+1. Checking liveness and start-up probes using HTTP request
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+    - name: liveness
+      image: k8s.gcr.io/liveness
+      args:
+        - /server
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 8080
+          httpHeaders:
+            - name: Custom-Header
+              value: Awesome
+        initialDelaySeconds: 3
+        periodSeconds: 3
+      startupProbe:
+        httpGet:
+          path: /healthz
+          port: liveness-port
+        failureThreshold: 30
+        periodSeconds: 10
+```
+
+`livenessProbe` For the first 10 seconds that the container is alive, the /healthz handler returns a status of 200. After that, the handler returns a status of 500. The kubelet starts performing health checks 3 seconds after the container starts. So the first couple of health checks will succeed. But after 10 seconds, the health checks will fail, and the kubelet will kill and restart the container.
+
+`startupProbes` legacy applications that might require an additional startup time on their first initialization. In such cases, it can be tricky to set up liveness probe parameters without compromising the fast response to deadlocks that motivated such a probe. setting up a startup probe with the same command, HTTP or TCP check, with a failureThreshold * periodSeconds long enough to cover the worse case startup time. The application will have a maximum of 5 minutes (30 * 10 = 300s) to finish its startup. Once the startup probe has succeeded once, the liveness probe takes over to provide a fast response to container deadlocks. If the startup probe never succeeds, the container is killed after 300s and subject to the pod's restartPolicy
+
+Complete [source code](https://github.com/kubernetes/kubernetes/blob/master/test/images/agnhost/liveness/server.go)
+
+```go
+http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
+    duration := time.Now().Sub(started)
+    if duration.Seconds() > 10 { // <-- After 10 secs it throw an error and the kubelet will kill and restart the container.
+        w.WriteHeader(500)
+        w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
+    } else {
+        w.WriteHeader(200)
+        w.Write([]byte("ok"))
+    }
+})
+```
+
+2. Checking liveness and readiness probe using TCP request
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+    - name: goproxy
+      image: k8s.gcr.io/goproxy:0.1
+      ports:
+        - containerPort: 8080
+      readinessProbe:
+        tcpSocket:
+          port: 8080
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      livenessProbe:
+        tcpSocket:
+          port: 8080
+        initialDelaySeconds: 15
+        periodSeconds: 20
+```
+
+This example uses both readiness and liveness probes. The kubelet will send the first readiness probe 5 seconds after the container starts. This will attempt to connect to the goproxy container on port 8080. If the probe succeeds, the Pod will be marked as ready. The kubelet will continue to run this check every 10 seconds.
+
+In addition to the readiness probe, this configuration includes a liveness probe. The kubelet will run the first liveness probe 15 seconds after the container starts. Similar to the readiness probe, this will attempt to connect to the goproxy container on port 8080. If the liveness probe fails, the container will be restarted.
+
+3. Checking liveness using command
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+    - name: liveness
+      image: k8s.gcr.io/busybox
+      args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/healthy
+        initialDelaySeconds: 5
+        periodSeconds: 5
+```
+
+For the first 30 seconds of the container's life, there is a /tmp/healthy file. So during the first 30 seconds, the command cat /tmp/healthy returns a success code. After 30 seconds, cat /tmp/healthy returns a failure code. So the containers have been killed and recreated.
 
   </p>
 
