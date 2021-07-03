@@ -202,6 +202,7 @@ Syntax:
 
 ```console
 kubectl logs <pod-name>
+kubectl logs -f <pod-name> # -f or --follow flag streams logs
 ```
 
 Example:
@@ -2053,7 +2054,7 @@ A Pod has a PodStatus, which has an array of PodConditions through which the Pod
 
   <p>
 <div style="text-align: center;">
-    <img src="img/liveness.gif" alt="liveness" width="200" class="center"/>
+    <img src="img/liveness.gif" alt="liveness" width="200"/>
 </div>
 
 Image source - [Google cloud blog](https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes)
@@ -2061,7 +2062,7 @@ Image source - [Google cloud blog](https://cloud.google.com/blog/products/contai
 1. **Liveness probes** - allows to check if app is alive. The kubelet agent that runs on each node uses the liveness probes to ensure that the containers are running as expected. Many applications running for long periods of time eventually transition to broken states, and cannot recover except by being restarted. Kubernetes provides liveness probes to detect and remedy such situations.
 
 <div style="text-align: center;">
-    <img src="img/readiness.gif" alt="readiness" width="200" class="center"/>
+    <img src="img/readiness.gif" alt="readiness" width="200"/>
 </div>
 
 2. **Readiness probes** - The kubelet uses readiness probes to know when a container is ready to start accepting traffic. A Pod is considered ready when all of its containers are ready. If a readiness probe fails, Kubernetes will stop routing traffic to the pod until the probe passes again.
@@ -2088,6 +2089,7 @@ There is 3 ways to do it.
 2. Running a command
 3. Opening a TCP socket
 
+---
 
 1. Checking liveness and start-up probes using HTTP request
 
@@ -2123,7 +2125,7 @@ spec:
 
 `livenessProbe` For the first 10 seconds that the container is alive, the /healthz handler returns a status of 200. After that, the handler returns a status of 500. The kubelet starts performing health checks 3 seconds after the container starts. So the first couple of health checks will succeed. But after 10 seconds, the health checks will fail, and the kubelet will kill and restart the container.
 
-`startupProbes` legacy applications that might require an additional startup time on their first initialization. In such cases, it can be tricky to set up liveness probe parameters without compromising the fast response to deadlocks that motivated such a probe. setting up a startup probe with the same command, HTTP or TCP check, with a failureThreshold * periodSeconds long enough to cover the worse case startup time. The application will have a maximum of 5 minutes (30 * 10 = 300s) to finish its startup. Once the startup probe has succeeded once, the liveness probe takes over to provide a fast response to container deadlocks. If the startup probe never succeeds, the container is killed after 300s and subject to the pod's restartPolicy
+`startupProbes` legacy applications that might require an additional startup time on their first initialization. In such cases, it can be tricky to set up liveness probe parameters without compromising the fast response to deadlocks that motivated such a probe. setting up a startup probe with the same command, HTTP or TCP check, with a failureThreshold _ periodSeconds long enough to cover the worse case startup time. The application will have a maximum of 5 minutes (30 _ 10 = 300s) to finish its startup. Once the startup probe has succeeded once, the liveness probe takes over to provide a fast response to container deadlocks. If the startup probe never succeeds, the container is killed after 300s and subject to the pod's restartPolicy
 
 Complete [source code](https://github.com/kubernetes/kubernetes/blob/master/test/images/agnhost/liveness/server.go)
 
@@ -2199,6 +2201,219 @@ spec:
 
 For the first 30 seconds of the container's life, there is a /tmp/healthy file. So during the first 30 seconds, the command cat /tmp/healthy returns a success code. After 30 seconds, cat /tmp/healthy returns a failure code. So the containers have been killed and recreated.
 
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 68. How to view the logs for multi container pods ? </summary>
+
+  <p>
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webserver
+spec:
+  containers:
+    - name: container-1
+      image: nginx
+    - name: container-2
+      image: busybox
+```
+
+If the pod has multi containers
+
+Syntax:
+
+```console
+kubectl logs -f <pod-name> <container-name>
+```
+
+Example:
+
+```console
+kubectl logs -f webserver container-1
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 69. How to view the performance metrics of node and pod in k8s ? </summary>
+
+  <p>
+  
+If you are using minikube enable the metrics-server addons
+
+```console
+minikube enable addons metrics-server
+```
+
+To view performance metric of node:
+
+```console
+kubectl top node
+```
+
+To view performance metric of pod:
+
+```console
+kubectl top pod
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 70. What is rolling and rollback deployment ? </summary>
+
+  <p>
+
+<div style="text-align: center;">
+    <img src="img/rolling-update.gif" alt="liveness" width="300" width="300"/>
+</div>
+
+Image courtesy - [Bluematador](https://www.bluematador.com/blog/kubernetes-deployments-rolling-update-configuration)
+
+```YAML
+replicas: 3
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+```
+
+1. **Rolling deployment** - It is a software release strategy, which usually (one by one / one or more) replaces pods of the previous version of the application with pods of the newer version without any downtime. It is the default deployment strategy in k8s.
+
+2. **Rollback deployment** - It means going back to the previous instance of the deployment if there is some issue with the current deployment.
+
+```console
+kubectl rollout undo deployment <deployment-name>
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 71. Demonstration of rolling and rollback deployment with an example ? </summary>
+
+  <p>
+
+1. Create a deployment
+
+```console
+kubectl apply -f k8s-files/rolling-update/rolling-update.yml --record
+```
+
+2. Check the rollout status
+
+Syntax:
+
+```console
+kubectl rollout status deployment <deployment-name>
+```
+
+Example:
+
+```console
+kubectl rollout status deployment nginx-deployment
+```
+
+Result:
+
+![rollout-status](img/rollout-status.png)
+
+3. Check the rollout history
+
+Syntax:
+
+```console
+kubectl rollout history deployment <deployment-name>
+```
+
+Example:
+
+```console
+kubectl rollout history deploy nginx-deployment
+```
+
+Result:
+
+![rollout-history](img/rollout-history.png)
+
+4. Check the version of the nginx image
+
+![deployment](img/deployment-describe.png)
+
+5.  Set the nginx image to a specific version
+
+Syntax:
+
+```console
+kubectl set image deployment <deployment-name> <container-name>=<image-version>
+```
+
+Example:
+
+```console
+kubectl set image deployment nginx-deployment nginx=nginx:1.19-alpine
+```
+
+6. Check the version of the nginx image
+
+![deployment](img/dep-desc-after.png)
+
+7. Rollback the deployment
+
+Syntax:
+
+```console
+kubectl rollout undo deployment <deployment-name>
+kubectl rollout undo deployment <deployment-name> --to-revision=<revision-number> # If --to-revision flag is not specified, kubectl picks the most recent revision.
+```
+
+Example:
+
+```console
+kubectl rollout undo deployment nginx-deployment
+```
+
+8. Check the version of the nginx image
+
+![deployment](img/dep-dep-desc-rollback.png)
+
+The nginx version is back to latest.
+
+</p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
   </p>
 
 </details>
