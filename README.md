@@ -2398,7 +2398,7 @@ kubectl rollout undo deployment nginx-deployment
 
 8. Check the version of the nginx image
 
-![deployment](img/dep-dep-desc-rollback.png)
+![deployment](img/dep-desc-rollback.png)
 
 The nginx version is back to latest.
 
