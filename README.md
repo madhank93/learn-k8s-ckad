@@ -2412,10 +2412,12 @@ The nginx version is back to latest.
 
 <details>
 
-  <summary> 72.   </summary>
+  <summary> 72. What is Jobs and the uses of it ? </summary>
 
   <p>
-  
+
+Job used to run a finite task. It will create one or more Pods and performs a given task. Once the task is completed successfully, pod will be exited. Jobs are useful for large computation and batch-oriented tasks. It supports parallel execution of Pods.
+
   </p>
 
 </details>
@@ -2424,10 +2426,43 @@ The nginx version is back to latest.
 
 <details>
 
-  <summary>   </summary>
+  <summary> 73. How to create a Job in k8s ? </summary>
 
   <p>
-  
+
+```YAML
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: math-add-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: math-add
+          image: ubuntu
+          command: ["expr", "3", "+", "2"]
+      restartPolicy: Never
+  backoffLimit: 4
+```
+
+1. Create a Job to perform a computation task
+
+```console
+kubectl apply -f k8s-files/jobs/jobs.yml
+```
+
+2. View the pod status
+
+![job-pod-status](img/job-pod-status.png)
+
+3. To view the results of the computation
+
+```
+kubectl logs <pod-name>
+kubectl logs math-add-job-bt5mq
+```
+
   </p>
 
 </details>
