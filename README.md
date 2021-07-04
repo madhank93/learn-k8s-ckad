@@ -2293,8 +2293,8 @@ replicas: 3
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 0
+    maxSurge: 1 # how many pods we can add at a time
+    maxUnavailable: 0 # defines how many pods can be unavailable during the rolling update
 ```
 
 1. **Rolling deployment** - It is a software release strategy, which usually (one by one / one or more) replaces pods of the previous version of the application with pods of the newer version without any downtime. It is the default deployment strategy in k8s.
@@ -2402,6 +2402,8 @@ kubectl rollout undo deployment nginx-deployment
 
 The nginx version is back to latest.
 
+**Note** - For such more deployment strategy [refer](https://github.com/ContainerSolutions/k8s-deployment-strategies)
+
 </p>
 
 </details>
@@ -2410,7 +2412,7 @@ The nginx version is back to latest.
 
 <details>
 
-  <summary>   </summary>
+  <summary> 72.   </summary>
 
   <p>
   
@@ -3049,9 +3051,23 @@ Data/files in a container are ephemeral (lasts only for a short period of time),
 
 - [Udemy - CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
 
-### Articles
+### Learn by doing
+
+- [k8s by example](https://www.kubernetesbyexample.com/)
 
 - [100 days of k8s - Anais Urlichs](https://100daysofkubernetes.io/)
+
+- [Collabnix k8s](https://collabnix.github.io/kubelabs/)
+
+- [k8s practical problems](https://github.com/kubernauts/practical-kubernetes-problems)
+
+- [k8s examples](https://k8s-examples.container-solutions.com/)
+
+- [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
+
+- [CKAD prep notes](https://github.com/twajr/ckad-prep-notes)
+
+### Articles
 
 - [Kubernetes handbook](https://www.freecodecamp.org/news/the-kubernetes-handbook/)
 
@@ -3062,9 +3078,3 @@ Data/files in a container are ephemeral (lasts only for a short period of time),
 - [Matthew Palmer articles on k8s](https://matthewpalmer.net/kubernetes-app-developer/articles/)
 
 - [Kubernetes articles](https://www.magalix.com/hs-search-results?term=kubernetes&type=SITE_PAGE&type=BLOG_POST&type=LISTING_PAGE)
-
-- [Collabnix k8s](https://collabnix.github.io/kubelabs/)
-
-- [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
-
-- [CKAD prep notes](https://github.com/twajr/ckad-prep-notes)
