@@ -2418,6 +2418,8 @@ The nginx version is back to latest.
 
 Job used to run a finite task. It will create one or more Pods and performs a given task. Once the task is completed successfully, pod will be exited. Jobs are useful for large computation and batch-oriented tasks. It supports parallel execution of Pods.
 
+A Job should not restart a pod when it has been terminated successfully. Either `Never` or `OnFailure` should be used in the `restartPolicy`.
+
   </p>
 
 </details>
@@ -2442,7 +2444,7 @@ spec:
         - name: math-add
           image: ubuntu
           command: ["expr", "3", "+", "2"]
-      restartPolicy: Never
+      restartPolicy: OnFailure
   backoffLimit: 4
 ```
 
@@ -2471,10 +2473,55 @@ kubectl logs math-add-job-bt5mq
 
 <details>
 
-  <summary>   </summary>
+  <summary> 74. How to run multiple jobs and as well as in parallel ? </summary>
 
   <p>
-  
+
+1. Running multiple jobs
+
+It runs the jobs in sequential order, once when a current task in a pod completed successfully it will move on to creating the next pod.
+
+```YAML
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: math-add-job
+spec:
+  completions: 3 # <---- Specifies the desired number of successfully finished pods the job should be run with.
+  template:
+    spec:
+      containers:
+        - name: math-add
+          image: ubuntu
+          command: ["expr", "3", "+", "2"]
+      restartPolicy: OnFailure
+  backoffLimit: 4
+```
+
+Above Job creates the first pod, when the pod terminated without failure, Job will spin the next one all long till the last of the ten pods were created and terminated with no failure.
+
+2. Running multiple jobs in parallel
+
+```YAML
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: math-add-job
+spec:
+  parallelism: 3 # <---- Specifies the maximum desired number of pods the job should run at any given time.
+  completions: 3
+  template:
+    spec:
+      containers:
+        - name: math-add
+          image: ubuntu
+          command: ["expr", "3", "+", "2"]
+      restartPolicy: OnFailure
+  backoffLimit: 4
+```
+
+Instead of running the jobs one after another, parallelism enables the feature of running them in parallel.
+
   </p>
 
 </details>
