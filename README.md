@@ -2530,6 +2530,122 @@ Instead of running the jobs one after another, parallelism enables the feature o
 
 <details>
 
+  <summary> 75. What is CronJob and how to create one ? </summary>
+
+  <p>
+
+A CronJob creates Jobs on a repeating schedule. It runs a job periodically on a given schedule, written in Cron format. It is  useful for creating periodic and recurring tasks, like running backups or sending emails.
+
+1. Create cronjob
+
+```YAML
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cronjob-demo
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      completions: 3
+      parallelism: 3
+      template:
+        spec:
+          containers:
+            - name: hello
+              image: bash
+              command: ["echo", "Hello world"]
+          restartPolicy: OnFailure
+```
+
+2. View created cronjob
+
+```console
+kubectl get cronjob
+```
+
+3. View the logs of the pod
+
+```console
+kubectl logs cronjob-demo-1625673540-fdndx
+```
+
+Result:
+
+```
+Hello world
+```
+
+The above cronjob will run one job every 5 minutes and prints “Hello world”
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary>   </summary>
+
+  <p>
+  
+  </p>
+
+</details>
+
+---
+
+<details>
+
   <summary>   </summary>
 
   <p>
