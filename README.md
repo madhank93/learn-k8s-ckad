@@ -2586,85 +2586,15 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 
 <details>
 
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary>   </summary>
-
-  <p>
-  
-  </p>
-
-</details>
-
----
-
-<details>
-
-  <summary> 10. What are the different types of Services available ? </summary>
+  <summary> 75. What are the different types of Services available ? </summary>
 
   <p>
 
 **Service** - provides the stable address for a pod(s).
 
 - **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can reach service on apps port number.
+
+![node-port](img/node-port.png)
 
 - **NodePort** - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
 
@@ -2678,10 +2608,9 @@ spec:
   selector:
     app: MyApp
   ports:
-      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
-    - port: 80
-      targetPort: 80
-      # Optional field
+    - port: 80 # the port where service is running
+      targetPort: 80 # port on the pod where actual web-serer is running
+      # Optional field. You can specify your own nodePort value in the 30000--32767 range. 
       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
       nodePort: 30007
 ```
