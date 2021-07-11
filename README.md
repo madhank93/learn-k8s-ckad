@@ -2657,7 +2657,7 @@ spec:
 
 <details>
 
-  <summary> 11. How does the ClusterIP works ? </summary>
+  <summary> 76. How does the ClusterIP works ? </summary>
 
   <p>
 
@@ -2707,7 +2707,7 @@ curl hello-node:8080
 
 <details>
 
-  <summary> 12. How does the NodePort service works ? </summary>
+  <summary> 77. How does the NodePort service works ? </summary>
 
   <p>
 
@@ -2739,7 +2739,7 @@ minikube service hello-node
 
 <details>
 
-  <summary> 15. What are the ways to get list of available keys for k8s object/kind ? </summary>
+  <summary> 78. What are the ways to get list of available keys for k8s object/kind ? </summary>
 
   <p>
 
@@ -2765,7 +2765,7 @@ kubectl explain services.spec.type # specific to a single key.
 
 <details>
 
-  <summary> 17. What is the use of a `diff` command ? </summary>
+  <summary> 79. What is the use of a `diff` command ? </summary>
 
   <p>
 
@@ -2785,7 +2785,7 @@ kubectl diff -f some-resources.yaml
 
 <details>
 
-  <summary> 19. How to create nginx deployment and service using declarative approach ?  </summary>
+  <summary> 80. How to create nginx deployment and service using declarative approach ?  </summary>
 
   <p>
 
@@ -2803,15 +2803,15 @@ kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deploy.yml
 
 <details>
 
-  <summary> 20. How does Port, TargetPort, ContainerPort, and NodePort works ? </summary>
+  <summary> 81. How does Port, TargetPort, ContainerPort, and NodePort works ? </summary>
 
   <p>
 
 - **Port** - The port of this service. Other pods in the cluster that may need to access the service will just use port.
 
-- **TargetPort** - it forwards the traffic to `ContainerPort` (where its listening). Also, if targetPort is not set, it will default to the same value as port
+- **TargetPort** - it forwards the traffic to `ContainerPort` (where the app might be listening). Also, if targetPort is not set, it will default to the same value as port
 
-- **ContainerPort** - port on which the app can be reached out inside the container.
+- **ContainerPort** - it purpose is for adding additional information.
 
 - **NodePort** - makes the service visible outside the Kubernetes cluster by the node’s IP address and the port number
 
@@ -2869,7 +2869,7 @@ pod-template-hash=756d646fff
 
 <details>
 
-  <summary> 28. What is Ingress ? </summary>
+  <summary> 82. What is Ingress ? </summary>
 
   <p>
 
@@ -2905,7 +2905,7 @@ spec:
 
 <details>
 
-  <summary> 29. What is ingress controller ? What is the use of it ? </summary>
+  <summary> 83. What is ingress controller ? What is the use of it ? </summary>
 
   <p>
 
@@ -2923,7 +2923,7 @@ There many Ingress controller are available, HAProxy Ingress, NGINX Ingress Cont
 
 <details>
 
-  <summary>  30. How does ingress works in practically ? </summary>
+  <summary>  84. How does ingress works in practically ? </summary>
 
   <p>
 
@@ -2983,7 +2983,7 @@ Note: After exercise don't forget to remove domain mapping from `/etc/hosts` oth
 
 <details>
 
-  <summary> 31. What happens if an incoming request not mapped to any of the backend service ? </summary>
+  <summary> 85. What happens if an incoming request not mapped to any of the backend service ? </summary>
 
   <p>
 
@@ -3011,7 +3011,7 @@ w.r.t to previous example `dashboard.com/eat` will result in `404 page not found
 
 <details>
 
-  <summary> 32. What are the different use cases of ingress ? </summary>
+  <summary> 86. What are the different use cases of ingress ? </summary>
 
   <p>
 
@@ -3024,17 +3024,17 @@ metadata:
   name: simple-example
 spec:
   rules:
-  - host: foo.bar.com
+  - host: www.test.com
     http:
       paths:
-      - path: /foo
+      - path: /foo # it will be routed here if users hits www.test.com/foo
         pathType: Prefix
         backend:
           service:
             name: service1
             port:
               number: 4200
-      - path: /bar
+      - path: /bar # it will be routed here if users hits www.test.com/bar
         pathType: Prefix
         backend:
           service:
@@ -3096,7 +3096,7 @@ type: kubernetes.io/tls
 
 <details>
 
-  <summary> 38. Why do we need to persist data in k8s ? </summary>
+  <summary> 87. Why do we need to persist data in k8s ? </summary>
 
   <p>
 
