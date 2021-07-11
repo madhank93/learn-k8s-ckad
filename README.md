@@ -2534,7 +2534,7 @@ Instead of running the jobs one after another, parallelism enables the feature o
 
   <p>
 
-A CronJob creates Jobs on a repeating schedule. It runs a job periodically on a given schedule, written in Cron format. It is  useful for creating periodic and recurring tasks, like running backups or sending emails.
+A CronJob creates Jobs on a repeating schedule. It runs a job periodically on a given schedule, written in Cron format. It is useful for creating periodic and recurring tasks, like running backups or sending emails.
 
 1. Create cronjob
 
@@ -2577,7 +2577,7 @@ Hello world
 ```
 
 The above cronjob will run one job every 5 minutes and prints “Hello world”
-  
+
   </p>
 
 </details>
@@ -2610,7 +2610,7 @@ spec:
   ports:
     - port: 80 # the port where service is running
       targetPort: 80 # port on the pod where actual web-serer is running
-      # Optional field. You can specify your own nodePort value in the 30000--32767 range. 
+      # Optional field. You can specify your own nodePort value in the 30000--32767 range.
       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
       nodePort: 30007
 ```
@@ -3094,9 +3094,63 @@ type: kubernetes.io/tls
 
 ---
 
+---
+
 <details>
 
-  <summary> 87. Why do we need to persist data in k8s ? </summary>
+  <summary> 87. What is Network Policy and how does it works ? </summary>
+
+  <p>
+
+![network-policy](img/network-policy.png)
+
+Network policies allow you to limit connections between Pods. It provides security by restricting access to and from the pods.
+
+Network policies are implemented by the network plugin. To use network policies, you must be using a networking solution which supports NetworkPolicy. Creating a NetworkPolicy resource without a controller that implements it will have no effect.
+
+```YAML
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+    - Ingress # request coming in to db pod
+    - Egress # request going out from db pod
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              name: api-pod
+          namespaceSelector:
+            matchLabels:
+              name: prod
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              name: api-pod
+      ports:
+        - protocol: TCP
+          port: 5000
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 88. Why do we need to persist data in k8s ? </summary>
 
   <p>
 
