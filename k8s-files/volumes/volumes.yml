@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: random-number-generator
+spec:
+  containers:
+    - name: busybox
+      image: busybox
+      command: ["/bin/sh", "-c"]
+      args: ["shuf -i 0-100 -n 1 >> /opt/number.out;"]
+      volumeMounts:
+        - name: data-volume
+          mountPath: /opt
+  restartPolicy: Never
+  volumes:
+    - name: data-volume
+      hostPath:
+        path: /opt
+        type: Directory

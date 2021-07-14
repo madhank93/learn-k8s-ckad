@@ -3150,11 +3150,11 @@ spec:
 
 <details>
 
-  <summary> 88. Why do we need to persist data in k8s ? </summary>
+  <summary> 88. Why do we need to store data in k8s ? </summary>
 
   <p>
 
-Data/files in a container are ephemeral (lasts only for a short period of time), once the container crashes or removed, data (ex: mysql data or logs of the server) inside the container will lost. To avoid such scenario, data must be persisted.
+Data/files in a containers/pods are ephemeral (lasts only for a short period of time), once the container crashes or removed, data (ex: mysql data or logs of the server) inside the container will lost. To avoid such scenario, data must be stored.
 
   </p>
 
@@ -3164,7 +3164,43 @@ Data/files in a container are ephemeral (lasts only for a short period of time),
 
 <details>
 
-  <summary>   </summary>
+  <summary> 89. What is volumes in k8s ? How does it works ? </summary>
+
+  <p>
+
+Volume is a directory, possibly with some data in it, which is accessible to the containers in a pod. When a volume is attached to the pod, and all the containers inside this pod have access to the volume. This way data can be shared between different containers running on the same pod.
+
+Kubernetes provides many directory types like emptyDir, hostPath, secret, nfs etc. Foe this example we are going to use hostPath.
+
+1. Mount your host machine path into a minikube vm (if you happen to use it)
+
+```console
+ minikube mount $PWD/k8s-files/volumes:/opt
+```
+
+![host-to-minikube](img/host-to-minikube.png)
+
+Note: Or else you can ssh into minikube `minikube ssh` try it out
+
+2. Apply volumes.yml file
+
+```console
+kubectl apply -f k8s-files/volumes/volumes.yml
+```
+
+3. Look inside the folder
+
+Look inside the `k8s-files/volumes/` there will be a `number.out` file will be created with some random number in it.
+
+ </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 90. What is persistent volumes ? How does it works ? </summary>
 
   <p>
   
@@ -3176,22 +3212,16 @@ Data/files in a container are ephemeral (lasts only for a short period of time),
 
 <details>
 
-  <summary>   </summary>
+  <summary> 91. What is the difference between the volumes and persistent volumes ? </summary>
 
   <p>
   
-  </p>
+`Volume` decouples the storage from the Container. Its lifecycle is coupled to a pod. It enables safe container restarts and sharing data between containers in a pod.
 
-</details>
+`Persistent Volume` decouples the storage from the Pod. Its lifecycle is independent. It enables safe pod restarts and sharing data between pods.
 
----
+[Source](https://stackoverflow.com/a/54500752/5514320)
 
-<details>
-
-  <summary>   </summary>
-
-  <p>
-  
   </p>
 
 </details>
