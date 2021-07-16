@@ -3200,7 +3200,43 @@ Look inside the `k8s-files/volumes/` there will be a `number.out` file will be c
 
 <details>
 
-  <summary> 90. What is persistent volumes ? How does it works ? </summary>
+  <summary> 90. What is persistent volume ? How does it works ? </summary>
+
+  <p>
+
+**Persistent volume:** - A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. PersistentVolumes are a cluster-level resource like nodes, which don’t belong to any namespace.
+
+```YAML
+kind: PersistentVolume
+apiVersion: v1
+metadata: pv-demo
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  gcePersistentDisk:
+    pdName: my-data-disk
+    fsType: ext4
+```
+
+```console
+kubectl apply -f k8s-files/persistent-volume/persistent-volume.yml
+```
+
+```console
+kubectl get pv
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 91. What is persistent volume claim ? How does it works ?  </summary>
 
   <p>
   
@@ -3212,7 +3248,7 @@ Look inside the `k8s-files/volumes/` there will be a `number.out` file will be c
 
 <details>
 
-  <summary> 91. What is the difference between the volumes and persistent volumes ? </summary>
+  <summary> 92. What is the difference between the volumes and persistent volumes ? </summary>
 
   <p>
   
