@@ -3205,7 +3205,8 @@ Look inside the `k8s-files/volumes/` there will be a `number.out` file will be c
 ```YAML
 kind: PersistentVolume
 apiVersion: v1
-metadata: pv-demo
+metadata:
+  name: pv-demo
 spec:
   capacity:
     storage: 1Gi
@@ -3216,9 +3217,13 @@ spec:
     fsType: ext4
 ```
 
+- Create a persistent volume
+
 ```console
 kubectl apply -f k8s-files/persistent-volume/persistent-volume.yml
 ```
+
+- View created persistent volume
 
 ```console
 kubectl get pv
@@ -3243,8 +3248,8 @@ A PersistentVolumeClaim (PVC) is a request for storage by a user. It is a specif
 1. Creating a PVC that matches to an available PersistentVolume (PV)
 
 ```YAML
-apiVersion: "v1"
-kind: "PersistentVolumeClaim"
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: "claim1"
 spec:
@@ -3253,10 +3258,15 @@ spec:
   resources:
     requests:
       storage: "1Gi"
-  volumeName: "pv0001"
 ```
 
-2. Claim as volumes in pod
+2. View the create persistent volume claim
+
+```console
+kubectl get pvc
+```
+
+3. Claim as volumes in pod
 
 ```YAML
 apiVersion: "v1"

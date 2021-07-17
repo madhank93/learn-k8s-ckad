@@ -1,6 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
-metadata: pv-demo
+metadata:
+  name: pv-demo
 spec:
   capacity:
     storage: 1Gi
