@@ -6,11 +6,7 @@ It is a popular container orchestrator tool.
 
 ## Why do you need k8s and what problem does it solves ?
 
-Trends of micro services has increased the usage of containers and to handle these containers efficiently, need an orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers, elf healing, high availability and Automated rollouts and rollbacks.
-
-<div style="text-align: center;">
-    <img src="/img/kube-scale.png" alt="kubernetes_scaling" height="400" width="400"/>
-</div>
+Trends of micro services has increased the usage of containers and to handle these containers efficiently, need an orchestrator tool like k8s. Orchestration tool helps in automating the deployment, managing, scaling, and networking of containers, self healing, high availability and Automated rollouts and rollbacks.
 
 ## Kubernetes architecture and basic terminologies
 
@@ -963,6 +959,8 @@ kubectl get pods --namespace=prod
   </p>
 
 </details>
+
+---
 
 <details>
 
@@ -3094,8 +3092,6 @@ type: kubernetes.io/tls
 
 ---
 
----
-
 <details>
 
   <summary> 87. What is Network Policy and how does it works ? </summary>
@@ -3239,7 +3235,52 @@ kubectl get pv
   <summary> 91. What is persistent volume claim ? How does it works ?  </summary>
 
   <p>
-  
+
+![pvc-in-pod](img/pvc-in-pod.png)
+
+A PersistentVolumeClaim (PVC) is a request for storage by a user. It is a specifc request for a resource with attributes, such as storage size, access modes. It (PVC) matches a claim to an available volume (PV) and binds them together. This allows the claim to be used as a volume in a pod.
+
+1. Creating a PVC that matches to an available PersistentVolume (PV)
+
+```YAML
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  name: "claim1"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "1Gi"
+  volumeName: "pv0001"
+```
+
+2. Claim as volumes in pod
+
+```YAML
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  name: "my-pod"
+  labels:
+    name: "frontend"
+spec:
+  containers:
+    - name: "my-frontend"
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: "pvol"
+  volumes:
+    - name: "pvol"
+      persistentVolumeClaim:
+        claimName: "claim1"
+```
+
   </p>
 
 </details>
