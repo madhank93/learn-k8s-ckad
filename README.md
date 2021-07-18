@@ -3317,10 +3317,67 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 93. What is Storage class ? And how to use it ? </summary>
 
   <p>
   
+With a StorageClass, you don't need to create a persistent volume manually before claiming it. Storage Class comes with provisioner (GCEPersistentDisk, AzureDisk , AWSElasticBlockStore ...) that automatically creates the storage and attach that to the pods when a claim has been made.
+
+1. Create a StorageClass object
+
+```YAML
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: slow
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+  fstype: ext4
+  replication-type: none
+```
+
+2. Claim it in PVC
+
+```YAML
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "claim1"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  storageClassName: google-storage # this binds the StorageClass and PVC
+  resources:
+    requests:
+      storage: "1Gi"
+```
+
+3. Use it in the pods
+
+```YAML
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  name: "my-pod"
+  labels:
+    name: "frontend"
+spec:
+  containers:
+    - name: "my-frontend"
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: "pvol"
+  volumes:
+    - name: "pvol"
+      persistentVolumeClaim:
+        claimName: "claim1"
+```
+
   </p>
 
 </details>
@@ -3329,10 +3386,54 @@ spec:
 
 <details>
 
-  <summary>   </summary>
+  <summary> 94. What is StatefulSet ? What is the use of it ? </summary>
 
   <p>
-  
+
+**StatefulSets** are similar to Deployment sets in-terms of creating pods based on the yaml file. With StatefulSets pods are created deployed in sequential order and are terminated in reverse ordinal order. StatefulSets use an ordinal index for the identity and ordering each. Pods number starts from zero and incremented by one, each pods get uniques name derived from index combined with StatefulSet name. For example, a StatefulSet named web has its Pods named web-0, web-1, and web-2. StatefulSet maintains a sticky identity for each of their Pods.
+
+1. Create StatefulSets
+
+```console
+kubectl apply -f k8s-files/stateful-sets/statefulsets.yml
+```
+
+2. View the created StatefulSets
+
+```console
+kubectl get statefulsets
+```
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+<summary> 95. What is headless Service in StatefulSets ? </summary>
+
+<p>
+
+</p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 95. What is the difference deployment and StatefulSet ? </summary>
+
+  <p>
+
+| Deployment                                               | StatefulSet                                                             |
+| -------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Used to deploy stateless applications                    | Used to deploy stateful applications                                    |
+| Pod names are unique                                     | Pod names are in sequential order                                       |
+| PersistentVolumeClaim that is shared by all pod replicas | Each replica pod gets a unique PersistentVolumeClaim associated with it |
+
   </p>
 
 </details>
