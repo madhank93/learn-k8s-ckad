@@ -3446,8 +3446,6 @@ kubectl get statefulsets
 
 - [Kubernetes Tutorial for Beginners - Tech with Nana](https://www.youtube.com/watch?v=X48VuDVv0do&t=2s)
 
-- [Udemy - Docker tutorial with Kubernetes - Bret Fisher](https://www.udemy.com/course/docker-mastery/)
-
 - [Udemy - CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
 
 ### Learn by doing
@@ -3462,9 +3460,7 @@ kubectl get statefulsets
 
 - [k8s examples](https://k8s-examples.container-solutions.com/)
 
-- [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
-
-- [CKAD prep notes](https://github.com/twajr/ckad-prep-notes)
+- [k8s resource](https://gist.github.com/dims/bb219a4a8d9cb88dc2a2dc1f11a537c6)
 
 ### Articles
 
@@ -3477,3 +3473,19 @@ kubectl get statefulsets
 - [Matthew Palmer articles on k8s](https://matthewpalmer.net/kubernetes-app-developer/articles/)
 
 - [Kubernetes articles](https://www.magalix.com/hs-search-results?term=kubernetes&type=SITE_PAGE&type=BLOG_POST&type=LISTING_PAGE)
+
+### CKAD
+
+- [CKAD exercises](https://github.com/dgkanatsios/CKAD-exercises)
+
+- [CKAD prep notes](https://github.com/twajr/ckad-prep-notes)
+
+- [CKAD resources](https://github.com/lucassha/CKAD-resources)
+
+- [CKAD practice questions](https://github.com/bbachi/CKAD-Practice-Questions)
+
+- [CKAD crash course](https://github.com/bmuschko/ckad-crash-course)
+
+### CKA
+
+- [CKA kodekloud docs](https://github.com/kodekloudhub/certified-kubernetes-administrator-course)
