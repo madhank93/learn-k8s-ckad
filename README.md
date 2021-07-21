@@ -96,7 +96,7 @@ But helper container are allowed to co-exist in the same pod.
 
 <details>
 
-  <summary> 3. How to deploy a pod ? </summary>
+  <summary> 3. How to create a pod ? </summary>
 
   <p>
 
@@ -114,6 +114,36 @@ kubectl run nginx --image=nginx
 
   </p>
 
+</details>
+
+---
+
+<summary> 4. How to expose a pod ? </summary>
+
+<details>
+<p>
+
+Pods and containers are only accessible within the k8s cluster by default. `port-forward` command exposes container port externally.
+
+Syntax:
+
+```console
+kubectl port-forward <pod-name> external-port:internal-port
+```
+
+Example:
+
+```console
+kubectl port-forward nginx 8080:80
+```
+
+Access the nginx server from the browser
+
+```console
+http://localhost:8080/
+```
+
+</p>
 </details>
 
 ---
