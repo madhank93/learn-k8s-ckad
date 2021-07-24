@@ -118,9 +118,10 @@ kubectl run nginx --image=nginx
 
 ---
 
+<details>
+
 <summary> 4. How to expose a pod ? </summary>
 
-<details>
 <p>
 
 Pods and containers are only accessible within the k8s cluster by default. `port-forward` command exposes container port externally.
@@ -144,6 +145,7 @@ http://localhost:8080/
 ```
 
 </p>
+
 </details>
 
 ---
