@@ -341,7 +341,30 @@ You can even generate a yml file using the above command
 kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
 ```
 
+To create a pod from the yml file, using the following command
+
+```console
+kubectl apply -f k8s-files/pod/pods.yml
+```
+
   </p>
+
+</details>
+
+---
+
+<details>
+
+<summary> 12. What is the difference between k8s create vs apply ? </summary>
+
+<p>
+
+`apply` - makes incremental changes to an existing object
+`create` - creates a whole new object (previously non-existing / deleted)
+
+[source](https://stackoverflow.com/a/55970628/5514320)
+
+</p>
 
 </details>
 
@@ -401,11 +424,37 @@ kubectl delete pod nginx
 
 <details>
 
+<summary> 14. How to get into the container of a pod ? </summary>
+
+<p>
+
+Syntax:
+
+```console
+kubectl exec -it <pod-name> -- <command>
+```
+
+Example:
+
+```console
+kubectl exec -it my-nginx -- sh
+```
+
+</p>
+
+</details>
+
+---
+
+<details>
+
   <summary> 14. What is Replicaset and the usage of it ? </summary>
 
   <p>
-  
-  A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
+
+![replica-set](img/replicaset.png)
+
+A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. As such, it is often used to guarantee the availability of a specified number of identical Pods.
 
 It brings up a new instance of a Pod when the existing one crashes or fails, scales it up when the running instances are not matched to the specified number, and deletes the Pods if replicaset is scaled down.
 
@@ -567,8 +616,10 @@ spec:
   <summary> 20. What is a Deployment in k8s ? </summary>
 
   <p>
-  
-  Deployment is an object in k8s, which helps in creating, modifying and managing a set of identical pods. It is a wrapper around Pods and Replicaset. It can scale the no. of pods, rollout updated code or rollback to an earlier version
+
+![deployment](img/deployment.png)
+
+Deployment is an object in k8s, which helps in creating, modifying and managing a set of identical pods. It is a wrapper around Pods and Replicaset. It can scale the no. of pods, rollout updated code or rollback to an earlier version
 
   </p>
 
@@ -2616,11 +2667,25 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 
 <details>
 
+<summary> 75. What are Services in k8s ? </summary>
+
+<p>
+
+![service](img/service.png)
+
+**Service** - in Kubernetes is an abstraction which defines a logical set of Pods and a policy by which to access them. It provides the stable address for a pod(s), not ephemeral. And load balances between a pods.
+
+</p>
+
+</details>
+
+---
+
+<details>
+
   <summary> 75. What are the different types of Services available ? </summary>
 
   <p>
-
-**Service** - provides the stable address for a pod(s).
 
 - **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can reach service on apps port number.
 
