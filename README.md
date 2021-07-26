@@ -2687,7 +2687,23 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 
   <p>
 
+![cluster](img/cluster.png)
+
 - **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can reach service on apps port number.
+
+```YAML
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: http
+      port: 80
+      targetPort: 80
+```
 
 ![node-port](img/node-port.png)
 
@@ -2886,8 +2902,24 @@ kubectl diff -f some-resources.yaml
 
 Use the `apply` command
 
+1. Create a nginx deployment and service
+
 ```console
-kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deploy.yml
+kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deployment.yml
+kubectl apply -f ./k8s-files/ex-1-nginx/nginx-service.yml
+```
+
+2. Create a nginx deployment and get into the shell
+
+```
+kubectl run nginx-standalone --image=nginx
+kubectl exec -it nginx-standalone -- sh
+```
+
+3. Now access the nginx deployment using the service from inside the pod
+
+```
+curl nginx-service:8080
 ```
 
   </p>
