@@ -3080,7 +3080,7 @@ Result:
 
 ```
 NAME                CLASS    HOSTS           ADDRESS        PORTS   AGE
-dashboard-ingress   <none>   dashboard.com   192.168.64.2   80      84s
+dashboard-ingress   none   dashboard.com   192.168.64.2   80      84s
 ```
 
 ```
@@ -3293,9 +3293,29 @@ Data/files in a containers/pods are ephemeral (lasts only for a short period of 
 
   <p>
 
-Volume is a directory, possibly with some data in it, which is accessible to the containers in a pod. When a volume is attached to the pod, and all the containers inside this pod have access to the volume. This way data can be shared between different containers running on the same pod.
+Volume is a directory (references a storage location), possibly with some data in it, which is accessible to the containers in a pod. When a volume is attached to the pod, and all the containers inside this pod have access to the volume. This way data can be shared between different containers running on the same pod.
 
-Kubernetes provides many directory types like emptyDir, hostPath, secret, nfs etc. Foe this example we are going to use hostPath.
+Kubernetes provides many directory types like
+
+- **emptyDir** empty directory for storing data, useful for sharing files between containers. It is tied to the lifetime of the pod.
+- **hostPath** mounts a file or directory from the host node's filesystem into your Pod. It is tied to the node.
+- **nfs** allows an existing NFS (Network File System) share to be mounted into a Pod.
+- **secret/configMap** provides a pod with access to kubernetes resources.
+- **cloud** cluster wide storage.
+
+... etc.
+
+</p>
+
+</details>
+
+---
+
+<details>
+
+<summary> 90. How does volumes works in k8s ? </summary>
+
+<p>
 
 1. Mount your host machine path into a minikube vm (if you happen to use it)
 
