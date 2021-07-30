@@ -8,6 +8,10 @@ spec:
       image: busybox
       command: ["/bin/sh", "-c"]
       args: ["shuf -i 0-100 -n 1 >> /opt/number.out;"]
+      resources:
+        limits:
+          memory: 512Mi
+          cpu: ".5"
       volumeMounts:
         - name: data-volume
           mountPath: /opt

@@ -3317,6 +3317,26 @@ Kubernetes provides many directory types like
 
 <p>
 
+Example 1:
+
+![volume-empty-dir](img/volume-empty-dir.png)
+
+1. Create a nginx and alpine with emptyDir volume
+
+```
+kubectl apply -f k8s-files/volumes/nginx-alpine.yml
+```
+
+2. Port forward
+
+![volume-host-path](img/volume-hostpath.png)
+
+```
+kubectl port-forward nginx-alpine-volume 8080:80
+```
+
+Example 2:
+
 1. Mount your host machine path into a minikube vm (if you happen to use it)
 
 ```console
@@ -3349,7 +3369,7 @@ Look inside the `k8s-files/volumes/` there will be a `number.out` file will be c
 
   <p>
 
-**Persistent volume:** - A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. PersistentVolumes are a cluster-level resource like nodes, which don’t belong to any namespace.
+**Persistent volume:** - A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. PersistentVolumes are a cluster-level resource like nodes, which don’t belong to any namespace. So it is available to pod even it it gets scheduled to a different node.
 
 ```YAML
 kind: PersistentVolume
@@ -3596,6 +3616,8 @@ kubectl get statefulsets
 - [Kubernetes Tutorial for Beginners - Tech with Nana](https://www.youtube.com/watch?v=X48VuDVv0do&t=2s)
 
 - [Udemy - CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
+
+- [Dan Wahlin, Nigel Poulton, Craig Golightly - CKAD - Pluralsight](https://www.pluralsight.com/paths/certified-kubernetes-application-developer-ckad)
 
 ### Learn by doing
 
