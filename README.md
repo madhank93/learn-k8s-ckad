@@ -1193,38 +1193,56 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
 
 1. Imperative way of creating a configmap
 
-Syntax:
+   1. Creating a ConfigMap from individual key-value pairs
 
-```console
-kubectl create configmap \
-    <config-name> --from-literal=<key>=<value>
-```
+   Syntax:
 
-Example:
+   ```console
+   kubectl create configmap \
+       <config-name> --from-literal=<key>=<value>
+   ```
 
-```console
-kubectl create configmap \
-    app-config --from-literal=APP_COLOR=blue \
-               --from-literal=APP_LOG_LEVEL=verbose
-```
+   Example:
 
-2. Creating a config map from a file
+   ```console
+   kubectl create configmap \
+       app-config --from-literal=APP_COLOR=blue \
+                  --from-literal=APP_LOG_LEVEL=verbose
+   ```
 
-Syntax:
+   2. Creating a config map from a file
 
-```console
-kubectl create configmap \
-    <config-name> --from-file=<path-to-file>
-```
+   Syntax:
 
-Example:
+   ```console
+   kubectl create configmap \
+       <config-name> --from-file=<path-to-file>
+   ```
 
-```console
-kubectl create configmap \
-    app-config --from-file=k8s-files/ex-4-configmaps/configfile.properties
-```
+   Example:
 
-3. Declarative way of creating a configmap
+   ```console
+   kubectl create configmap \
+       app-config --from-file=k8s-files/ex-4-configmaps/configfile.properties
+   ```
+
+   3. Creating a config map from a env file
+
+   Syntax:
+
+   ```console
+   kubectl create configmap \
+       <config-name> --from-env-file=<path-to-file>
+   ```
+
+   Example:
+
+   ```console
+   kubectl create configmap \
+       app-config --from-env-file=k8s-files/ex-4-configmaps/configfile.properties
+   ```
+
+2. Declarative way of creating a configmap
 
 ```YAML
 apiVersion: v1
@@ -1248,7 +1266,7 @@ data:
 
   <p>
 
-`Configmap`
+Example `Configmap`:
 
 ```YAML
 kind: ConfigMap
@@ -1268,59 +1286,78 @@ data:
 
 1.  Configuring all key-value pairs in a ConfigMap as container environment variables
 
-    ```YAML
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: configmap-pod
-    spec:
-      containers:
-        - name: configmap-busybox
-          image: k8s.gcr.io/busybox
-          command: [ "/bin/sh", "-c", "env" ]
-          envFrom:
-            # Loading the Complete ConfigMap
-            - configMapRef:
-                name: test-configmap # env variable will be set as
-      restartPolicy: Never
-    ```
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: configmap-busybox
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      envFrom: # it is used to load all configMap key-value pairs as environment variables
+        # Loading the Complete ConfigMap
+        - configMapRef:
+            name: test-configmap # env variable will be set as
+  restartPolicy: Never
+```
 
-2.  Using ConfigMaps in defined env variables and volumes
+Access the log to see the env values
 
-    ```YAML
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: test-pod
-    spec:
-      containers:
-        - name: test-container
-          image: k8s.gcr.io/busybox
-          command: [ "/bin/sh", "-c", "env" ]
-          env:
-            - name: SPECIAL_LEVEL_KEY # env variable name
-              valueFrom:
-                configMapKeyRef:
-                  name: test-configmap # referring to the ConfigMap name
-                  key: special.how # referring to ConfigMap key where the key is associated with the value
-            - name: LOG_LEVEL
-              valueFrom:
-                configMapKeyRef:
-                  name: test-configmap
-                  key: log_level
-          volumeMounts:
-            - name: config
-              mountPath: "/config"
-              readOnly: true
-      volumes:
+![pod-env](img/pod-env1.png)
+
+2.  Configuring a subset of key-value pairs in a ConfigMap as container environment variables
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: configmap-busybox
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      env:
+        - name: SPECIAL_LEVEL_KEY # env variable name
+          valueFrom:
+            configMapKeyRef:
+              name: test-configmap # referring to the ConfigMap name
+              key: env.data.url # referring to ConfigMap key where the key is associated with the value
+```
+
+Access the log to see the env values
+
+![pod-env](img/pod-env2.png)
+
+3.  Using ConfigMaps in defined env variables and volumes
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: ["/bin/sh", "-c", "echo $(cd config/ && ls)"]
+      volumeMounts:
         - name: config
-          configMap:
-            name: test-configmap
-            items:
-              - key : "log.properties"
-                path: "log.properties"
-      restartPolicy: Never
-    ```
+          mountPath: "/config"
+          readOnly: true
+  volumes:
+    - name: config
+      configMap:
+        name: test-configmap
+  restartPolicy: Never
+```
+
+Access the log to see the each key is converted to a file
+
+![pod-env](img/pod-config-files.png)
 
   </p>
 
