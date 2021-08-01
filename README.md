@@ -1332,7 +1332,7 @@ Access the log to see the env values
 
 ![pod-env](img/pod-env2.png)
 
-3.  Using ConfigMaps in defined env variables and volumes
+3.  Using ConfigMaps as a volumes
 
 ```YAML
 apiVersion: v1
@@ -1409,38 +1409,40 @@ It can be used in 3 ways,
 
 1. Imperative way of creating a secret
 
-Syntax:
+   1. Creating a secret map from a literal
 
-```console
-kubectl create secret generic \
-    <secret-name> --from-literal=<key>=<value>
-```
+   Syntax:
 
-Example:
+   ```console
+   kubectl create secret generic \
+       <secret-name> --from-literal=<key>=<value>
+   ```
 
-```console
-kubectl create secret generic \
-    app-secret --from-literal=DB_USER=root \
-               --from-literal=DB_PASSWORD=admin
-```
+   Example:
 
-2. Creating a secret map from a file
+   ```console
+   kubectl create secret generic \
+       app-secret --from-literal=DB_USER=root \
+                  --from-literal=DB_PASSWORD=admin
+   ```
 
-Syntax:
+   2. Creating a secret map from a file
 
-```console
-kubectl create secret generic \
-    <secret-name> --from-file=<path-to-file>
-```
+   Syntax:
 
-Example:
+   ```console
+   kubectl create secret generic \
+       <secret-name> --from-file=<path-to-file>
+   ```
 
-```console
-kubectl create secret generic \
-    app-secret --from-file=k8s-files/ex-4-configmaps/configfile.properties
-```
+   Example:
 
-3. Declarative way of creating a configmap
+   ```console
+   kubectl create secret generic \
+       app-secret --from-file=k8s-files/ex-4-configmaps/configfile.properties
+   ```
+
+2. Declarative way of creating a configmap
 
 Convert the plain text password into base64 encoded string
 
