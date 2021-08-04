@@ -10,11 +10,15 @@ Trends of micro services has increased the usage of containers and to handle the
 
 ## Kubernetes architecture and basic terminologies
 
-<div style="text-align: center;">
-    <img src="/img/kube-arch.png" alt="kubernetes_architecture" height="400" width="400"/>
-</div>
+<p align="center">
+    <img alt="Kubernetes architecture" src="/img/kube-arch.png" width="45%">
+      &nbsp; &nbsp; &nbsp; &nbsp;
+    <img alt="Kubernetes architecture" src="/img/kube-arch-2.jpeg" width="45%">
+  </p>
 
 Image source - Red hat - [Introduction to Kubernetes architecture](https://www.redhat.com/en/topics/containers/kubernetes-architecture)
+
+Image source - Aquasec - [k8s arch](https://www.aquasec.com/cloud-native-academy/kubernetes-101/kubernetes-architecture/)
 
 - Kubernetes - The whole orchestration system
 
