@@ -2403,8 +2403,10 @@ kubectl top pod
 <details>
 
   <summary> 70. What is rolling and rollback deployment ? </summary>
-
+``
   <p>
+
+1. **Rolling deployment** - It is a software release strategy, which usually (one by one / one or more) replaces pods of the previous version of the application with pods of the newer version without any downtime. It is the default deployment strategy in k8s.
 
 <div style="text-align: center;">
     <img src="img/rolling-update.gif" alt="liveness" width="300" width="300"/>
@@ -2417,16 +2419,28 @@ replicas: 3
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxSurge: 1 # how many pods we can add at a time
-    maxUnavailable: 0 # defines how many pods can be unavailable during the rolling update
+    maxSurge: 1 # specifies maximum number of Pods that can be created over the desired number of Pods during the update.
+    maxUnavailable: 25% # specifies the maximum number of Pods that can be unavailable during the update process.
 ```
 
-1. **Rolling deployment** - It is a software release strategy, which usually (one by one / one or more) replaces pods of the previous version of the application with pods of the newer version without any downtime. It is the default deployment strategy in k8s.
+`maxSurge` and `maxUnavailable` values can be in percentage or absolute number.
 
 2. **Rollback deployment** - It means going back to the previous instance of the deployment if there is some issue with the current deployment.
 
 ```console
+# rollback to previous version
 kubectl rollout undo deployment <deployment-name>
+kubectl rollout undo -f <file.deployment.yaml>
+kubectl rollout undo deployment <deployment-name> --to-revision=<revision-number>
+
+# to check the status of the deployment
+kubectl rollout status deployment <deployment-name>
+kubectl rollout status -f <file.deployment.yaml>
+
+# to view the history of the deployment
+kubectl rollout history deployment <deployment-name>
+kubectl rollout history -f <file.deployment.yaml>
+kubectl rollout history deployment <deployment-name> --revision=<revision-number>
 ```
 
   </p>
