@@ -2417,7 +2417,7 @@ Image courtesy - [Bluematador](https://www.bluematador.com/blog/kubernetes-deplo
 ```YAML
 replicas: 3
 strategy:
-  type: RollingUpdate
+  type: RollingUpdate # <-- This is the default deployment strategy in k8s
   rollingUpdate:
     maxSurge: 1 # specifies maximum number of Pods that can be created over the desired number of Pods during the update.
     maxUnavailable: 25% # specifies the maximum number of Pods that can be unavailable during the update process.
@@ -2444,6 +2444,34 @@ kubectl rollout history deployment <deployment-name> --revision=<revision-number
 ```
 
   </p>
+
+</details>
+
+---
+
+<details>
+
+<summary> 71. What are the different strategies for deployment ? </summary>
+
+<p>
+
+1. Canary deployment:
+
+![canary-deploy](img/canary-deploy.gif)
+
+Image courtesy - [newstack](https://thenewstack.io/deployment-strategies/)
+
+It is a deployment strategy that is used to test the availability of a new version of the application by rollin out a new deployment but only route a small percentage of traffic to the new version.
+
+2. Blue-green deployment:
+
+![blue-green-deploy](img/blue-green-deploy.gif)
+
+Image courtesy - [RedHat](https://www.redhat.com/en/topics/devops/what-is-blue-green-deployment)
+
+It is a deployment strategy that is used to test the availability of a new version by releasing Version B (green environment) alongside version A (blue environment), then the traffic is switched to version B. The old version can be called the blue environment while the new version can be known as the green environment.
+
+</p>
 
 </details>
 
