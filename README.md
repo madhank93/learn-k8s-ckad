@@ -2696,11 +2696,49 @@ Instead of running the jobs one after another, parallelism enables the feature o
 
 <details>
 
-  <summary> 75. What is CronJob and how to create one ? </summary>
+<summary> 75. What is a CronJob ? </summary>
 
-  <p>
+<p>
 
 A CronJob creates Jobs on a repeating schedule. It runs a job periodically on a given schedule, written in Cron format. It is useful for creating periodic and recurring tasks, like running backups or sending emails.
+
+CronJobs names should be less than 52 characters this is because CronJob controller automatically adds some characters to the job name.
+
+</p>
+
+</details>
+
+---
+
+<details>
+
+<summary> 76. What is the format for CronJob ? </summary>
+
+<p>
+
+![cron-job](img/cron-job.png)
+
+Examples:
+
+`30 22 * * 1` - Run at 22:30 every Monday.
+
+Additional formats:
+
+`0 * * * *` - `@hourly` - Run once every hour.
+
+`0 0 * * *` - `@daily` - Run once every day at midnight
+
+</p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> 75. How to create a CronJob ? </summary>
+
+  <p>
 
 1. Create cronjob
 
