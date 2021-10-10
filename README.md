@@ -235,6 +235,7 @@ Syntax:
 ```console
 kubectl logs <pod-name>
 kubectl logs -f <pod-name> # -f or --follow flag streams logs
+kubectl logs -p <pod-name> # gets logs for the previously ran pod
 ```
 
 Example:
