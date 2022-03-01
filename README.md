@@ -34,7 +34,7 @@ Image source - Aquasec - [k8s arch](https://www.aquasec.com/cloud-native-academy
 
 ### Compute machine / Worker node
 
-- **kubelet** - Kubernetes agent running on nodes, a tiny application that communicates with the control plane & containers vice versa and when the control plane needs something to happen in a node, the kubelet executes the action. It ensures the containers are running in the pod.
+- **kubelet** - Kubernetes agent running on nodes, a tiny application that communicates with the control plane & containers vice versa and when the control plane needs something to happen in a node, the kubelet executes the action. It ensures the containers are running in the pod by providing the health information to the control plane and carry out actions based on control plane.
 
 - **kube-proxy** - The kube-proxy handles network communications inside or outside of your cluster. It uses operating system’s packet filtering layer if there is one, otherwise , kube-proxy forwards the traffic itself.
 
@@ -330,8 +330,8 @@ metadata:
   name: nginx
 spec:
   containers:
-  - image: nginx-container
-    name: nginx
+  - image: nginx
+    name: nginx-container
 ```
 
 Similar yml file can be generated from a cmd line using the following cmd.
@@ -3667,7 +3667,7 @@ spec:
           name: "pvol"
   volumes:
     - name: "pvol"
-      persistentVolumeClaim:
+persistentVolumeClaim:
         claimName: "claim1"
 ```
 
@@ -3733,6 +3733,54 @@ kubectl get statefulsets
 
 ---
 
+<details>
+
+  <summary> How to create an </summary>
+
+  <p>
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> </summary>
+
+  <p>
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> </summary>
+
+  <p>
+
+  </p>
+
+</details>
+
+---
+
+<details>
+
+  <summary> </summary>
+
+  <p>
+
+  </p>
+
+</details>
+
+---
+
 ## Resources
 
 ### Video series
@@ -3780,6 +3828,8 @@ kubectl get statefulsets
 - [CKAD practice questions](https://github.com/bbachi/CKAD-Practice-Questions)
 
 - [CKAD crash course](https://github.com/bmuschko/ckad-crash-course)
+
+- [CKAD prep](https://github.com/bmuschko/ckad-prep)
 
 ### CKA
 
