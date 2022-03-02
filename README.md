@@ -334,22 +334,28 @@ spec:
     name: nginx-container
 ```
 
-Similar yml file can be generated from a cmd line using the following cmd.
+- Similar yml file can be generated from a cmd line using the following cmd.
 
 ```console
 kubectl run nginx --image=nginx --dry-run=client -o yaml
 ```
 
-You can even generate a yml file using the above command
+- You can even generate a yml file using the above command
 
 ```console
 kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
 ```
 
-To create a pod from the yml file, using the following command
+- To create a pod from the yml file, using the following command
 
 ```console
 kubectl apply -f k8s-files/pod/pods.yml
+```
+
+- Extract the running pod definitions to a file using the below command
+
+```console
+kubectl get pod <pod-name> -o yaml > pod-definition.yaml
 ```
 
   </p>
@@ -413,7 +419,10 @@ Syntax:
 kubectl delete pod <pod-name>
 kubectl delete pods --all # Delete all pods
 kubectl delete pod <pod-name> --now # Delete a pod with minimal delay
+kubectl delete pods <pod-name> --grace-period=0 --force # Delete a Pod forcibly (force deletion of StatefulSet Pods need to be done carefully)
 ```
+
+[Force deleting StatefulSet](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/)
 
 Example:
 
@@ -429,7 +438,7 @@ kubectl delete pod nginx
 
 <details>
 
-<summary> 14. How to get into the container of a pod ? </summary>
+<summary> 14. How to get a shell into the running container / interactive pod ? </summary>
 
 <p>
 
@@ -499,6 +508,60 @@ spec:
 
 `ReplicaSet` selector should match the `Pod` label.
 
+`selector` helps ReplicaSet identify what pods falls under it. Because ReplicaSet can also manage pods that were not created as part of it, say for example pods created before creating replicaset and if it matches the selector then replicaset will also take those pods into consideration when creating the replicas.
+
+- Create a Pod
+
+```console
+kubectl apply -f ./k8s-files/replicaset/pod.yml
+```
+
+```YAML
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: my-nginx
+    type: web-server
+  name: nginx
+spec:
+  containers:
+    - image: nginx
+      name: nginx-container
+```
+
+- Scale the previously created Pod using ReplicaSet
+
+```console
+kubectl apply -f ./k8s-files/replicaset/rs-after.yml
+```
+
+```YAML
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-replicaset
+spec:
+  selector:
+    matchLabels:
+      type: web-server
+  replicas: 6
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        name: pod
+        type: web-server
+    spec:
+      containers:
+        - name: my-container
+          image: httpd
+```
+
+Output:
+
+![rs-after-pod](img/replicaset-after-pod.png)
+
   </p>
 
 </details>
@@ -529,6 +592,8 @@ kubectl get replicaset
 
   <p>
 
+It will have replicaset name and container ID.
+
 ```console
 kubectl get pods
 ```
@@ -557,10 +622,10 @@ kubectl scale replicaset --replicas=<count> <replicaset-name>
 Example:
 
 ```console
-kubectl scale --replicas=6 -f k8s-files/replicaset/replicaset.yml
+kubectl scale --replicas=6 -f ./k8s-files/replicaset/replicaset.yml
 ```
 
-**Note**: Scaling pods from cmd will increase the pods count to 6, but count change will take place in the yml file.
+**Note**: Scaling pods from cmd will increase the pods count to 6, but the count will not be changed in the yml file.
 
   </p>
 
@@ -609,6 +674,8 @@ spec:
          - name: nginx
            image: nginx:1.7.9
 ```
+
+For more details refer [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
 
   </p>
 
@@ -3834,3 +3901,7 @@ kubectl get statefulsets
 ### CKA
 
 - [CKA kodekloud docs](https://github.com/kodekloudhub/certified-kubernetes-administrator-course)
+
+### Interesting reads
+
+- [What happens when k8s](https://github.com/jamiehannaford/what-happens-when-k8s)

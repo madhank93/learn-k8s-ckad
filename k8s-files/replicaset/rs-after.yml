@@ -5,15 +5,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      type: server
-  replicas: 3
+      type: web-server
+  replicas: 6
   template:
     metadata:
       name: my-pod
       labels:
         name: pod
-        type: server
+        type: web-server
     spec:
       containers:
         - name: my-container
-          image: nginx
+          image: httpd
