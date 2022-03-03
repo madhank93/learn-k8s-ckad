@@ -820,7 +820,9 @@ kubectl delete deployment <deployment-name>
 Example:
 
 ```console
-kubectl delete deployment deploy/my-nginx
+kubectl delete deployment my-nginx
+kubectl delete deploy/my-nginx
+
 ```
 
 `deploy/my-nginx` is a short form of `deployment my-nginx`
@@ -859,20 +861,21 @@ kubectl create deployment my-nginx --image=nginx --replicas=3
 
 <details>
 
-  <summary> 27. How to scale using deployment name ? </summary>
+  <summary> 27. How to scale an existing deployment ? </summary>
 
   <p>
 
 Syntax:
 
 ```console
-kubectl scale <deployment-name> --replicas=<count>
+kubectl scale deployment <deployment-name> --replicas=<count>
 ```
 
 Example:
 
 ```console
 kubectl scale deploy/my-nginx --replicas=2
+kubectl scale deployment my-nginx --replicas=2
 ```
 
 `deploy/my-nginx` is a short form of `deployment my-nginx`
@@ -885,7 +888,7 @@ kubectl scale deploy/my-nginx --replicas=2
 
 <details>
 
-  <summary> 28. How to dry run a kubernetes commands ? </summary>
+  <summary> 28. How to dry run a kubernetes commands/files ? </summary>
 
   <p>
 
@@ -900,6 +903,10 @@ kubectl create deployment nginx --image=nginx --dry-run=client -o yaml # to get 
 kubectl apply -f app.yml --dry-run
 kubectl apply -f app.yml --dry-run=server
 ```
+
+If `client` strategy, only print the object that would be sent, without sending it. If `server` strategy, submit server-side request without persisting the resource.
+
+For more details refer [here](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
 
   </p>
 
@@ -1130,13 +1137,15 @@ Even though namespace separates each other, adding the namespace name to the ser
 Syntax:
 
 ```console
-<Service Name>.<Namespace Name>
+<service-name>.<namespace-name>
+<service-name>.<namespace-name>.<service>.<domain>
 ```
 
 Example:
 
 ```console
 db-service.finance
+db-service.finance.svc.cluster.local
 ```
 
   </p>
@@ -1169,13 +1178,19 @@ spec:
   restartPolicy: OnFailure
 ```
 
-Running the above config file
+- Running the above config file
 
 ```console
-kubectl apply -f k8s-files/args-and-commands/commands.yml
+kubectl apply -f ./k8s-files/args-and-commands/commands.yml
 ```
 
-Result:
+- Access the log
+
+```console
+kubectl logs command-demo
+```
+
+- Result:
 
 ```
 command-demo
@@ -1265,7 +1280,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
 
 1. Imperative way of creating a configmap
 
-   1. Creating a ConfigMap from individual key-value pairs
+   a. Creating a ConfigMap from individual key-value pairs
 
    Syntax:
 
@@ -1282,7 +1297,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
                   --from-literal=APP_LOG_LEVEL=verbose
    ```
 
-   2. Creating a config map from a file
+   b. Creating a config map from a file
 
    Syntax:
 
@@ -1298,7 +1313,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
        app-config --from-file=k8s-files/ex-4-configmaps/configfile.properties
    ```
 
-   3. Creating a config map from a env file
+   c. Creating a config map from a env file
 
    Syntax:
 
