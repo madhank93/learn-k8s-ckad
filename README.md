@@ -1466,6 +1466,13 @@ It can be used in 3 ways,
 - As container environment variable.
 - By the kubelet when pulling images for the Pod.
 
+**Note**: Secrets are encoded data in base64 format. Anyone with the base64 encoded secret can easily decode it.
+
+Better ways of handling sensitive data like passwords in Kubernetes, such as using tools like
+
+- [Helm Secrets](https://github.com/jkroepke/helm-secrets/wiki/Usage)
+- [HashiCorp Vault](https://www.vaultproject.io/)
+
   </p>
 
 </details>
@@ -1563,7 +1570,7 @@ metadata:
   name: test-secret2
 type: Opaque
 stringData:
-  user: admin
+  username: admin
   password: admin
 ```
 
@@ -1670,7 +1677,7 @@ spec:
 
   <p>
   
-  1. Specific user at container level
+1. Specific user at container level
 
 ```YAML
 apiVersion: v1
@@ -1785,7 +1792,7 @@ If all the nodes available in the cluster does not have sufficient resources, k8
 
 <details>
 
-  <summary> 50. What is the difference between `Resource` and `Limit` ? </summary>
+  <summary> 50. What is the difference between `Request` and `Limit` ? </summary>
 
   <p>
 
@@ -1801,7 +1808,7 @@ If a pod tries to exceed a resource beyond it's limit, incase of CPU k8s throttl
 
 <details>
 
-  <summary> 51. How to specify the resource and limit ? </summary>
+  <summary> 51. How to specify the resource request and limit ? </summary>
 
   <p>
 
@@ -1875,8 +1882,14 @@ Taints and tolerations are only meant to restrict node from accepting certain po
 Syntax:
 
 ```console
-kubectl taint nodes node1 key1=value1:NoSchedule
+kubectl taint nodes node1 key1=value1:taint-effect
 ```
+
+There are 3 types of taint effect,
+
+- NoSchedule - part will not be scheduled on the nodes
+- PreferNoSchedule - system will try to avoid placing the pod in the node but not guaranteed
+- NoExecute - new pods will not be placed on the node and existing pods will be evicted if they don't tolerate taint
 
 Example:
 
@@ -1906,6 +1919,8 @@ spec:
     value: "blue"
     effect: "NoSchedule"
 ```
+
+For more info refer [here](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
 
   </p>
 
