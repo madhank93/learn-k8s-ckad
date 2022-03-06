@@ -2354,7 +2354,7 @@ Complete [source code](https://github.com/kubernetes/kubernetes/blob/master/test
 ```go
 http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
     duration := time.Now().Sub(started)
-    if duration.Seconds() > 10 { // <-- After 10 secs it throw an error and the kubelet will kill and restart the container.
+    if duration.Seconds() > 10 { // <-- After 10 secs it throws an error, kubelet will kill and restart the container.
         w.WriteHeader(500)
         w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
     } else {
@@ -2501,7 +2501,7 @@ kubectl top pod
 <details>
 
   <summary> 70. What is rolling and rollback deployment ? </summary>
-``
+
   <p>
 
 1. **Rolling deployment** - It is a software release strategy, which usually (one by one / one or more) replaces pods of the previous version of the application with pods of the newer version without any downtime. It is the default deployment strategy in k8s.
@@ -2518,10 +2518,15 @@ strategy:
   type: RollingUpdate # <-- This is the default deployment strategy in k8s
   rollingUpdate:
     maxSurge: 1 # specifies maximum number of Pods that can be created over the desired number of Pods during the update.
-    maxUnavailable: 25% # specifies the maximum number of Pods that can be unavailable during the update process.
+    maxUnavailable: 0 # specifies the maximum number of Pods that can be unavailable during the update process.
 ```
 
-`maxSurge` and `maxUnavailable` values can be in percentage or absolute number.
+`maxSurge` and `maxUnavailable` values can be in **percentage** or **absolute number**.
+
+For example, If you were using the default values of 25% for both `maxSurge` and `maxUnavailable`, and applied an update to a `Deployment` with `8 pods`, then maxSurge would be 2 pods, and maxUnavailable would also be 2 pods. That means that during the update process, the following conditions will be met:
+
+- At most 10 pods (8 desired pods + 2 maxSurge pods) will be Ready during the update
+- At least 6 pods (8 desired pods - 2 maxUnavailable pods) will always be Ready during the update
 
 2. **Rollback deployment** - It means going back to the previous instance of the deployment if there is some issue with the current deployment.
 
@@ -2584,7 +2589,7 @@ It is a deployment strategy that is used to test the availability of a new versi
 1. Create a deployment
 
 ```console
-kubectl apply -f k8s-files/rolling-update/rolling-update.yml --record
+kubectl apply -f ./k8s-files/rolling-update/rolling-update.yml --record
 ```
 
 2. Check the rollout status
@@ -2666,7 +2671,7 @@ kubectl rollout undo deployment nginx-deployment
 
 The nginx version is back to latest.
 
-**Note** - For such more deployment strategy [refer](https://github.com/ContainerSolutions/k8s-deployment-strategies)
+**Note** - For more such deployment strategy [refer](https://github.com/ContainerSolutions/k8s-deployment-strategies)
 
 </p>
 
@@ -2695,6 +2700,22 @@ A Job should not restart a pod when it has been terminated successfully. Either 
   <summary> 73. How to create a Job in k8s ? </summary>
 
   <p>
+
+- Create a Job using imperative command
+
+Synatx:
+
+```console
+kubectl create job <job-name> --image=<imgage-name>
+```
+
+Exmaple:
+
+```console
+kubectl create job throw-dice-job --image=kodekloud/throw-dice
+```
+
+- Create a Job using declarative command
 
 ```YAML
 apiVersion: batch/v1
