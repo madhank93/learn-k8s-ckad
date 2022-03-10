@@ -1197,7 +1197,7 @@ command-demo
 tcp://10.3.240.1:443
 ```
 
-The command field corresponds to entrypoint in some container runtimes.
+The command field corresponds to entrypoint in some container run times.
 
 | Description                         | Docker field name | Kubernetes field name |
 | ----------------------------------- | ----------------- | --------------------- |
@@ -2703,13 +2703,13 @@ A Job should not restart a pod when it has been terminated successfully. Either 
 
 - Create a Job using imperative command
 
-Synatx:
+Syntax:
 
 ```console
-kubectl create job <job-name> --image=<imgage-name>
+kubectl create job <job-name> --image=<image-name>
 ```
 
-Exmaple:
+Example:
 
 ```console
 kubectl create job throw-dice-job --image=kodekloud/throw-dice
@@ -2909,13 +2909,16 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 
 <details>
 
-<summary> 75. What are Services in k8s ? </summary>
+<summary> 75. What is a Service and need of it ? </summary>
 
 <p>
 
 ![service](img/service.png)
 
-**Service** - in Kubernetes is an abstraction which defines a logical set of Pods and a policy by which to access them. It provides the stable address for a pod(s), not ephemeral. And load balances between a pods.
+**Service** - in Kubernetes is an abstraction which defines a logical set of Pods and a policy by which to access them. Service enables connectivity between different objects in the k8s
+
+- It provides the stable address for a pod(s), not ephemeral.
+- And load balances between a pods.
 
 </p>
 
@@ -2931,7 +2934,7 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 
 ![cluster](img/cluster.png)
 
-- **ClusterIP** - It is the default service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can reach service on apps port number.
+- **ClusterIP** - It is the `default` service type. Exposes the Service on a cluster-internal IP. Only reachable within cluster. Pods can reach service on apps port number.
 
 ```YAML
 apiVersion: v1
