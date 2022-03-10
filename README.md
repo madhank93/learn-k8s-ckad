@@ -1262,7 +1262,7 @@ spec:
 
   <p>
 
-A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
+A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable. (For example database url in the configuration file will be a part of the built application and any changes in the url requires to rebuild, push it to repo and pull that image in the pod. We can avoid all these by just using ConfigMap to can externalize those configurations )
 
 So it does not provide any secrecy or encryption, so its not suitable for storing passwords or keys.
 
@@ -3908,6 +3908,8 @@ kubectl get statefulsets
 - [Udemy - CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
 
 - [Dan Wahlin, Nigel Poulton, Craig Golightly - CKAD - Pluralsight](https://www.pluralsight.com/paths/certified-kubernetes-application-developer-ckad)
+
+- [Grokking Kubernetes](https://www.youtube.com/playlist?list=PL7bmigfV0EqS6WxgWlH-p4dhkfuwcZ6-E)
 
 ### Learn by doing
 
