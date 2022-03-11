@@ -2913,12 +2913,18 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 
 <p>
 
-![service](img/service.png)
+<p align="center">
+    <img alt="service" src="/img/service.png" width="45%">
+      &nbsp; &nbsp; &nbsp; &nbsp;
+    <img alt="service flow" src="/img/service-flow-2.jpeg" width="45%">
+  </p>
 
-**Service** - in Kubernetes is an abstraction which defines a logical set of Pods and a policy by which to access them. Service enables connectivity between different objects in the k8s
+**Service** - in Kubernetes is an abstraction which defines a logical set of Pods and a policy by which to access them. Service enables connectivity between different components.
 
-- It provides the stable address for a pod(s), not ephemeral.
-- And load balances between a pods.
+- It provides the stable address for a pod(s), not ephemeral
+- And load balances between a pods
+- Provides loose coupling between micro services
+- Connectivity within and outside of the cluster
 
 </p>
 
