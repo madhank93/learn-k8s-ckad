@@ -1314,7 +1314,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
 
    ```console
    kubectl create configmap \
-       app-config --from-file=k8s-files/ex-4-configmaps/configfile.properties
+       app-config --from-file=k8s-files/configmaps/configfile.properties
    ```
 
    c. Creating a config map from a env file
@@ -1330,7 +1330,7 @@ So it does not provide any secrecy or encryption, so its not suitable for storin
 
    ```console
    kubectl create configmap \
-       app-config --from-env-file=k8s-files/ex-4-configmaps/configfile.properties
+       app-config --from-env-file=k8s-files/configmaps/configfile.properties
    ```
 
 2. Declarative way of creating a configmap
@@ -1537,7 +1537,7 @@ Better ways of handling sensitive data like passwords in Kubernetes, such as usi
 
    ```console
    kubectl create secret generic \
-       app-secret --from-file=k8s-files/ex-4-configmaps/configfile.properties
+       app-secret --from-file=k8s-files/configmaps/configfile.properties
    ```
 
 2. Declarative way of creating a configmap
@@ -3165,8 +3165,8 @@ Use the `apply` command
 1. Create a nginx deployment and service
 
 ```console
-kubectl apply -f ./k8s-files/ex-1-nginx/nginx-deployment.yml
-kubectl apply -f ./k8s-files/ex-1-nginx/nginx-service.yml
+kubectl apply -f ./k8s-files/nginx/nginx-deployment.yml
+kubectl apply -f ./k8s-files/nginx/nginx-service.yml
 ```
 
 2. Create a nginx deployment and get into the shell
@@ -3207,8 +3207,8 @@ Flow - Traffic comes in on `NodePort` , forwards to `Port` on the service which 
 1. Create deployment and service
 
 ```console
-kubectl apply -f ./k8s-files/ex-2-ports/deployment.yml
-kubectl apply -f ./k8s-files/ex-2-ports/service.yml
+kubectl apply -f ./k8s-files/ports/deployment.yml
+kubectl apply -f ./k8s-files/ports/service.yml
 ```
 
 2. To test usage of ports, create a ubuntu pod with interactive shell and install curl
@@ -3525,6 +3525,8 @@ Network policies allow you to limit connections between Pods. It provides securi
 
 Network policies are implemented by the network plugin. To use network policies, you must be using a networking solution which supports NetworkPolicy. Creating a NetworkPolicy resource without a controller that implements it will have no effect.
 
+1. Ingress and Egress
+
 ```YAML
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -3548,15 +3550,45 @@ spec:
               name: prod
       ports:
         - protocol: TCP
-          port: 3000
+          port: 3306
+  egress:
+    - to:
+        - ipBlock:
+              cidr: "192.168.5.10/32"
+      ports:
+        - protocol: TCP
+          port: 80
+```
+
+2. Egress connection to 2 pods
+
+```YAML
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      name: internal
+  policyTypes:
+    - Egress
   egress:
     - to:
         - podSelector:
             matchLabels:
-              name: api-pod
+              name: mysql
       ports:
         - protocol: TCP
-          port: 5000
+          port: 3306
+    - to:
+        - podSelector:
+            matchLabels:
+              name: payroll
+      ports:
+        - protocol: TCP
+          port: 8080
 ```
 
   </p>
