@@ -212,6 +212,10 @@ Syntax:
 kubectl get pods # List all pods
 kubectl get deployments # List all deployments
 kubectl get all # List all resources
+kubectl get all -A # List all resources across all namespaces
+kubectl get pods --all-namespaces # List all pods of an namespace
+kubectl get all -n # List all resources of an namespace
+
 
 kubectl get pods -o wide # List all pods with more information
 ```
@@ -2916,7 +2920,7 @@ The above cronjob will run one job every 5 minutes and prints “Hello world”
 <p align="center">
     <img alt="service" src="/img/service.png" width="45%">
       &nbsp; &nbsp; &nbsp; &nbsp;
-    <img alt="service flow" src="/img/service-flow-2.jpeg" width="45%">
+    <img alt="service flow" src="/img/service-flow.png" width="45%">
   </p>
 
 **Service** - in Kubernetes is an abstraction which defines a logical set of Pods and a policy by which to access them. Service enables connectivity between different components.
@@ -2951,14 +2955,20 @@ spec:
   selector:
     app: nginx
   ports:
-    - protocol: http
+    - protocol: TCP
       port: 80
       targetPort: 80
 ```
 
 ![node-port](img/node-port.png)
 
-- **NodePort** - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>
+<p align="center">
+    <img alt="node port" src="/img/node-port.png" width="45%">
+      &nbsp; &nbsp; &nbsp; &nbsp;
+    <img alt="node port in multi node" src="/img/node-port-multi.png" width="45%">
+  </p>
+
+- **NodePort** - Exposes the Service on each Node's IP at a static port (the NodePort). High port allocated on each node. You'll be able to contact the NodePort Service, from outside the cluster, by requesting <NodeIP>:<NodePort>. K8s creates services that automatically spans across the nodes.
 
 ```YAML
 apiVersion: v1
@@ -2971,10 +2981,9 @@ spec:
     app: MyApp
   ports:
     - port: 80 # the port where service is running
-      targetPort: 80 # port on the pod where actual web-serer is running
-      # Optional field. You can specify your own nodePort value in the 30000--32767 range.
-      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
-      nodePort: 30007
+      targetPort: 80 # port on the pod where actual app is running, if value not provided it will make use of value in port
+      nodePort: 30007 # Optional field. You can specify your own nodePort value in the 30000--32767 range.
+                      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
 ```
 
 - **LoadBalancer** - Exposes the Service externally using a cloud provider's load balancer. NodePort and ClusterIP Services, to which the external load balancer routes, are automatically created.
@@ -3185,7 +3194,7 @@ curl nginx-service:8080
 
   <p>
 
-- **Port** - The port of this service. Other pods in the cluster that may need to access the service will just use port.
+- **Port** - Port in which service runs. Other pods in the cluster that may need to access the service will just use port.
 
 - **TargetPort** - it forwards the traffic to `ContainerPort` (where the app might be listening). Also, if targetPort is not set, it will default to the same value as port
 
@@ -3267,12 +3276,16 @@ metadata:
   namespace: kubernetes-dashboard
 spec:
   rules:
-  - host: my-app.com # Valid domain address, map domain name to IP address of the entry node and any incoming request must be forwarded to internal service
-    http:
-      paths:  # Incoming urls matching the path are forwarded to the backend.
-      - backend:
-          serviceName: my-internal-service # service name and port should correspond to the name of internal service
-          servicePort: 80
+    - host: my-app.com # Valid domain address, map domain name to IP address of the entry node and any incoming request must be forwarded to internal service
+      http:
+        paths: # Incoming urls matching the path are forwarded to the backend.
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: my-internal-service # service name and port should correspond to the name of internal service
+                port:
+                  number: 80
 ```
 
   </p>
@@ -3283,7 +3296,7 @@ spec:
 
 <details>
 
-  <summary> 83. What is ingress controller ? What is the use of it ? </summary>
+  <summary> 83. What is Ingress controller ? What is the use of it ? </summary>
 
   <p>
 
@@ -3301,7 +3314,7 @@ There many Ingress controller are available, HAProxy Ingress, NGINX Ingress Cont
 
 <details>
 
-  <summary>  84. How does ingress works in practically ? </summary>
+  <summary>  84. How does Ingress works in practically ? </summary>
 
   <p>
 
@@ -3320,7 +3333,7 @@ Which automatically starts k8s nginx implementation of Ingress controller.
 If you don't see the kubernetes dashboard, execute `minikube dashboard`
 
 ```console
-kubectl apply -f ./k8s-files/ex-3-ingress/ingress.yml
+kubectl apply -f ./k8s-files/ingress/ingress.yml
 ```
 
 ```console
@@ -3453,6 +3466,34 @@ spec:
 ```
 
 3. Configuring TLS (Transport Layer Security)
+
+Ingress
+
+```YAML
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-ingress
+  namespace: kubernetes-dashboard
+spec:
+  tls:
+    - hosts:
+        - "dashboard.com"
+      secretName: test-secret-tls
+  rules:
+    - host: "dashboard.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: kubernetes-dashboard
+                port:
+                  number: 80
+```
+
+Secret
 
 ```YAML
 apiVersion: v1
