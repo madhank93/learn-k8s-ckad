@@ -353,7 +353,7 @@ kubectl run nginx --image=nginx --dry-run=client -o yaml > pods.yml
 - To create a pod from the yml file, using the following command
 
 ```console
-kubectl apply -f k8s-files/pod/pods.yml
+kubectl apply -f ./k8s-files/pod/pods.yml
 ```
 
 - Extract the running pod definitions to a file using the below command
@@ -2740,7 +2740,7 @@ spec:
 1. Create a Job to perform a computation task
 
 ```console
-kubectl apply -f k8s-files/jobs/jobs.yml
+kubectl apply -f ./k8s-files/jobs/jobs.yml
 ```
 
 2. View the pod status
@@ -3648,18 +3648,18 @@ Example 1:
 1. Create a nginx and alpine with emptyDir volume
 
 ```
-kubectl apply -f k8s-files/volumes/nginx-alpine.yml
+kubectl apply -f ./k8s-files/volumes/nginx-alpine.yml
 ```
 
 2. Port forward
-
-![volume-host-path](img/volume-hostpath.png)
 
 ```
 kubectl port-forward nginx-alpine-volume 8080:80
 ```
 
 Example 2:
+
+![volume-host-path](img/volume-hostpath.png)
 
 1. Mount your host machine path into a minikube vm (if you happen to use it)
 
@@ -3674,7 +3674,7 @@ Note: Or else you can ssh into minikube `minikube ssh` try it out
 2. Apply volumes.yml file
 
 ```console
-kubectl apply -f k8s-files/volumes/volumes.yml
+kubectl apply -f ./k8s-files/volumes/volumes.yml
 ```
 
 3. Look inside the folder
@@ -3692,6 +3692,8 @@ Look inside the `k8s-files/volumes/` there will be a `number.out` file will be c
   <summary> 90. What is persistent volume ? How does it works ? </summary>
 
   <p>
+
+![pv](img/pv.png)
 
 **Persistent volume:** - A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. PersistentVolumes are a cluster-level resource like nodes, which don’t belong to any namespace. So it is available to pod even it it gets scheduled to a different node.
 
@@ -3713,7 +3715,7 @@ spec:
 - Create a persistent volume
 
 ```console
-kubectl apply -f k8s-files/persistent-volume/persistent-volume.yml
+kubectl apply -f ./k8s-files/persistent-volume/persistent-volume.yml
 ```
 
 - View created persistent volume
@@ -3888,7 +3890,7 @@ persistentVolumeClaim:
 1. Create StatefulSets
 
 ```console
-kubectl apply -f k8s-files/stateful-sets/statefulsets.yml
+kubectl apply -f ./k8s-files/stateful-sets/statefulsets.yml
 ```
 
 2. View the created StatefulSets
