@@ -52,6 +52,7 @@
     "serviceaccount",
     "specifc",
     "Sprintf",
+    "statefulset",
     "statefulsets",
     "tolerations",
     "Traefik",

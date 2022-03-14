@@ -3885,7 +3885,9 @@ persistentVolumeClaim:
 
   <p>
 
-**StatefulSets** are similar to Deployment sets in-terms of creating pods based on the yaml file. With StatefulSets pods are created deployed in sequential order and are terminated in reverse ordinal order. StatefulSets use an ordinal index for the identity and ordering each. Pods number starts from zero and incremented by one, each pods get uniques name derived from index combined with StatefulSet name. For example, a StatefulSet named web has its Pods named web-0, web-1, and web-2. StatefulSet maintains a sticky identity for each of their Pods.
+**StatefulSets** are similar to Deployment sets in-terms of creating pods based on the yaml file. With StatefulSets pods are created deployed in sequential order and are terminated in reverse ordinal order. StatefulSets use an ordinal index for the identity and ordering each. Pods number starts from zero and incremented by one, each pods get uniques name derived from index combined with StatefulSet name. For example, a StatefulSet named `mysql` has its Pods named `mysql-0`, `mysql-1`, and `mysql-2`. StatefulSet maintains a sticky identity for each of their Pods.
+
+Well suited for Database (Mysql, Redis, Mongo ...) or any applications that stores data.
 
 1. Create StatefulSets
 
@@ -3910,6 +3912,22 @@ kubectl get statefulsets
 <summary> 95. What is headless Service in StatefulSets ? </summary>
 
 <p>
+
+![headless-svc-stateful-set](img/headless-svc-statefulset.png)
+
+When there is no need of load balancing or single-service IP addresses.We create a headless service which is used for creating a service grouping. That does not allocate an IP address or forward traffic.So you can do this by explicitly setting ClusterIP to “None” in the manifest file, which means no cluster IP is allocated.
+
+For example, if you host MongoDB on a single pod. And you need a service definition on top of it for taking care of the pod restart. And also for acquiring a new IP address. But you don’t want any load balancing or routing. You just need the service to patch the request to the back-end pod. So then you use Headless Service since it does not have an IP.
+
+Kubernetes allows clients to discover pod IPs through DNS lookups. Usually, when you perform a DNS lookup for a service, the DNS server returns a single IP which is the service’s cluster IP. But if you don’t need the cluster IP for your service, you can set ClusterIP to None , then the DNS server will return the individual pod IPs instead of the service IP.Then client can connect to any of them.
+
+[Source](https://blog.knoldus.com/what-is-headless-service-setup-a-service-in-kubernetes/)
+
+1. Apply headless service
+
+```console
+kubectl apply -f ./k8s-files/stateful-sets/headless-service.yml
+```
 
 </p>
 
