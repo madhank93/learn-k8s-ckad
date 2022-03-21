@@ -3909,7 +3909,7 @@ kubectl get statefulsets
 
 <details>
 
-<summary> 95. What is headless Service in StatefulSets ? </summary>
+<summary> 95. What is headless Service with StatefulSets ? </summary>
 
 <p>
 
@@ -3955,9 +3955,38 @@ kubectl apply -f ./k8s-files/stateful-sets/headless-service.yml
 
 <details>
 
-  <summary> How to create an </summary>
+  <summary> 96. What are the user authentication mechanism available ? </summary>
 
   <p>
+
+Kube api server authenticates the requests in following ways,
+
+1. Static password files - The API server basic passwords from a file `--basic-auth-file=SOME-FILE` and this option should be specified in kube-apiservice. It should be a csv file with a minimum of 3 columns: `password`, `user name`, `user uid`, followed by optional `group names`.
+
+```text
+password,user,uid,"group1,group2,group3"
+```
+
+Authenticate to the server
+
+```curl
+curl -v -k https://master-node-ip:6443/api/v1/pods -u "user1:password123"
+```
+
+2. Static token files - The API server reads bearer tokens from a file `--token-auth-file=SOME-FILE` and this option should be specified in kube-apiservice. The token file is a csv file with a minimum of 3 columns: `token`, `user name`, `user uid`, followed by optional `group names`.
+
+```text
+token,user,uid,"group1,group2,group3"
+```
+
+Authenticate to the server
+
+```curl
+curl -v -k https://master-node-ip:6443/api/v1/pods -header "Authorization: Bearer <token>"
+```
+
+3. Certificates
+4. Identity services
 
   </p>
 
@@ -4010,6 +4039,8 @@ kubectl apply -f ./k8s-files/stateful-sets/headless-service.yml
 - [Udemy - CKAD - Mumshad Mannambeth](https://www.udemy.com/course/certified-kubernetes-application-developer/learn/lecture/12321104#content)
 
 - [Dan Wahlin, Nigel Poulton, Craig Golightly - CKAD - Pluralsight](https://www.pluralsight.com/paths/certified-kubernetes-application-developer-ckad)
+
+- [CKAD - William boyd - Cloud guru](https://learn.acloud.guru/course/certified-kubernetes-application-developer/overview)
 
 - [Grokking Kubernetes](https://www.youtube.com/playlist?list=PL7bmigfV0EqS6WxgWlH-p4dhkfuwcZ6-E)
 
