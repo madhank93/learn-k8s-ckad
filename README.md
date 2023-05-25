@@ -1099,7 +1099,7 @@ Image source - Aquasec - [k8s arch](https://www.aquasec.com/cloud-native-academy
    </details>
 
 1. <details>
-   <summary> 39. How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
+   <summary> How to easily manage non-confidential key-value details ? What is the use of ConfigMaps ? </summary>
    <p>
 
    A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume. It allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable. (For example database url in the configuration file will be a part of the built application and any changes in the url requires to rebuild, push it to repo and pull that image in the pod. We can avoid all these by just using ConfigMap to can externalize those configurations )
@@ -1846,7 +1846,7 @@ Image source - Aquasec - [k8s arch](https://www.aquasec.com/cloud-native-academy
    </details>
 
 1. <details>
-   <summary> 61. What are some of the design patterns for Multi container pods ? </summary>
+   <summary> What are some of the design patterns for Multi container pods ? </summary>
    <p>
 
    //TODO: Need to add examples for below design pattern with diagrams and explanation
@@ -3536,13 +3536,10 @@ Image source - Aquasec - [k8s arch](https://www.aquasec.com/cloud-native-academy
 
 1. <details>
 
-  <summary> </summary>
-
-  <p>
-
-  </p>
-
-</details>
+   <summary> </summary>
+   <p>
+   </p>
+   </details>
 
 ## Resources
 
